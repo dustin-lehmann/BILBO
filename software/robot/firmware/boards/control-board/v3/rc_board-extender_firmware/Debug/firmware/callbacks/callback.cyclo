@@ -1,0 +1,3 @@
+../firmware/callbacks/callback.cpp:12:1:core_utils_Callback::core_utils_Callback()	1
+../firmware/callbacks/callback.cpp:16:1:core_utils_Callback::core_utils_Callback(void (*)(void*, void*), void*)	1
+../firmware/callbacks/callback.cpp:22:6:void core_utils_Callback::call(void*)	1

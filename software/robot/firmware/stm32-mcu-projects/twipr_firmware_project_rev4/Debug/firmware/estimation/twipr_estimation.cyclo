@@ -1,0 +1,14 @@
+C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.200.202406191623\tools\bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/include/c++/12.3.1/cmath:144:3:constexpr float std::atan2(float, float)	1
+J:/work_dir/work_dir/projects/testbed/robots/TWIPR/software/robot/firmware/libraries/stm32_core_cpp_lib/ext/madgwick_ahrs/MadgwickAHRS.h:38:10:void Madgwick::begin(float)	1
+J:/work_dir/work_dir/projects/testbed/robots/TWIPR/software/robot/firmware/robot/firmware_v1/estimation/twipr_estimation.cpp:16:1:TWIPR_Estimation::TWIPR_Estimation()	1
+J:/work_dir/work_dir/projects/testbed/robots/TWIPR/software/robot/firmware/robot/firmware_v1/estimation/twipr_estimation.cpp:23:6:void TWIPR_Estimation::init(twipr_estimation_config_t)	1
+J:/work_dir/work_dir/projects/testbed/robots/TWIPR/software/robot/firmware/robot/firmware_v1/estimation/twipr_estimation.cpp:33:6:void TWIPR_Estimation::start()	1
+J:/work_dir/work_dir/projects/testbed/robots/TWIPR/software/robot/firmware/robot/firmware_v1/estimation/twipr_estimation.cpp:37:6:void TWIPR_Estimation::reset()	1
+J:/work_dir/work_dir/projects/testbed/robots/TWIPR/software/robot/firmware/robot/firmware_v1/estimation/twipr_estimation.cpp:41:6:void TWIPR_Estimation::task_function()	1
+J:/work_dir/work_dir/projects/testbed/robots/TWIPR/software/robot/firmware/robot/firmware_v1/estimation/twipr_estimation.cpp:55:6:void TWIPR_Estimation::stop()	1
+J:/work_dir/work_dir/projects/testbed/robots/TWIPR/software/robot/firmware/robot/firmware_v1/estimation/twipr_estimation.cpp:59:6:void TWIPR_Estimation::update()	2
+J:/work_dir/work_dir/projects/testbed/robots/TWIPR/software/robot/firmware/robot/firmware_v1/estimation/twipr_estimation.cpp:142:26:twipr_estimation_state_t TWIPR_Estimation::getMeanState()	1
+J:/work_dir/work_dir/projects/testbed/robots/TWIPR/software/robot/firmware/robot/firmware_v1/estimation/twipr_estimation.cpp:150:26:twipr_estimation_state_t TWIPR_Estimation::getState()	1
+J:/work_dir/work_dir/projects/testbed/robots/TWIPR/software/robot/firmware/robot/firmware_v1/estimation/twipr_estimation.cpp:157:6:void TWIPR_Estimation::setState(twipr_estimation_state_t)	1
+J:/work_dir/work_dir/projects/testbed/robots/TWIPR/software/robot/firmware/robot/firmware_v1/estimation/twipr_estimation.cpp:161:28:twipr_logging_estimation_t TWIPR_Estimation::getSample()	1
+J:/work_dir/work_dir/projects/testbed/robots/TWIPR/software/robot/firmware/robot/firmware_v1/estimation/twipr_estimation.cpp:167:6:void estimation_task(void*)	1

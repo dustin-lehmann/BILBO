@@ -1,0 +1,3 @@
+(fp_lib_table
+  (lib (name "descriptors")(type "KiCad")(uri "C:/work_dir/projects/electronics/kicad_libraries/logos/descriptors.pretty")(options "")(descr ""))
+)

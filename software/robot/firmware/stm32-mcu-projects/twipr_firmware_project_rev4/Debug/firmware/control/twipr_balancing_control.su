@@ -1,0 +1,10 @@
+J:/work_dir/work_dir/projects/testbed/robots/TWIPR/software/robot/firmware/robot/firmware_v1/control/twipr_balancing_control.h:35:16:constexpr twipr_balancing_control_config_t::twipr_balancing_control_config_t()	16	static
+J:/work_dir/work_dir/projects/testbed/robots/TWIPR/software/robot/firmware/robot/firmware_v1/control/twipr_balancing_control.cpp:10:1:TWIPR_BalancingControl::TWIPR_BalancingControl()	16	static
+J:/work_dir/work_dir/projects/testbed/robots/TWIPR/software/robot/firmware/robot/firmware_v1/control/twipr_balancing_control.cpp:16:6:void TWIPR_BalancingControl::init(twipr_balancing_control_config_t)	24	static
+J:/work_dir/work_dir/projects/testbed/robots/TWIPR/software/robot/firmware/robot/firmware_v1/control/twipr_balancing_control.cpp:22:6:void TWIPR_BalancingControl::start()	16	static
+J:/work_dir/work_dir/projects/testbed/robots/TWIPR/software/robot/firmware/robot/firmware_v1/control/twipr_balancing_control.cpp:31:6:void TWIPR_BalancingControl::update(twipr_estimation_state_t, twipr_balancing_control_input_t, twipr_balancing_control_output_t*)	40	static
+J:/work_dir/work_dir/projects/testbed/robots/TWIPR/software/robot/firmware/robot/firmware_v1/control/twipr_balancing_control.cpp:71:6:void TWIPR_BalancingControl::_calculateOutput(twipr_estimation_state_t, twipr_balancing_control_input_t, twipr_balancing_control_output_t*)	24	static
+J:/work_dir/work_dir/projects/testbed/robots/TWIPR/software/robot/firmware/robot/firmware_v1/control/twipr_balancing_control.cpp:87:6:void TWIPR_BalancingControl::reset()	16	static
+J:/work_dir/work_dir/projects/testbed/robots/TWIPR/software/robot/firmware/robot/firmware_v1/control/twipr_balancing_control.cpp:92:6:void TWIPR_BalancingControl::stop()	16	static
+J:/work_dir/work_dir/projects/testbed/robots/TWIPR/software/robot/firmware/robot/firmware_v1/control/twipr_balancing_control.cpp:97:6:void TWIPR_BalancingControl::set_K(float*)	16	static
+J:/work_dir/work_dir/projects/testbed/robots/TWIPR/software/robot/firmware/robot/firmware_v1/control/twipr_balancing_control.cpp:101:6:void TWIPR_BalancingControl::setMode(twipr_balancing_control_mode_t)	16	static

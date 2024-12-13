@@ -1,0 +1,11 @@
+C:/work_dir/projects/testbed/software/robots/software_board/board_manager_mcu/rc_board-extender_firmware/firmware/utils/elapsedMillis.h:19:7:void elapsedMillis::reset()	16	static
+C:/work_dir/projects/testbed/software/robots/software_board/board_manager_mcu/rc_board-extender_firmware/firmware/utils/elapsedMillis.h:22:2:elapsedMillis::elapsedMillis()	16	static
+C:/work_dir/projects/testbed/software/robots/software_board/board_manager_mcu/rc_board-extender_firmware/firmware/utils/elapsedMillis.h:31:2:elapsedMillis::operator long unsigned int() const	16	static
+../firmware/buzzer/buzzer.cpp:10:1:Buzzer::Buzzer(TIM_HandleTypeDef*, uint32_t)	24	static
+../firmware/buzzer/buzzer.cpp:15:6:void Buzzer::pwmStart()	24	static
+../firmware/buzzer/buzzer.cpp:39:6:void Buzzer::pwmStop()	16	static
+../firmware/buzzer/buzzer.cpp:45:6:void Buzzer::setConfig(Buzzer_config)	24	static
+../firmware/buzzer/buzzer.cpp:48:6:void Buzzer::setConfig(float, uint16_t, int8_t)	24	static
+../firmware/buzzer/buzzer.cpp:54:6:void Buzzer::start()	16	static
+../firmware/buzzer/buzzer.cpp:60:6:void Buzzer::stop()	16	static
+../firmware/buzzer/buzzer.cpp:65:6:void Buzzer::update()	16	static

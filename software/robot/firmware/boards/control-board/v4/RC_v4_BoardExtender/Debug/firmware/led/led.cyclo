@@ -1,0 +1,5 @@
+../firmware/led/led.cpp:11:1:LED::LED(GPIO_TypeDef*, uint16_t)	1
+../firmware/led/led.cpp:16:6:void LED::on()	1
+../firmware/led/led.cpp:21:6:void LED::off()	1
+../firmware/led/led.cpp:25:6:void LED::toggle()	1
+../firmware/led/led.cpp:29:9:uint8_t LED::getState()	1

@@ -1,0 +1,15 @@
+C:/work_dir/projects/testbed/software/robots/software_board/board_manager_mcu/rc_board-extender_firmware/firmware/utils/elapsedMillis.h:19:7:void elapsedMillis::reset()	1
+C:/work_dir/projects/testbed/software/robots/software_board/board_manager_mcu/rc_board-extender_firmware/firmware/utils/elapsedMillis.h:22:2:elapsedMillis::elapsedMillis()	1
+C:/work_dir/projects/testbed/software/robots/software_board/board_manager_mcu/rc_board-extender_firmware/firmware/utils/elapsedMillis.h:25:2:elapsedMillis::elapsedMillis(long unsigned int)	1
+C:/work_dir/projects/testbed/software/robots/software_board/board_manager_mcu/rc_board-extender_firmware/firmware/utils/elapsedMillis.h:31:2:elapsedMillis::operator long unsigned int() const	1
+C:/work_dir/projects/testbed/software/robots/software_board/board_manager_mcu/rc_board-extender_firmware/firmware/utils/elapsedMillis.h:38:18:elapsedMillis& elapsedMillis::operator=(long unsigned int)	1
+../firmware/firmware.cpp:36:6:void firmware_init()	1
+../firmware/firmware.cpp:78:6:void firmware_update()	4
+../firmware/firmware.cpp:104:6:void checkUsb()	2
+../firmware/firmware.cpp:113:6:void checkSD()	2
+../firmware/firmware.cpp:122:6:void updateStatusLEDFromRegisters()	5
+../firmware/firmware.cpp:142:6:void updateInternRGBLEDsFromRegisters()	1
+../firmware/firmware.cpp:170:6:void updateBuzzerFromRegisters()	2
+../firmware/firmware.cpp:186:6:void set_rgb_led_data(WS2812_LED*, uint8_t, uint8_t, uint8_t, uint8_t, uint8_t, uint8_t)	7
+../firmware/firmware.cpp:227:1:void __static_initialization_and_destruction_0(int, int)	3
+../firmware/firmware.cpp:227:1:cpp)	1

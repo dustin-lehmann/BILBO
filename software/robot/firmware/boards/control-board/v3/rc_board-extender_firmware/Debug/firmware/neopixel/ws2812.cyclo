@@ -1,0 +1,19 @@
+C:/work_dir/projects/testbed/software/robots/software_board/board_manager_mcu/rc_board-extender_firmware/firmware/utils/elapsedMillis.h:19:7:void elapsedMillis::reset()	1
+C:/work_dir/projects/testbed/software/robots/software_board/board_manager_mcu/rc_board-extender_firmware/firmware/utils/elapsedMillis.h:22:2:elapsedMillis::elapsedMillis()	1
+C:/work_dir/projects/testbed/software/robots/software_board/board_manager_mcu/rc_board-extender_firmware/firmware/utils/elapsedMillis.h:31:2:elapsedMillis::operator long unsigned int() const	1
+../firmware/neopixel/ws2812.cpp:13:1:WS2812_LED::WS2812_LED()	1
+../firmware/neopixel/ws2812.cpp:16:1:WS2812_LED::WS2812_LED(uint8_t)	1
+../firmware/neopixel/ws2812.cpp:20:6:void WS2812_LED::setColor(uint8_t, uint8_t, uint8_t)	1
+../firmware/neopixel/ws2812.cpp:26:6:void WS2812_LED::setMode(WS2812_LED_Mode)	3
+../firmware/neopixel/ws2812.cpp:32:6:void WS2812_LED::setBlinkConfig(WS2812_blink_config)	1
+../firmware/neopixel/ws2812.cpp:36:6:void WS2812_LED::setBlinkConfig(uint16_t, int8_t)	1
+../firmware/neopixel/ws2812.cpp:41:6:void WS2812_LED::setContiniousOutput(uint8_t)	1
+../firmware/neopixel/ws2812.cpp:45:6:void WS2812_LED::blink()	2
+../firmware/neopixel/ws2812.cpp:54:6:void WS2812_LED::update()	6
+../firmware/neopixel/ws2812.cpp:85:1:WS2812_Strand::WS2812_Strand(TIM_HandleTypeDef*, uint32_t)	2
+../firmware/neopixel/ws2812.cpp:91:1:WS2812_Strand::WS2812_Strand(TIM_HandleTypeDef*, uint32_t, uint8_t)	2
+../firmware/neopixel/ws2812.cpp:98:6:void WS2812_Strand::init()	2
+../firmware/neopixel/ws2812.cpp:110:6:void WS2812_Strand::update()	6
+../firmware/neopixel/ws2812.cpp:141:6:void WS2812_Strand::send()	2
+../firmware/neopixel/ws2812.cpp:151:6:void WS2812_Strand::reset()	2
+../firmware/neopixel/ws2812.cpp:164:6:void HAL_TIM_PWM_PulseFinishedCallback(TIM_HandleTypeDef*)	3

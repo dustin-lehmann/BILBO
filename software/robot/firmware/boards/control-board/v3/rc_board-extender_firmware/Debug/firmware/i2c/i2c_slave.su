@@ -1,0 +1,20 @@
+../firmware/i2c/i2c_slave.cpp:13:6:void nop()	8	static
+../firmware/i2c/i2c_slave.cpp:17:12:I2C_Slave* get_I2C_slave(I2C_HandleTypeDef*)	24	static
+../firmware/i2c/i2c_slave.cpp:26:6:void HAL_I2C_ListenCpltCallback(I2C_HandleTypeDef*)	24	static
+../firmware/i2c/i2c_slave.cpp:33:6:void HAL_I2C_AddrCallback(I2C_HandleTypeDef*, uint8_t, uint16_t)	24	static
+../firmware/i2c/i2c_slave.cpp:41:6:void HAL_I2C_SlaveRxCpltCallback(I2C_HandleTypeDef*)	24	static
+../firmware/i2c/i2c_slave.cpp:48:6:void HAL_I2C_SlaveTxCpltCallback(I2C_HandleTypeDef*)	24	static
+../firmware/i2c/i2c_slave.cpp:55:6:void HAL_I2C_ErrorCallback(I2C_HandleTypeDef*)	24	static
+../firmware/i2c/i2c_slave.cpp:63:6:void HAL_I2C_AbortCpltCallback(I2C_HandleTypeDef*)	24	static
+../firmware/i2c/i2c_slave.h:32:8:I2C_Slave_callbacks::I2C_Slave_callbacks()	16	static
+../firmware/i2c/i2c_slave.cpp:71:1:I2C_Slave::I2C_Slave(I2C_HandleTypeDef*, uint8_t, uint8_t*, uint8_t)	24	static
+../firmware/i2c/i2c_slave.cpp:82:1:I2C_Slave::I2C_Slave(I2C_HandleTypeDef*, uint8_t, I2C_Slave_config, uint8_t*, uint8_t)	24	static
+../firmware/i2c/i2c_slave.cpp:94:6:void I2C_Slave::init()	16	static
+../firmware/i2c/i2c_slave.cpp:98:6:void I2C_Slave::start()	16	static
+../firmware/i2c/i2c_slave.cpp:102:6:void I2C_Slave::registerCallback(I2C_Slave_callback_id, void (*)(void*, void*), void*)	24	static
+../firmware/i2c/i2c_slave.cpp:114:6:void I2C_Slave::i2c_addrCallback(uint8_t, uint16_t)	32	static
+../firmware/i2c/i2c_slave.cpp:133:6:void I2C_Slave::i2c_listenCompleteCallback()	16	static
+../firmware/i2c/i2c_slave.cpp:142:6:void I2C_Slave::i2c_rxCompleteCallback()	16	static
+../firmware/i2c/i2c_slave.cpp:153:6:void I2C_Slave::i2c_txCompleteCallback()	16	static
+../firmware/i2c/i2c_slave.cpp:160:6:void I2C_Slave::i2c_errorCallback()	16	static
+../firmware/i2c/i2c_slave.cpp:164:6:void I2C_Slave::i2c_abortCompleteCallback()	16	static

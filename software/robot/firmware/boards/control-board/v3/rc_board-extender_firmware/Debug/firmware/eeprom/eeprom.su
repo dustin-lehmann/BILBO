@@ -1,0 +1,3 @@
+../firmware/eeprom/eeprom.cpp:10:1:EEPROM::EEPROM(I2C_HandleTypeDef*, uint8_t)	24	static
+../firmware/eeprom/eeprom.cpp:16:6:void EEPROM::write(uint16_t, uint8_t*, uint16_t)	48	static
+../firmware/eeprom/eeprom.cpp:24:6:void EEPROM::read(uint16_t, uint8_t*, uint16_t)	48	static

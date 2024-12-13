@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="66.240959mm"
+   height="23.499556mm"
+   viewBox="0 0 66.24096 23.499556"
+   version="1.1"
+   id="svg1"
+   inkscape:export-filename="bilbo.png"
+   inkscape:export-xdpi="500"
+   inkscape:export-ydpi="500"
+   inkscape:version="1.3.1 (91b66b0783, 2023-11-16)"
+   sodipodi:docname="bilbo-logo.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#111111"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="1"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     inkscape:export-bgcolor="#ffffffff"
+     inkscape:zoom="1.4132993"
+     inkscape:cx="156.37169"
+     inkscape:cy="125.59265"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
+     inkscape:window-x="1912"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs1" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-36.077232,-54.662321)">
+    <text
+       xml:space="preserve"
+       style="font-size:25.4px;fill:#f9f9f9;stroke:#000000;stroke-width:1"
+       x="36.09354"
+       y="77.411148"
+       id="text1"><tspan
+         sodipodi:role="line"
+         id="tspan1"
+         style="font-style:italic;font-variant:normal;font-weight:500;font-stretch:normal;font-size:25.4px;font-family:Roboto;-inkscape-font-specification:'Roboto Medium Italic';fill:#f9f9f9;stroke:#000000;stroke-width:1"
+         x="36.09354"
+         y="77.411148">BILBo</tspan></text>
+    <path
+       id="rect3"
+       style="fill:#f2f2f2;stroke:#000000"
+       d="M 95.870535 47.046563 L 95.870462 58.332549 C 96.365341 57.50998 96.980562 56.825394 97.726755 56.291186 C 98.664143 55.620099 99.735573 55.24855 100.94104 55.176541 C 102.08741 55.09309 103.10244 55.311591 103.98612 55.832041 C 104.86981 56.352491 105.54604 57.110991 106.01479 58.107537 C 106.11208 58.310638 106.1923 58.523347 106.26952 58.737866 L 106.26951 47.04676 L 95.870535 47.046563 z "
+       transform="rotate(4.9878942)" />
+    <path
+       id="path6"
+       style="fill:#f2f2f2;stroke:#000000"
+       d="m 92.795603,64.391476 c 1.994919,-0.666062 4.334169,-0.473842 6.221213,0.484085 L 99.482422,58.035156 93.341797,57.5 Z"
+       sodipodi:nodetypes="ccccc" />
+  </g>
+</svg>

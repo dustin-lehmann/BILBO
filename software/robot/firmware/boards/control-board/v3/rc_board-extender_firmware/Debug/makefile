@@ -1,6 +1,6 @@
 ################################################################################
 # Automatically-generated file. Do not edit!
-# Toolchain: GNU Tools for STM32 (11.3.rel1)
+# Toolchain: GNU Tools for STM32 (12.3.rel1)
 ################################################################################
 
 -include ../makefile.init
@@ -92,8 +92,8 @@ all: main-build
 main-build: RobotControl_BoardExtender.elf secondary-outputs
 
 # Tool invocations
-RobotControl_BoardExtender.elf RobotControl_BoardExtender.map: $(OBJS) $(USER_OBJS) C:\work_dir\projects\testbed\software\robots\software_board\board_manager_mcu\rc_board-extender_firmware\STM32G031G8UX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-g++ -o "RobotControl_BoardExtender.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m0plus -T"C:\work_dir\projects\testbed\software\robots\software_board\board_manager_mcu\rc_board-extender_firmware\STM32G031G8UX_FLASH.ld" --specs=nosys.specs -Wl,-Map="RobotControl_BoardExtender.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
+RobotControl_BoardExtender.elf RobotControl_BoardExtender.map: $(OBJS) $(USER_OBJS) J:\work_dir\work_dir\projects\testbed\robots\BILBO\software\robot\firmware\boards\control-board\v3\rc_board-extender_firmware\STM32G031G8UX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-g++ -o "RobotControl_BoardExtender.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m0plus -T"J:\work_dir\work_dir\projects\testbed\robots\BILBO\software\robot\firmware\boards\control-board\v3\rc_board-extender_firmware\STM32G031G8UX_FLASH.ld" --specs=nosys.specs -Wl,-Map="RobotControl_BoardExtender.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

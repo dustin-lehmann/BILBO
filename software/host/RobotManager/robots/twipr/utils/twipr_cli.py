@@ -1,9 +1,9 @@
 from robots.twipr.twipr_manager import TWIPR_Manager
 from robots.twipr.twipr import TWIPR
-from extensions.cli.cli import *
+from extensions.cli.src.cli import *
 
 
-# TWIPR Command Set
+# BILBO Command Set
 # General Commands:
 # info --detail
 # stop
@@ -27,7 +27,7 @@ class TWIPR_CommandSet(CommandSet):
         self.robot = robot
 
 
-# TWIPR Manager Command Set
+# BILBO Manager Command Set
 
 # stop
 # info
@@ -37,7 +37,7 @@ class TWIPR_CommandSet(CommandSet):
 
 class TWIPR_Manager_CommandSet(CommandSet):
     name = 'robots'
-    description = 'Functions related to connected TWIPR'
+    description = 'Functions related to connected BILBO'
 
     def __init__(self, manager: TWIPR_Manager):
         super().__init__(name=self.name)
@@ -60,7 +60,7 @@ class TWIPR_Manager_CommandSet(CommandSet):
 
 # ======================================================================================================================
 class TWIPR_Manager_Command_List(Command):
-    description = 'Lists all connected TWIPR robots'
+    description = 'Lists all connected BILBO robots'
     name = 'list'
     manager: TWIPR_Manager
     arguments = {
@@ -89,7 +89,7 @@ class TWIPR_Manager_Command_List(Command):
 
 # ======================================================================================================================
 class TWIPR_Manager_Command_Stop(Command):
-    description = 'Deactivates the control on selected (or all) TWIPR robots'
+    description = 'Deactivates the control on selected (or all) BILBO robots'
     name = 'stop'
     manager: TWIPR_Manager
     arguments = {
@@ -124,7 +124,7 @@ class TWIPR_Manager_Command_Stop(Command):
 
 # ======================================================================================================================
 class TWIPR_Manager_Command_Mode(Command):
-    description = 'Sets the control mode of selected (or all) TWIPR robots'
+    description = 'Sets the control mode of selected (or all) BILBO robots'
     name = 'mode'
     manager: TWIPR_Manager
     arguments = {

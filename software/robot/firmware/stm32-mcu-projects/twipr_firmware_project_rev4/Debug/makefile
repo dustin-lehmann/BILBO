@@ -30,19 +30,20 @@ RM := rm -rf
 -include stm32_core_cpp_lib/communication/modbus_rtu/subdir.mk
 -include stm32_core_cpp_lib/communication/can/subdir.mk
 -include robot-control_std_lib/subdir.mk
--include firmware/sequencer/subdir.mk
--include firmware/safety/subdir.mk
--include firmware/model/subdir.mk
--include firmware/logging/subdir.mk
--include firmware/estimation/subdir.mk
--include firmware/errors/subdir.mk
--include firmware/drive/simplexmotion_motors/subdir.mk
--include firmware/drive/subdir.mk
--include firmware/control/subdir.mk
--include firmware/communication/modules/subdir.mk
--include firmware/communication/messages/subdir.mk
--include firmware/communication/subdir.mk
--include firmware/subdir.mk
+-include firmware_v1/sequencer/subdir.mk
+-include firmware_v1/safety/subdir.mk
+-include firmware_v1/model/subdir.mk
+-include firmware_v1/logging/subdir.mk
+-include firmware_v1/io/subdir.mk
+-include firmware_v1/estimation/subdir.mk
+-include firmware_v1/errors/subdir.mk
+-include firmware_v1/drive/simplexmotion_motors/subdir.mk
+-include firmware_v1/drive/subdir.mk
+-include firmware_v1/control/subdir.mk
+-include firmware_v1/communication/modules/subdir.mk
+-include firmware_v1/communication/messages/subdir.mk
+-include firmware_v1/communication/subdir.mk
+-include firmware_v1/subdir.mk
 -include Middlewares/Third_Party/FreeRTOS/Source/portable/MemMang/subdir.mk
 -include Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/subdir.mk
 -include Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/subdir.mk
@@ -114,9 +115,6 @@ default.size.stdout \
 OBJDUMP_LIST += \
 RC_v4_H743_TWIPR_24062024.list \
 
-OBJCOPY_HEX += \
-RC_v4_H743_TWIPR_24062024.hex \
-
 
 # All Target
 all: main-build
@@ -125,8 +123,8 @@ all: main-build
 main-build: RC_v4_H743_TWIPR_24062024.elf secondary-outputs
 
 # Tool invocations
-RC_v4_H743_TWIPR_24062024.elf RC_v4_H743_TWIPR_24062024.map: $(OBJS) $(USER_OBJS) J:\work_dir\work_dir\projects\testbed\robots\TWIPR\software\robot\firmware\stm32-mcu-projects\twipr_firmware_project_rev4\STM32H743VITX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-g++ -o "RC_v4_H743_TWIPR_24062024.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m7 -T"J:\work_dir\work_dir\projects\testbed\robots\TWIPR\software\robot\firmware\stm32-mcu-projects\twipr_firmware_project_rev4\STM32H743VITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="RC_v4_H743_TWIPR_24062024.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -u _printf_float -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
+RC_v4_H743_TWIPR_24062024.elf RC_v4_H743_TWIPR_24062024.map: $(OBJS) $(USER_OBJS) /Users/lehmann/work_dir/work_dir/projects/testbed/robots/BILBO/software/robot/firmware/stm32-mcu-projects/twipr_firmware_project_rev4/STM32H743VITX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-g++ -o "RC_v4_H743_TWIPR_24062024.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m7 -T"/Users/lehmann/work_dir/work_dir/projects/testbed/robots/BILBO/software/robot/firmware/stm32-mcu-projects/twipr_firmware_project_rev4/STM32H743VITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="RC_v4_H743_TWIPR_24062024.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -u _printf_float -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
@@ -140,17 +138,12 @@ RC_v4_H743_TWIPR_24062024.list: $(EXECUTABLES) makefile objects.list $(OPTIONAL_
 	@echo 'Finished building: $@'
 	@echo ' '
 
-RC_v4_H743_TWIPR_24062024.hex: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-objcopy  -O ihex $(EXECUTABLES) "RC_v4_H743_TWIPR_24062024.hex"
-	@echo 'Finished building: $@'
-	@echo ' '
-
 # Other Targets
 clean:
-	-$(RM) RC_v4_H743_TWIPR_24062024.elf RC_v4_H743_TWIPR_24062024.hex RC_v4_H743_TWIPR_24062024.list RC_v4_H743_TWIPR_24062024.map default.size.stdout
+	-$(RM) RC_v4_H743_TWIPR_24062024.elf RC_v4_H743_TWIPR_24062024.list RC_v4_H743_TWIPR_24062024.map default.size.stdout
 	-@echo ' '
 
-secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST) $(OBJCOPY_HEX)
+secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST)
 
 fail-specified-linker-script-missing:
 	@echo 'Error: Cannot find the specified linker script. Check the linker settings in the build configuration.'

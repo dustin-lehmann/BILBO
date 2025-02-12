@@ -44,14 +44,14 @@ def main():
         'twipr_agent': {
             'BabylonObject': 'TWIPR_Robot',
             'config': {
-                'base_model': './models/TWIPR/twipr_',
+                'base_model': './models/BILBO/twipr_',
                 'show_collision_frame': False,
             },
         },
         'twipr_agent_double_pendulum': {
             'BabylonObject': 'TWIPR_Robot_DoublePendulum',
             'config': {
-                'base_model': './models/TWIPR/twipr_',
+                'base_model': './models/BILBO/twipr_',
                 'show_collision_frame': False,
             },
         },

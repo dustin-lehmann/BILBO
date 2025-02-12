@@ -5,10 +5,17 @@ import socket
 import threading
 import time
 from cobs import cobs
-from utils.logging import Logger
+
+from utils.callbacks import callback_handler, CallbackContainer
+from utils.logging_utils import Logger
 
 logger = Logger('UDP Socket')
 logger.setLevel('INFO')
+
+
+@callback_handler
+class UDPSocketCallbacks:
+    rx: CallbackContainer
 
 
 ########################################################################################################################
@@ -16,6 +23,7 @@ class UDP_Socket:
     _socket: socket.socket
     address: str
     port: int
+    callbacks: UDPSocketCallbacks
     _thread: threading.Thread
 
     config: dict
@@ -45,9 +53,7 @@ class UDP_Socket:
 
         self.config = {**default_config, **config}
 
-        self.callbacks = {
-            'rx': []
-        }
+        self.callbacks = UDPSocketCallbacks()
 
         self._socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
         self._socket.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
@@ -90,15 +96,8 @@ class UDP_Socket:
         """
         self._exit = True
 
-        if hasattr(self,'_thread') and self._thread.is_alive():
+        if hasattr(self, '_thread') and self._thread.is_alive():
             self._thread.join()
-
-    # ------------------------------------------------------------------------------------------------------------------
-    def registerCallback(self, callback_id, callback):
-        if callback_id in self.callbacks.keys():
-            self.callbacks[callback_id].append(callback)
-        else:
-            raise Exception(f"No callback with id {callback_id} is known.")
 
     # ------------------------------------------------------------------------------------------------------------------
     def _thread_fun(self):
@@ -110,7 +109,7 @@ class UDP_Socket:
                     if address[0] == self.address and self.config['filterBroadcastEcho']:
                         ...
                     else:
-                        for callback in self.callbacks['rx']:
+                        for callback in self.callbacks[UDPSocketCallbacks.rx]:
                             callback(data, address, self.port)
 
             except BlockingIOError:

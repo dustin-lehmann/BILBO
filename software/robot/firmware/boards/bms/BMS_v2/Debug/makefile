@@ -60,8 +60,8 @@ all: main-build
 main-build: test_SimpleBMS.elf secondary-outputs
 
 # Tool invocations
-test_SimpleBMS.elf test_SimpleBMS.map: $(OBJS) $(USER_OBJS) J:\work_dir\work_dir\projects\testbed\software\additional-boards\SimpleBMS_v2_firmware\test_SimpleBMS\STM32L432KBUX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "test_SimpleBMS.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"J:\work_dir\work_dir\projects\testbed\software\additional-boards\SimpleBMS_v2_firmware\test_SimpleBMS\STM32L432KBUX_FLASH.ld" --specs=nosys.specs -Wl,-Map="test_SimpleBMS.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+test_SimpleBMS.elf test_SimpleBMS.map: $(OBJS) $(USER_OBJS) J:\work_dir\work_dir\projects\testbed\robots\BILBO\software\robot\firmware\boards\bms\BMS_v2\STM32L432KBUX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "test_SimpleBMS.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"J:\work_dir\work_dir\projects\testbed\robots\BILBO\software\robot\firmware\boards\bms\BMS_v2\STM32L432KBUX_FLASH.ld" --specs=nosys.specs -Wl,-Map="test_SimpleBMS.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

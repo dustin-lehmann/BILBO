@@ -1,20 +1,42 @@
 import threading
-
+import time
+import logging
 from websocket_server import WebsocketServer
+import websocket
+import threading
 import json
+
+from utils.events import event_handler, ConditionEvent
 from utils.exit import ExitHandler
+from utils.callbacks import Callback, CallbackContainer, callback_handler
+
+
+@callback_handler
+class SyncWebsocketServer_Callbacks:
+    new_client: CallbackContainer
+    message: CallbackContainer
+
+
+@event_handler
+class SyncWebsocketServer_Events:
+    new_client: ConditionEvent
+    message: ConditionEvent
 
 
 class SyncWebsocketServer:
+    callbacks: SyncWebsocketServer_Callbacks
+    events: SyncWebsocketServer_Events
+
     def __init__(self, host, port):
         self.host = host
         self.port = port
         self.server = WebsocketServer(host=self.host, port=self.port)
         self.clients = []  # Store connected clients
-        self.message_callback = None
-        self.connection_callback = None
         self.running = False
         self.thread = None
+
+        self.events = SyncWebsocketServer_Events()
+        self.callbacks = SyncWebsocketServer_Callbacks()
 
         # Exit handling
         self.exit_handler = ExitHandler()
@@ -48,16 +70,18 @@ class SyncWebsocketServer:
 
     def _on_new_client(self, client, server):
         self.clients.append(client)  # Add client to the list
-        if self.connection_callback:
-            self.connection_callback(client)
+
+        self.callbacks.new_client.call(client)
+        self.events.new_client.set(client)
 
     def _on_client_left(self, client, server):
         if client in self.clients:
             self.clients.remove(client)  # Remove client from the list
 
     def _on_message_received(self, client, server, message):
-        if self.message_callback:
-            self.message_callback(message, client)
+        message = json.loads(message)
+        self.callbacks.message.call(client, message)
+        self.events.message.set(client, message)
 
     def send(self, message):
         """
@@ -78,8 +102,152 @@ class SyncWebsocketServer:
                 self.thread.join()
             self.running = False
 
-    def set_message_callback(self, callback):
-        self.message_callback = callback
 
-    def set_connection_callback(self, callback):
-        self.connection_callback = callback
+# ======================================================================================================================
+@callback_handler
+class SyncWebsocketClient_Callbacks:
+    message: CallbackContainer
+    connected: CallbackContainer
+    disconnected: CallbackContainer
+    error: CallbackContainer
+
+
+@event_handler
+class SyncWebsocketClient_Events:
+    message: ConditionEvent
+    connected: ConditionEvent
+    disconnected: ConditionEvent
+    error: ConditionEvent
+
+
+class SyncWebsocketClient:
+    callbacks: SyncWebsocketClient_Callbacks
+    events: SyncWebsocketClient_Events
+
+    _thread: threading.Thread
+    ws_thread: (None, threading.Thread)
+    _exit: bool
+    exit: ExitHandler
+
+    _debug: bool
+
+    def __init__(self, address, port, debug=True):
+        self.uri = f"ws://{address}:{port}"
+        self.ws = None
+        self.connected = False
+        self.thread = None
+        self.retries = 1000
+        self._debug = debug
+
+        self.callbacks = SyncWebsocketClient_Callbacks()
+        self.events = SyncWebsocketClient_Events()
+
+        self._thread = threading.Thread(target=self.task, daemon=True)
+        self.ws_thread = None
+        self._exit = False
+
+        # Disable the internal websocket logger, since it messes with other modules
+        logging.getLogger("websocket").setLevel(logging.CRITICAL)
+
+        # self.exit = ExitHandler()
+        # self.exit.register(self.close)
+
+    def start(self):
+        self._thread.start()
+
+    def close(self, *args, **kwargs):
+        print("Close Websocket Client")
+        self.ws.close()
+        self._exit = True
+        self._thread.join()
+
+    def task(self):
+        while not self._exit:
+            if not self.connected:
+                self.connect()
+            time.sleep(1)
+
+    def connect(self, retries=None):
+        """
+        Attempt to connect to the WebSocket server with retry logic.
+        """
+        retries = retries or self.retries  # Use default or specified retries
+        attempt = 0
+
+        while attempt < retries and not self._exit:
+            try:
+                if self._debug:
+                    print(f"Attempting to connect to {self.uri} (Attempt {attempt + 1}/{retries})")
+
+                # Create WebSocket app
+                self.ws = websocket.WebSocketApp(self.uri,
+                                                 on_open=self.on_open,
+                                                 on_close=self.on_close,
+                                                 on_message=self.on_message,
+                                                 on_error=self.on_error)
+
+                # Run in a separate thread
+                self.ws_thread = threading.Thread(target=self.ws.run_forever, daemon=True)
+                self.ws_thread.start()
+
+                # Wait for connection success or failure
+                timeout = 5  # Adjust timeout as needed
+                start_time = time.time()
+
+                while not self.connected and time.time() - start_time < timeout:
+                    time.sleep(0.1)
+
+                if self.connected:
+                    if self._debug:
+                        print("Connected successfully!")
+                    return  # Exit loop if connection succeeds
+
+                else:  # Timeout
+                    self.ws.close()
+                    self.ws_thread.join()
+
+            except Exception as e:
+                if self._debug:
+                    print(f"Connection attempt {attempt + 1} failed: {e}")
+
+            attempt += 1
+            time.sleep(1)
+
+        print("Failed to connect after multiple attempts.")
+
+    def send(self, message):
+        """
+        Send a message to the server.
+        """
+        if self.connected:
+            if isinstance(message, dict):
+                message = json.dumps(message)
+            self.ws.send(message)
+
+    def disconnect(self):
+        """
+        Close the WebSocket connection.
+        """
+        if self.connected:
+            self.ws.close()
+            self.thread.join()
+
+    def on_open(self, ws):
+        self.connected = True
+        self.callbacks.connected.call()
+        self.events.connected.set()
+
+    def on_close(self, ws, close_status_code, close_msg):
+        if self.connected:
+            self.connected = False
+            self.callbacks.disconnected.call()
+            self.events.disconnected.set()
+
+    def on_message(self, ws, message):
+        message = json.loads(message)
+        self.callbacks.message.call(message)
+        self.events.message.set(message)
+
+    def on_error(self, ws, error):
+        self.callbacks.error.call(error)
+        self.events.error.set(error)

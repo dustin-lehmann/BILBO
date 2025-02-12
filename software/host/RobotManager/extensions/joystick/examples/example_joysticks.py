@@ -1,7 +1,7 @@
 import logging
 import time
 
-from extensions.joystick._archive.joystick_manager import JoystickManager, Joystick
+from extensions.joystick.joystick_manager import JoystickManager, Joystick
 
 logging.basicConfig(
     format='%(asctime)s.%(msecs)03d  %(levelname)-8s  %(message)s',
@@ -10,14 +10,15 @@ logging.basicConfig(
 
 
 def callback_new_joystick(joystick, *args, **kwargs):
-    joystick.setButtonCallback([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13], 'down', callback_button,
+    joystick.setButtonCallback(button=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13], event='down', function=callback_button,
                                parameters={'eventtype': 'down'})
 
     joystick.setJoyHatCallback(['up', 'down', 'left', 'right'], joyhat_callback)
 
 
 def callback_button(joystick: Joystick, button, eventtype, *args, **kwargs):
-    print(f"Button {button}, Event: {eventtype}, Joystick: {joystick.uuid}")
+    print(f"Button {button}, Event: {eventtype}, Joystick: {joystick.guid}")
+    joystick.rumble(strength=1, duration=500)
 
 
 def joyhat_callback(joystick, direction):
@@ -29,12 +30,14 @@ def main():
     jm = JoystickManager()
     jm.start()
 
-    jm.registerCallback('new_joystick', callback_new_joystick)
+    jm.callbacks.register('new_joystick', callback_new_joystick)
 
     while True:
         for uuid, joystick in jm.joysticks.items():
-            ...
-            print(f"Joystick {joystick.id}, Axis 0: {joystick.axis[0]}")
+            # print(f"Joystick {joystick.id}, Axis 0: {joystick.axis[0]}")
+            axes_formatted = " ".join(f"Axis {i}: {axis: 5.2f}" for i, axis in enumerate(joystick.axis))
+            print(f"Joystick {joystick.id}, {axes_formatted}")
+
         time.sleep(1)
 
 

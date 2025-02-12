@@ -6,12 +6,18 @@ import time
 from core.communication.wifi.udp.protocols.udp_json_protocol import UDP_JSON_Protocol, UDP_JSON_Message
 from core.communication.wifi.udp.udp_socket import UDP_Socket
 from core.communication.wifi.udp.protocols.udp_base_protocol import UDP_Base_Protocol, UDP_Base_Message
+from utils.callbacks import callback_handler, CallbackContainer
 from utils.network.network import ipv4_to_bytes, getIPAddressOfDevice
 import atexit
-from utils.logging import Logger
+from utils.logging_utils import Logger
 
 logger = Logger('UDP')
 logger.setLevel('INFO')
+
+
+@callback_handler
+class UDP_Callbacks:
+    rx: CallbackContainer
 
 
 @dataclasses.dataclass
@@ -22,12 +28,11 @@ class UDP_Broadcast:
     _last_sent: float = 0
 
 
-
 ########################################################################################################################
 class UDP:
     base_protocol = UDP_Base_Protocol
     protocols = [UDP_JSON_Protocol]
-
+    callbacks: UDP_Callbacks
     address: str
     _sockets: dict[int, UDP_Socket]
     _ports: list
@@ -57,17 +62,15 @@ class UDP:
         self._sockets = {}
 
         for port in self._ports:
-            socket = UDP_Socket(address=self.address, port=port, config={'filterBroadcastEcho': False})
-            socket.registerCallback('rx', self._rxCallback)
+            socket = UDP_Socket(address=self.address, port=port, config={'filterBroadcastEcho': True})
+            socket.callbacks.rx.register(self._rxCallback)
             self._sockets[port] = socket
 
         self._broadcasts = []
         self._thread = threading.Thread(target=self._threadFunction)
         self._exit = False
 
-        self.callbacks = {
-            'rx': {port: [] for port in self._ports},
-        }
+        self.callbacks = UDP_Callbacks()
 
     # ------------------------------------------------------------------------------------------------------------------
     def init(self):
@@ -89,23 +92,7 @@ class UDP:
             self._thread.join()
 
     # ------------------------------------------------------------------------------------------------------------------
-    def registerCallback(self, callback_id, callback, port=None):
-        if callback_id in self.callbacks.keys():
-
-            if callback_id == 'rx':
-                if port is None:
-                    for port in self._ports:
-                        self.callbacks['rx'][port].append(callback)
-                else:
-                    self.callbacks['rx'][port].append(callback)
-            else:
-                self.callbacks[callback_id].append(callback)
-        else:
-            raise Exception(f"No callback with id {callback_id} is known.")
-
-    # ------------------------------------------------------------------------------------------------------------------
     def send(self, message, address='<broadcast>', port: int = None):
-        # address = getIPAdress(address)
 
         if address is None:
             return
@@ -143,8 +130,8 @@ class UDP:
         message = self._decodeMessage(data, *args, **kwargs)
 
         if message is not None:
-            for callback in self.callbacks['rx'][port]:
-                callback(message, address, *args, **kwargs)
+            for callback in self.callbacks['rx']:
+                callback(message, address, port, *args, **kwargs)
 
     # ------------------------------------------------------------------------------------------------------------------
     def _encodeMessage(self, message, address, port):

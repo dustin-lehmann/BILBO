@@ -1,0 +1,4 @@
+/Users/lehmann/work_dir/work_dir/projects/testbed/robots/BILBO/software/robot/firmware/robot/firmware_v1/logging/twipr_logging.cpp:12:1:TWIPR_Logging::TWIPR_Logging()	16	static
+/Users/lehmann/work_dir/work_dir/projects/testbed/robots/BILBO/software/robot/firmware/robot/firmware_v1/logging/twipr_logging.cpp:17:6:void TWIPR_Logging::init(twipr_logging_config_t)	24	static
+/Users/lehmann/work_dir/work_dir/projects/testbed/robots/BILBO/software/robot/firmware/robot/firmware_v1/logging/twipr_logging.cpp:22:6:void TWIPR_Logging::start()	16	static
+/Users/lehmann/work_dir/work_dir/projects/testbed/robots/BILBO/software/robot/firmware/robot/firmware_v1/logging/twipr_logging.cpp:28:31:twipr_logging_buffer_status_t TWIPR_Logging::collectSamples()	96	static

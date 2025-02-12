@@ -18,7 +18,13 @@
 #include "firmware_defs.h"
 #include "twipr_safety.h"
 #include "twipr_sequencer.h"
+#include "io.h"
 
+
+typedef struct test_struct_t {
+	float a;
+	uint8_t b;
+}test_struct_t;
 
 class TWIPR_Firmware {
 
@@ -35,6 +41,9 @@ public:
 	twipr_logging_general_t getSample();
 
 	void errorHandler(twipr_error_t error);
+
+
+	twipr_debug_sample_t getDebugSample();
 
 	twipr_firmware_state_t firmware_state = TWIPR_FIRMWARE_STATE_RESET;
 	twipr_error_t error = TWIPR_ERROR_NONE;
@@ -53,6 +62,8 @@ public:
 	TWIPR_Logging logging;
 
 	uint8_t debug(uint8_t input);
+
+	twipr_debug_sample_t debugData;
 
 private:
 

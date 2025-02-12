@@ -4,15 +4,25 @@ import core.settings as settings
 from core.communication.wifi.tcp.tcp_socket import TCP_SocketsHandler, TCP_Socket
 from core.communication.wifi.udp.protocols.udp_json_protocol import UDP_JSON_Message
 from core.communication.wifi.udp.udp import UDP, UDP_Broadcast
-# from utils.network.network import getAllIPAdresses, getLocalIP
 import core.communication.addresses as addresses
 from core.communication.wifi.tcp.tcp_connection import TCP_Connection
-from utils.logging import Logger
+from utils.callbacks import callback_handler, CallbackContainer
+from utils.logging_utils import Logger
 from core.communication.wifi.tcp.protocols.tcp_base_protocol import TCP_Base_Protocol
 from core.communication.wifi.tcp.protocols.tcp_json_protocol import TCP_JSON_Protocol
 
 logger = Logger('server')
 logger.setLevel('INFO')
+
+
+@callback_handler
+class TCPServerCallbacks:
+    connected: CallbackContainer
+    disconnected: CallbackContainer
+
+
+def test(*args, **kwargs):
+    print("This is in tcp_server.py")
 
 
 # ======================================================================================================================
@@ -22,7 +32,7 @@ class TCP_Server:
     base_protocol = TCP_Base_Protocol
     protocol = TCP_JSON_Protocol
 
-    callbacks: dict
+    callbacks: TCPServerCallbacks
     address: str
 
     _unregistered_connections: list[TCP_Connection]
@@ -37,24 +47,15 @@ class TCP_Server:
         self._tcp = TCP_SocketsHandler(address=self.address)
         self._udp = UDP(address=self.address, port=settings.UDP_PORT_ADDRESS_STREAM)
 
+        self._udp.callbacks.rx.register(function=test)
         self.connections = []
         self._unregistered_connections = []
 
         self._configureServer()
 
-        self.callbacks = {
-            'connected': [],
-            'disconnected': []
-        }
+        self.callbacks = TCPServerCallbacks()
 
     # === METHODS ======================================================================================================
-    def registerCallback(self, callback_id, callback):
-        if callback_id in self.callbacks.keys():
-            self.callbacks[callback_id].append(callback)
-        else:
-            raise Exception(f"No callback with id {callback_id} is known.")
-
-    # ------------------------------------------------------------------------------------------------------------------
     def init(self):
         ...
 
@@ -100,8 +101,8 @@ class TCP_Server:
 
     # === PRIVATE METHODS ==============================================================================================
     def _configureServer(self):
-        self._tcp.registerCallback('client_connected', self._deviceConnected_callback)
-        self._tcp.registerCallback('client_disconnected', self._deviceDisconnected_callback)
+        self._tcp.callbacks.client_connected.register(self._deviceConnected_callback)
+        self._tcp.callbacks.client_disconnected.register(self._deviceDisconnected_callback)
 
         broadcast_message = UDP_JSON_Message()
         broadcast_message.type = None
@@ -152,7 +153,7 @@ class TCP_Server:
         # put the client into the list of unregistered tcp devices
         unregistered_device = TCP_Connection(client=socket)
         self._unregistered_connections.append(unregistered_device)
-        unregistered_device.registerCallback('handshake', self._deviceHandshake_callback)
+        unregistered_device.callbacks.handshake.register(self._deviceHandshake_callback)
 
     # ------------------------------------------------------------------------------------------------------------------
     def _deviceDisconnected_callback(self, socket: TCP_Socket, *args, **kwargs):
@@ -163,7 +164,7 @@ class TCP_Server:
                                         if device.client == socket), None)
             if unregistered_device is not None:
                 self._unregistered_connections.remove(unregistered_device)
-                logger.info(f"Unregistered TCP device with address {unregistered_device.address} disconnected")
+                logger.info(f"Unregistered TCP device with address {unregistered_device.client.address} disconnected")
 
         # Check if the client belongs to a registered device
         if any(device for device in self.connections if device.client == socket):
@@ -172,7 +173,7 @@ class TCP_Server:
                 logger.info(
                     f"TCP Connection closed. [Name: \"{registered_device.name}\", Adress: {registered_device.address}]")
                 self.connections.remove(registered_device)
-                for callback in self.callbacks['disconnected']:
+                for callback in self.callbacks.disconnected:
                     callback(registered_device)
 
     # ------------------------------------------------------------------------------------------------------------------
@@ -194,7 +195,7 @@ class TCP_Server:
 
         logger.info(f"New TCP connection. Name: \"{device.name}\", Address: {device.address}")
 
-        for callback in self.callbacks['connected']:
+        for callback in self.callbacks.connected:
             callback(device)
 
         # # Send the handshake back

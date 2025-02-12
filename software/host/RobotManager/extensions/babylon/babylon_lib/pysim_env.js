@@ -87,7 +87,7 @@ class PysimScene extends Scene {
 
         // object_id, object_type, object_config, visualization_config
 
-         // world_objects['twipr1'] = new TWIPR_Robot(this.scene, 'twipr1', {'mesh': './models/TWIPR/twipr_generic', 'physics': {'wheel_diameter': 0.12}})
+         // world_objects['twipr1'] = new TWIPR_Robot(this.scene, 'twipr1', {'mesh': './models/BILBO/twipr_generic', 'physics': {'wheel_diameter': 0.12}})
         // let tg = new TiledGround(this.scene, 0.5, 10, 10, [0.5,0.5,0.5], [0.6,0.6,0.6])
         backend.sendMessage({'loaded': 1})
         return this.scene;

@@ -16,7 +16,7 @@
 
 extern core_hardware_LED rc_status_led_1;
 extern core_hardware_LED rc_status_led_2;
-extern core_hardware_LED rc_button_led;
+
 extern core_hardware_LED rc_activity_led;
 
 extern uint8_t board_revision;
@@ -30,8 +30,7 @@ extern RobotControl_Buzzer rc_buzzer;
 
 extern core_hardware_Button button;
 
-extern core_hardware_Button side_button;
-extern core_hardware_Button off_button;
+
 
 extern RobotControl_Extender extender;
 

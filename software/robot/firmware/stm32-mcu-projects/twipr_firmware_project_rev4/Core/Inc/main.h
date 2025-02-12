@@ -57,6 +57,8 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
+#define LED2_Pin GPIO_PIN_3
+#define LED2_GPIO_Port GPIOE
 #define SIDE_BUTTON_2_Pin GPIO_PIN_0
 #define SIDE_BUTTON_2_GPIO_Port GPIOC
 #define SIDE_BUTTON_1_Pin GPIO_PIN_1
@@ -65,14 +67,15 @@ void Error_Handler(void);
 #define BUTTON_LED_1_GPIO_Port GPIOA
 #define BUTTON_LED_2_Pin GPIO_PIN_1
 #define BUTTON_LED_2_GPIO_Port GPIOA
-#define LED2_Pin GPIO_PIN_10
-#define LED2_GPIO_Port GPIOE
+#define UART_RESET_INTERRUPT_Pin GPIO_PIN_2
+#define UART_RESET_INTERRUPT_GPIO_Port GPIOB
+#define UART_RESET_INTERRUPT_EXTI_IRQn EXTI2_IRQn
+#define NEW_SAMPLES_INDICATOR_Pin GPIO_PIN_9
+#define NEW_SAMPLES_INDICATOR_GPIO_Port GPIOE
 #define LED1_Pin GPIO_PIN_15
 #define LED1_GPIO_Port GPIOE
 #define CS_IMU_Pin GPIO_PIN_12
 #define CS_IMU_GPIO_Port GPIOB
-#define LED_ACT_Pin GPIO_PIN_11
-#define LED_ACT_GPIO_Port GPIOD
 #define RS485_EN_Pin GPIO_PIN_15
 #define RS485_EN_GPIO_Port GPIOD
 

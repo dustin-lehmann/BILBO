@@ -2,13 +2,13 @@ import dataclasses
 import threading
 import time
 
-from extensions.cli.cli import CommandSet, Command, CommandArgument
+from extensions.cli.src.cli import CommandSet, Command, CommandArgument
 from extensions.joystick.joystick_manager import JoystickManager, Joystick
 from robots.twipr.twipr import TWIPR
 from robots.twipr.twipr_manager import TWIPR_Manager
 from robots.twipr.utils.twipr_data import TWIPR_Control_Mode
-from utils.callbacks import Callback
-from utils.logging import Logger
+from utils.callbacks import callback_handler, CallbackContainer
+from utils.logging_utils import Logger
 
 from robots.twipr.twipr_definitions import *
 
@@ -18,6 +18,14 @@ LIMIT_SPEED_FORWARD_DEFAULT = 1.25
 LIMIT_SPEED_TURN_DEFAULT = 5
 
 logger = Logger('joystickcontrol')
+
+
+@callback_handler
+class TWIPRJoystickControlCallbacks:
+    new_assignment: CallbackContainer
+    assigment_removed: CallbackContainer
+    new_joystick: CallbackContainer
+    joystick_disconnected: CallbackContainer
 
 
 @dataclasses.dataclass
@@ -32,7 +40,7 @@ class TWIPR_JoystickControl:
     limits: dict
     assignments: dict[str, JoystickAssignment]
 
-    callbacks: dict
+    callbacks: TWIPRJoystickControlCallbacks
 
     _run_in_thread: bool
     _thread: threading.Thread
@@ -45,9 +53,9 @@ class TWIPR_JoystickControl:
         self.joystick_manager = JoystickManager()
         self._run_in_thread = thread
 
-        self.twipr_manager.registerCallback('robot_disconnected', self._robotDisconnected_callback)
-        self.joystick_manager.registerCallback('new_joystick', self._newJoystick_callback)
-        self.joystick_manager.registerCallback('joystick_disconnected', self._joystickDisconnected_callback)
+        self.twipr_manager.callbacks.robot_disconnected.register(self._robotDisconnected_callback)
+        self.joystick_manager.callbacks.new_joystick.register(self._newJoystick_callback)
+        self.joystick_manager.callbacks.joystick_disconnected.register(self._joystickDisconnected_callback)
 
         self.limits = {
             'torque': {
@@ -62,17 +70,12 @@ class TWIPR_JoystickControl:
 
         self.assignments = {}
 
-        self.callbacks = {
-            'new_assignment': [],
-            'assignment_removed': [],
-            'new_joystick': [],
-            'joystick_disconnected': []
-        }
+        self.callbacks = TWIPRJoystickControlCallbacks()
 
         self._exit = False
 
         if self._run_in_thread:
-            self._thread = threading.Thread(target=self._threadFunction)
+            self._thread = threading.Thread(target=self._threadFunction, daemon=True)
         else:
             self._thread = None
 
@@ -83,25 +86,10 @@ class TWIPR_JoystickControl:
 
     # ------------------------------------------------------------------------------------------------------------------
     def start(self):
+
         self.joystick_manager.start()
         if self._run_in_thread:
             self._thread.start()
-
-    # ------------------------------------------------------------------------------------------------------------------
-    def registerCallback(self, callback_id, function, parameters: dict = None, lambdas: dict = None):
-        """
-        Registers a callback function for a specified callback ID.
-
-        :param callback_id: ID of the callback to register
-        :param function: Callback function to be executed
-        :param parameters: Optional parameters for the callback
-        :param lambdas: Optional lambda functions for the callback
-        """
-        callback = Callback(function, parameters, lambdas)
-        if callback_id in self.callbacks:
-            self.callbacks[callback_id].append(callback)
-        else:
-            raise Exception("Invalid Callback type")
 
     # ------------------------------------------------------------------------------------------------------------------
     def close(self):
@@ -131,7 +119,7 @@ class TWIPR_JoystickControl:
                                    parameters={'frequency': 800, 'time_ms': 500, 'repeats': 1})
         logger.info(f"Assign Joystick: {joystick.id} -> Robot: {twipr.id}")
 
-        for callback in self.callbacks['new_assignment']:
+        for callback in self.callbacks.new_assignment:
             callback(joystick, twipr)
 
     # ------------------------------------------------------------------------------------------------------------------
@@ -147,7 +135,7 @@ class TWIPR_JoystickControl:
                 logger.info(f"Unassign Joystick: {joystick.id} -> Robot: {assignment.robot.id}")
                 joystick.clearAllButtonCallbacks()
 
-                for callback in self.callbacks['assignment_removed']:
+                for callback in self.callbacks.assigment_removed:
                     callback(joystick, assignment.robot)
                 return
 
@@ -211,7 +199,7 @@ class TWIPR_JoystickControl:
 
     # ------------------------------------------------------------------------------------------------------------------
     def _newJoystick_callback(self, joystick, *args, **kwargs):
-        for callback in self.callbacks['new_joystick']:
+        for callback in self.callbacks.new_joystick:
             callback(joystick)
 
     # ------------------------------------------------------------------------------------------------------------------
@@ -222,14 +210,14 @@ class TWIPR_JoystickControl:
                     self.unassignJoystick(assignment.joystick)
         except Exception as e:
             ...
-        for callback in self.callbacks['joystick_disconnected']:
+        for callback in self.callbacks.joystick_disconnected:
             callback(joystick)
 
 
 # ======================================================================================================================
 class TWIPR_JoystickControl_CommandSet(CommandSet):
     name = 'joysticks'
-    description = 'Joystick Control of TWIPR robots'
+    description = 'Joystick Control of BILBO robots'
 
     def __init__(self, joystick_control: TWIPR_JoystickControl):
         super().__init__(name=self.name)
@@ -270,7 +258,7 @@ class TWIPR_JoystickControl_Command_List(Command):
 
 
 class TWIPR_JoystickControl_Command_Assign(Command):
-    description = 'Assigns a Joystick to a TWIPR'
+    description = 'Assigns a Joystick to a BILBO'
     name = 'assign'
     joystick_control: TWIPR_JoystickControl
     arguments = {

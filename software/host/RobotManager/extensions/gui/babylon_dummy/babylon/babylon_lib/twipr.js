@@ -27,11 +27,11 @@ class TWIPR_simple {
         this.materialWheels.alpha = 1;
         this.materialWheels.diffuseColor = new BABYLON.Color3(0.2,0.2,0.2);
 
-        // TWIPR body
+        // BILBO body
         this.body = BABYLON.MeshBuilder.CreateBox('box', body_opts, scene);
         this.body.material = this.materialBody;
 
-        // TWIPR Wheels
+        // BILBO Wheels
         this.wheel1 = BABYLON.MeshBuilder.CreateCylinder("cone", {diameterTop: options.wheel_diameter, tessellation: 0,
         diameter: options.wheel_diameter, height: options.wheel_width}, this.scene);
         // this.wheel1.position.y = options.wheel_diameter/2

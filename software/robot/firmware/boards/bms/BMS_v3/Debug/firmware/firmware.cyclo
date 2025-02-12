@@ -1,0 +1,18 @@
+/Users/lehmann/work_dir/work_dir/projects/testbed/robots/BILBO/software/robot/firmware/boards/bms/BMS_v3/firmware/utils/utils.h:14:15:GPIO_PinState bool_to_pinstate(bool)	2
+/Users/lehmann/work_dir/work_dir/projects/testbed/robots/BILBO/software/robot/firmware/boards/bms/BMS_v3/firmware/utils/elapsedMillis.h:19:7:void elapsedMillis::reset()	1
+/Users/lehmann/work_dir/work_dir/projects/testbed/robots/BILBO/software/robot/firmware/boards/bms/BMS_v3/firmware/utils/elapsedMillis.h:22:2:elapsedMillis::elapsedMillis()	1
+/Users/lehmann/work_dir/work_dir/projects/testbed/robots/BILBO/software/robot/firmware/boards/bms/BMS_v3/firmware/utils/elapsedMillis.h:31:2:elapsedMillis::operator long unsigned int() const	1
+../firmware/firmware.cpp:12:6:void firmware()	1
+../firmware/firmware.cpp:16:1:Firmware::Firmware()	1
+../firmware/firmware.cpp:20:6:void Firmware::init()	1
+../firmware/firmware.cpp:31:6:void Firmware::start()	1
+../firmware/firmware.cpp:35:6:void Firmware::task()	2
+../firmware/firmware.cpp:44:6:void Firmware::update()	2
+../firmware/firmware.cpp:54:6:void Firmware::setOutputs(bool, bool, bool, bool)	1
+../firmware/firmware.cpp:62:6:bool Firmware::checkChargeState()	2
+../firmware/firmware.cpp:71:7:float Firmware::measureCell(uint8_t)	1
+../firmware/firmware.cpp:75:6:void Firmware::i2c_slave_receive_callback(uint8_t)	2
+/Users/lehmann/work_dir/work_dir/projects/testbed/robots/BILBO/software/robot/firmware/boards/bms/BMS_v3/firmware/utils/core_utils_Callback.h:157:7:void core_utils_Callback<void, input_type>::set(cls*, void (cls::*)(input_type)) [with cls = Firmware; input_type = unsigned char]	1
+/Users/lehmann/work_dir/work_dir/projects/testbed/robots/BILBO/software/robot/firmware/boards/bms/BMS_v3/firmware/utils/core_utils_functionpointer.h:43:5:core_utils_FunctionPointer<R, A1>::core_utils_FunctionPointer(T*, R (T::*)(A1)) [with T = Firmware; R = void; A1 = unsigned char]	1
+/Users/lehmann/work_dir/work_dir/projects/testbed/robots/BILBO/software/robot/firmware/boards/bms/BMS_v3/firmware/utils/core_utils_functionpointer.h:62:10:void core_utils_FunctionPointer<R, A1>::attach(T*, R (T::*)(A1)) [with T = Firmware; R = void; A1 = unsigned char]	1
+/Users/lehmann/work_dir/work_dir/projects/testbed/robots/BILBO/software/robot/firmware/boards/bms/BMS_v3/firmware/utils/core_utils_functionpointer.h:96:14:static R core_utils_FunctionPointer<R, A1>::membercaller(void*, uintptr_t*, A1) [with T = Firmware; R = void; A1 = unsigned char]	2

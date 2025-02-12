@@ -36,7 +36,7 @@ class HardwareManagerDummy:
     def addNewDevice(self, device: Device):
 
         self.devices[device.information.device_id] = device
-        device.connection.registered = True
+        device.tcp_connection.registered = True
 
         print(f"Add new device: {device.information.device_id}. Info:{device.information}")
 
@@ -46,7 +46,7 @@ class HardwareManagerDummy:
     # ------------------------------------------------------------------------------------------------------------------
     def removeDevice(self, device_id):
         device = self.devices[device_id]
-        device.connection.registered = False
+        device.tcp_connection.registered = False
         self.devices.pop(device_id)
 
         for callback in self.callbacks['device_disconnected']:

@@ -1,6 +1,6 @@
 // vite.config.ts
-import { sveltekit } from "file:///J:/work_dir/work_dir/projects/testbed/robots/TWIPR/software/host/RobotManager/extensions/gui/nodejs_gui/frontend/node_modules/@sveltejs/kit/src/exports/vite/index.js";
-import { defineConfig } from "file:///J:/work_dir/work_dir/projects/testbed/robots/TWIPR/software/host/RobotManager/extensions/gui/nodejs_gui/frontend/node_modules/vitest/dist/config.js";
+import { sveltekit } from "file:///J:/work_dir/work_dir/projects/testbed/robots/BILBO/software/host/RobotManager/extensions/gui/nodejs_gui/frontend/node_modules/@sveltejs/kit/src/exports/vite/index.js";
+import { defineConfig } from "file:///J:/work_dir/work_dir/projects/testbed/robots/BILBO/software/host/RobotManager/extensions/gui/nodejs_gui/frontend/node_modules/vitest/dist/config.js";
 var vite_config_default = defineConfig({
   plugins: [sveltekit()],
   test: {

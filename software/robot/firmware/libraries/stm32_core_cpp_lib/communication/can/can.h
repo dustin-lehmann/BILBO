@@ -13,6 +13,8 @@
 #include "semphr.h"
 #include "core.h"
 
+#ifdef HAL_FDCAN_MODULE_ENABLED
+
 // Configuration constants
 #define CAN_NUMBER_CALLBACKS 8 // Number of callback slots
 #define CAN_NUMBER_RR 16       // Maximum number of pending read requests
@@ -91,5 +93,7 @@ private:
 	SemaphoreHandle_t mapMutex;                  // Mutex for thread-safe access
 
 };
+
+#endif
 
 #endif /* COMMUNICATION_CAN_CAN_H_ */

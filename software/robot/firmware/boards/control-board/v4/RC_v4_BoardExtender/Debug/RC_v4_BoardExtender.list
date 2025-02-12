@@ -5,47 +5,47 @@ Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
   0 .isr_vector   0000018c  08000000  08000000  00001000  2**0
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
-  1 .text         00006c44  0800018c  0800018c  0000118c  2**2
+  1 .text         00006c6c  0800018c  0800018c  0000118c  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .rodata       00000050  08006dd0  08006dd0  00007dd0  2**2
+  2 .rodata       00000050  08006df8  08006df8  00007df8  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
-  3 .ARM.extab    00000000  08006e20  08006e20  0000800c  2**0
+  3 .ARM.extab    00000000  08006e48  08006e48  0000800c  2**0
                   CONTENTS
-  4 .ARM          00000000  08006e20  08006e20  0000800c  2**0
+  4 .ARM          00000000  08006e48  08006e48  0000800c  2**0
                   CONTENTS
-  5 .preinit_array 00000000  08006e20  08006e20  0000800c  2**0
+  5 .preinit_array 00000000  08006e48  08006e48  0000800c  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  6 .init_array   00000008  08006e20  08006e20  00007e20  2**2
+  6 .init_array   00000008  08006e48  08006e48  00007e48  2**2
                   CONTENTS, ALLOC, LOAD, DATA
-  7 .fini_array   00000004  08006e28  08006e28  00007e28  2**2
+  7 .fini_array   00000004  08006e50  08006e50  00007e50  2**2
                   CONTENTS, ALLOC, LOAD, DATA
-  8 .data         0000000c  20000000  08006e2c  00008000  2**2
+  8 .data         0000000c  20000000  08006e54  00008000  2**2
                   CONTENTS, ALLOC, LOAD, DATA
-  9 .bss          00000ad0  2000000c  08006e38  0000800c  2**2
+  9 .bss          00000ad0  2000000c  08006e60  0000800c  2**2
                   ALLOC
- 10 ._user_heap_stack 00000604  20000adc  08006e38  00008adc  2**0
+ 10 ._user_heap_stack 00000604  20000adc  08006e60  00008adc  2**0
                   ALLOC
  11 .ARM.attributes 00000030  00000000  00000000  0000800c  2**0
                   CONTENTS, READONLY
- 12 .debug_info   00016fab  00000000  00000000  0000803c  2**0
+ 12 .debug_info   00016fe8  00000000  00000000  0000803c  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 13 .debug_abbrev 00003896  00000000  00000000  0001efe7  2**0
+ 13 .debug_abbrev 00003898  00000000  00000000  0001f024  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 14 .debug_aranges 000012a0  00000000  00000000  00022880  2**3
+ 14 .debug_aranges 000012a8  00000000  00000000  000228c0  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 15 .debug_rnglists 00000e56  00000000  00000000  00023b20  2**0
+ 15 .debug_rnglists 00000e5c  00000000  00000000  00023b68  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 16 .debug_macro  00024b80  00000000  00000000  00024976  2**0
+ 16 .debug_macro  00024b80  00000000  00000000  000249c4  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .debug_line   00017867  00000000  00000000  000494f6  2**0
+ 17 .debug_line   0001787e  00000000  00000000  00049544  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_str    000d1554  00000000  00000000  00060d5d  2**0
+ 18 .debug_str    000d1585  00000000  00000000  00060dc2  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .comment      00000043  00000000  00000000  001322b1  2**0
+ 19 .comment      00000043  00000000  00000000  00132347  2**0
                   CONTENTS, READONLY
- 20 .debug_frame  00004c80  00000000  00000000  001322f4  2**2
+ 20 .debug_frame  00004ca0  00000000  00000000  0013238c  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 21 .debug_line_str 000000a5  00000000  00000000  00136f74  2**0
+ 21 .debug_line_str 000000a5  00000000  00000000  0013702c  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -64,7 +64,7 @@ Disassembly of section .text:
  80001a2:	bd10      	pop	{r4, pc}
  80001a4:	2000000c 	.word	0x2000000c
  80001a8:	00000000 	.word	0x00000000
- 80001ac:	08006db8 	.word	0x08006db8
+ 80001ac:	08006de0 	.word	0x08006de0
 
 080001b0 <frame_dummy>:
  80001b0:	b508      	push	{r3, lr}
@@ -76,7 +76,7 @@ Disassembly of section .text:
  80001be:	bd08      	pop	{r3, pc}
  80001c0:	00000000 	.word	0x00000000
  80001c4:	20000010 	.word	0x20000010
- 80001c8:	08006db8 	.word	0x08006db8
+ 80001c8:	08006de0 	.word	0x08006de0
 
 080001cc <main>:
 /**
@@ -147,7 +147,7 @@ void SystemClock_Config(void)
  8000208:	2244      	movs	r2, #68	@ 0x44
  800020a:	2100      	movs	r1, #0
  800020c:	4618      	mov	r0, r3
- 800020e:	f006 fda6 	bl	8006d5e <memset>
+ 800020e:	f006 fdba 	bl	8006d86 <memset>
   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
  8000212:	463b      	mov	r3, r7
  8000214:	2200      	movs	r2, #0
@@ -492,7 +492,7 @@ static void MX_TIM1_Init(void)
  80003cc:	222c      	movs	r2, #44	@ 0x2c
  80003ce:	2100      	movs	r1, #0
  80003d0:	4618      	mov	r0, r3
- 80003d2:	f006 fcc4 	bl	8006d5e <memset>
+ 80003d2:	f006 fcd8 	bl	8006d86 <memset>
 
   /* USER CODE BEGIN TIM1_Init 1 */
 
@@ -812,7 +812,7 @@ static void MX_TIM15_Init(void)
  8000598:	222c      	movs	r2, #44	@ 0x2c
  800059a:	2100      	movs	r1, #0
  800059c:	4618      	mov	r0, r3
- 800059e:	f006 fbde 	bl	8006d5e <memset>
+ 800059e:	f006 fbf2 	bl	8006d86 <memset>
 
   /* USER CODE BEGIN TIM15_Init 1 */
 
@@ -1245,7 +1245,7 @@ void HAL_I2C_MspInit(I2C_HandleTypeDef* hi2c)
  8000818:	225c      	movs	r2, #92	@ 0x5c
  800081a:	2100      	movs	r1, #0
  800081c:	4618      	mov	r0, r3
- 800081e:	f006 fa9e 	bl	8006d5e <memset>
+ 800081e:	f006 fab2 	bl	8006d86 <memset>
   if(hi2c->Instance==I2C1)
  8000822:	687b      	ldr	r3, [r7, #4]
  8000824:	681b      	ldr	r3, [r3, #0]
@@ -2195,7 +2195,7 @@ LoopFillZerobss:
 
 /* Call static constructors */
     bl __libc_init_array
- 8000ce2:	f006 f845 	bl	8006d70 <__libc_init_array>
+ 8000ce2:	f006 f859 	bl	8006d98 <__libc_init_array>
 /* Call the application's entry point.*/
 	bl	main
  8000ce6:	f7ff fa71 	bl	80001cc <main>
@@ -2212,7 +2212,7 @@ LoopForever:
   ldr r1, =_edata
  8000cf4:	2000000c 	.word	0x2000000c
   ldr r2, =_sidata
- 8000cf8:	08006e2c 	.word	0x08006e2c
+ 8000cf8:	08006e54 	.word	0x08006e54
   ldr r2, =_sbss
  8000cfc:	2000000c 	.word	0x2000000c
   ldr r4, =_ebss
@@ -6920,7 +6920,7 @@ static void I2C_ITAddrCplt(I2C_HandleTypeDef *hi2c, uint32_t ITFlags)
  8002660:	7bfb      	ldrb	r3, [r7, #15]
  8002662:	4619      	mov	r1, r3
  8002664:	6878      	ldr	r0, [r7, #4]
- 8002666:	f003 fefd 	bl	8006464 <HAL_I2C_AddrCallback>
+ 8002666:	f003 ff11 	bl	800648c <HAL_I2C_AddrCallback>
     __HAL_I2C_CLEAR_FLAG(hi2c, I2C_FLAG_ADDR);
 
     /* Process Unlocked */
@@ -6944,7 +6944,7 @@ static void I2C_ITAddrCplt(I2C_HandleTypeDef *hi2c, uint32_t ITFlags)
  8002684:	7bfb      	ldrb	r3, [r7, #15]
  8002686:	4619      	mov	r1, r3
  8002688:	6878      	ldr	r0, [r7, #4]
- 800268a:	f003 feeb 	bl	8006464 <HAL_I2C_AddrCallback>
+ 800268a:	f003 feff 	bl	800648c <HAL_I2C_AddrCallback>
 }
  800268e:	e017      	b.n	80026c0 <I2C_ITAddrCplt+0x100>
       I2C_Disable_IRQ(hi2c, I2C_XFER_LISTEN_IT);
@@ -6960,7 +6960,7 @@ static void I2C_ITAddrCplt(I2C_HandleTypeDef *hi2c, uint32_t ITFlags)
  80026a4:	7bfb      	ldrb	r3, [r7, #15]
  80026a6:	4619      	mov	r1, r3
  80026a8:	6878      	ldr	r0, [r7, #4]
- 80026aa:	f003 fedb 	bl	8006464 <HAL_I2C_AddrCallback>
+ 80026aa:	f003 feef 	bl	800648c <HAL_I2C_AddrCallback>
 }
  80026ae:	e007      	b.n	80026c0 <I2C_ITAddrCplt+0x100>
     __HAL_I2C_CLEAR_FLAG(hi2c, I2C_FLAG_ADDR);
@@ -7168,7 +7168,7 @@ static void I2C_ITSlaveSeqCplt(I2C_HandleTypeDef *hi2c)
 #else
     HAL_I2C_SlaveTxCpltCallback(hi2c);
  80027ba:	6878      	ldr	r0, [r7, #4]
- 80027bc:	f003 fe7d 	bl	80064ba <HAL_I2C_SlaveTxCpltCallback>
+ 80027bc:	f003 fe91 	bl	80064e2 <HAL_I2C_SlaveTxCpltCallback>
   }
   else
   {
@@ -7200,7 +7200,7 @@ static void I2C_ITSlaveSeqCplt(I2C_HandleTypeDef *hi2c)
  80027e8:	f883 2040 	strb.w	r2, [r3, #64]	@ 0x40
     HAL_I2C_SlaveRxCpltCallback(hi2c);
  80027ec:	6878      	ldr	r0, [r7, #4]
- 80027ee:	f003 fe52 	bl	8006496 <HAL_I2C_SlaveRxCpltCallback>
+ 80027ee:	f003 fe66 	bl	80064be <HAL_I2C_SlaveRxCpltCallback>
 }
  80027f2:	bf00      	nop
  80027f4:	3710      	adds	r7, #16
@@ -7792,7 +7792,7 @@ static void I2C_ITSlaveCplt(I2C_HandleTypeDef *hi2c, uint32_t ITFlags)
  8002b4e:	f883 2040 	strb.w	r2, [r3, #64]	@ 0x40
     HAL_I2C_ListenCpltCallback(hi2c);
  8002b52:	6878      	ldr	r0, [r7, #4]
- 8002b54:	f003 fc74 	bl	8006440 <HAL_I2C_ListenCpltCallback>
+ 8002b54:	f003 fc88 	bl	8006468 <HAL_I2C_ListenCpltCallback>
 }
  8002b58:	e022      	b.n	8002ba0 <I2C_ITSlaveCplt+0x214>
   else if (hi2c->State == HAL_I2C_STATE_BUSY_RX)
@@ -7815,7 +7815,7 @@ static void I2C_ITSlaveCplt(I2C_HandleTypeDef *hi2c, uint32_t ITFlags)
  8002b78:	f883 2040 	strb.w	r2, [r3, #64]	@ 0x40
     HAL_I2C_SlaveRxCpltCallback(hi2c);
  8002b7c:	6878      	ldr	r0, [r7, #4]
- 8002b7e:	f003 fc8a 	bl	8006496 <HAL_I2C_SlaveRxCpltCallback>
+ 8002b7e:	f003 fc9e 	bl	80064be <HAL_I2C_SlaveRxCpltCallback>
 }
  8002b82:	e00d      	b.n	8002ba0 <I2C_ITSlaveCplt+0x214>
     hi2c->State = HAL_I2C_STATE_READY;
@@ -7832,7 +7832,7 @@ static void I2C_ITSlaveCplt(I2C_HandleTypeDef *hi2c, uint32_t ITFlags)
  8002b96:	f883 2040 	strb.w	r2, [r3, #64]	@ 0x40
     HAL_I2C_SlaveTxCpltCallback(hi2c);
  8002b9a:	6878      	ldr	r0, [r7, #4]
- 8002b9c:	f003 fc8d 	bl	80064ba <HAL_I2C_SlaveTxCpltCallback>
+ 8002b9c:	f003 fca1 	bl	80064e2 <HAL_I2C_SlaveTxCpltCallback>
 }
  8002ba0:	bf00      	nop
  8002ba2:	3718      	adds	r7, #24
@@ -7957,7 +7957,7 @@ static void I2C_ITListenCplt(I2C_HandleTypeDef *hi2c, uint32_t ITFlags)
 #else
   HAL_I2C_ListenCpltCallback(hi2c);
  8002c46:	6878      	ldr	r0, [r7, #4]
- 8002c48:	f003 fbfa 	bl	8006440 <HAL_I2C_ListenCpltCallback>
+ 8002c48:	f003 fc0e 	bl	8006468 <HAL_I2C_ListenCpltCallback>
 #endif /* USE_HAL_I2C_REGISTER_CALLBACKS */
 }
  8002c4c:	bf00      	nop
@@ -8353,7 +8353,7 @@ static void I2C_TreatErrorCallback(I2C_HandleTypeDef *hi2c)
 #else
     HAL_I2C_AbortCpltCallback(hi2c);
  8002e62:	6878      	ldr	r0, [r7, #4]
- 8002e64:	f003 fb51 	bl	800650a <HAL_I2C_AbortCpltCallback>
+ 8002e64:	f003 fb65 	bl	8006532 <HAL_I2C_AbortCpltCallback>
     hi2c->ErrorCallback(hi2c);
 #else
     HAL_I2C_ErrorCallback(hi2c);
@@ -8371,7 +8371,7 @@ static void I2C_TreatErrorCallback(I2C_HandleTypeDef *hi2c)
  8002e74:	f883 2040 	strb.w	r2, [r3, #64]	@ 0x40
     HAL_I2C_ErrorCallback(hi2c);
  8002e78:	6878      	ldr	r0, [r7, #4]
- 8002e7a:	f003 fb30 	bl	80064de <HAL_I2C_ErrorCallback>
+ 8002e7a:	f003 fb44 	bl	8006506 <HAL_I2C_ErrorCallback>
 }
  8002e7e:	bf00      	nop
  8002e80:	3708      	adds	r7, #8
@@ -9677,7 +9677,7 @@ HAL_StatusTypeDef HAL_RCC_OscConfig(RCC_OscInitTypeDef  *RCC_OscInitStruct)
  8003598:	6013      	str	r3, [r2, #0]
  800359a:	e013      	b.n	80035c4 <HAL_RCC_OscConfig+0x298>
  800359c:	40021000 	.word	0x40021000
- 80035a0:	08006de0 	.word	0x08006de0
+ 80035a0:	08006e08 	.word	0x08006e08
  80035a4:	20000000 	.word	0x20000000
  80035a8:	20000004 	.word	0x20000004
  80035ac:	4ba0      	ldr	r3, [pc, #640]	@ (8003830 <HAL_RCC_OscConfig+0x504>)
@@ -11067,7 +11067,7 @@ HAL_StatusTypeDef HAL_RCC_ClockConfig(RCC_ClkInitTypeDef  *RCC_ClkInitStruct, ui
  8003d3e:	bd80      	pop	{r7, pc}
  8003d40:	40022000 	.word	0x40022000
  8003d44:	40021000 	.word	0x40021000
- 8003d48:	08006de0 	.word	0x08006de0
+ 8003d48:	08006e08 	.word	0x08006e08
  8003d4c:	20000000 	.word	0x20000000
  8003d50:	20000004 	.word	0x20000004
 
@@ -11272,7 +11272,7 @@ uint32_t HAL_RCC_GetSysClockFreq(void)
  8003e58:	4770      	bx	lr
  8003e5a:	bf00      	nop
  8003e5c:	40021000 	.word	0x40021000
- 8003e60:	08006df0 	.word	0x08006df0
+ 8003e60:	08006e18 	.word	0x08006e18
  8003e64:	00f42400 	.word	0x00f42400
  8003e68:	007a1200 	.word	0x007a1200
 
@@ -14584,7 +14584,7 @@ static void TIM_DMADelayPulseCplt(DMA_HandleTypeDef *hdma)
 #else
   HAL_TIM_PWM_PulseFinishedCallback(htim);
  80051f2:	68f8      	ldr	r0, [r7, #12]
- 80051f4:	f001 fd72 	bl	8006cdc <HAL_TIM_PWM_PulseFinishedCallback>
+ 80051f4:	f001 fd86 	bl	8006d04 <HAL_TIM_PWM_PulseFinishedCallback>
 #endif /* USE_HAL_TIM_REGISTER_CALLBACKS */
 
   htim->Channel = HAL_TIM_ACTIVE_CHANNEL_CLEARED;
@@ -16150,7 +16150,7 @@ public:
  8005a40:	af00      	add	r7, sp, #0
  8005a42:	6078      	str	r0, [r7, #4]
 		ms = millis();
- 8005a44:	f001 f984 	bl	8006d50 <_Z6millisv>
+ 8005a44:	f001 f998 	bl	8006d78 <_Z6millisv>
  8005a48:	4602      	mov	r2, r0
  8005a4a:	687b      	ldr	r3, [r7, #4]
  8005a4c:	601a      	str	r2, [r3, #0]
@@ -16167,7 +16167,7 @@ public:
  8005a5a:	af00      	add	r7, sp, #0
  8005a5c:	6078      	str	r0, [r7, #4]
 		ms = millis();
- 8005a5e:	f001 f977 	bl	8006d50 <_Z6millisv>
+ 8005a5e:	f001 f98b 	bl	8006d78 <_Z6millisv>
  8005a62:	4602      	mov	r2, r0
  8005a64:	687b      	ldr	r3, [r7, #4]
  8005a66:	601a      	str	r2, [r3, #0]
@@ -16190,7 +16190,7 @@ public:
  8005a76:	af00      	add	r7, sp, #0
  8005a78:	6078      	str	r0, [r7, #4]
 		return millis() - ms;
- 8005a7a:	f001 f969 	bl	8006d50 <_Z6millisv>
+ 8005a7a:	f001 f97d 	bl	8006d78 <_Z6millisv>
  8005a7e:	4602      	mov	r2, r0
  8005a80:	687b      	ldr	r3, [r7, #4]
  8005a82:	681b      	ldr	r3, [r3, #0]
@@ -16753,7 +16753,7 @@ EEPROM::EEPROM(I2C_HandleTypeDef *hi2c,
  8005e02:	6078      	str	r0, [r7, #4]
  8005e04:	6039      	str	r1, [r7, #0]
 		ms = millis() - val;
- 8005e06:	f000 ffa3 	bl	8006d50 <_Z6millisv>
+ 8005e06:	f000 ffb7 	bl	8006d78 <_Z6millisv>
  8005e0a:	4602      	mov	r2, r0
  8005e0c:	683b      	ldr	r3, [r7, #0]
  8005e0e:	1ad2      	subs	r2, r2, r3
@@ -16778,7 +16778,7 @@ EEPROM::EEPROM(I2C_HandleTypeDef *hi2c,
  8005e24:	6078      	str	r0, [r7, #4]
  8005e26:	6039      	str	r1, [r7, #0]
 		ms = millis() - val;
- 8005e28:	f000 ff92 	bl	8006d50 <_Z6millisv>
+ 8005e28:	f000 ffa6 	bl	8006d78 <_Z6millisv>
  8005e2c:	4602      	mov	r2, r0
  8005e2e:	683b      	ldr	r3, [r7, #0]
  8005e30:	1ad2      	subs	r2, r2, r3
@@ -16805,38 +16805,38 @@ void firmware_init() {
 
 	neopixel_intern.init();
  8005e46:	4832      	ldr	r0, [pc, #200]	@ (8005f10 <firmware_init+0xd0>)
- 8005e48:	f000 fe10 	bl	8006a6c <_ZN13WS2812_Strand4initEv>
+ 8005e48:	f000 fe24 	bl	8006a94 <_ZN13WS2812_Strand4initEv>
 	neopixel_extern.init();
  8005e4c:	4831      	ldr	r0, [pc, #196]	@ (8005f14 <firmware_init+0xd4>)
- 8005e4e:	f000 fe0d 	bl	8006a6c <_ZN13WS2812_Strand4initEv>
+ 8005e4e:	f000 fe21 	bl	8006a94 <_ZN13WS2812_Strand4initEv>
 
 	neopixel_intern.update();
  8005e52:	482f      	ldr	r0, [pc, #188]	@ (8005f10 <firmware_init+0xd0>)
- 8005e54:	f000 fe42 	bl	8006adc <_ZN13WS2812_Strand6updateEv>
+ 8005e54:	f000 fe56 	bl	8006b04 <_ZN13WS2812_Strand6updateEv>
 	neopixel_intern.send();
  8005e58:	482d      	ldr	r0, [pc, #180]	@ (8005f10 <firmware_init+0xd0>)
- 8005e5a:	f000 fed2 	bl	8006c02 <_ZN13WS2812_Strand4sendEv>
+ 8005e5a:	f000 fee6 	bl	8006c2a <_ZN13WS2812_Strand4sendEv>
 
 	neopixel_extern.update();
  8005e5e:	482d      	ldr	r0, [pc, #180]	@ (8005f14 <firmware_init+0xd4>)
- 8005e60:	f000 fe3c 	bl	8006adc <_ZN13WS2812_Strand6updateEv>
+ 8005e60:	f000 fe50 	bl	8006b04 <_ZN13WS2812_Strand6updateEv>
 	neopixel_extern.send();
  8005e64:	482b      	ldr	r0, [pc, #172]	@ (8005f14 <firmware_init+0xd4>)
- 8005e66:	f000 fecc 	bl	8006c02 <_ZN13WS2812_Strand4sendEv>
+ 8005e66:	f000 fee0 	bl	8006c2a <_ZN13WS2812_Strand4sendEv>
 
 	i2c_slave_cm4.init();
  8005e6a:	482b      	ldr	r0, [pc, #172]	@ (8005f18 <firmware_init+0xd8>)
- 8005e6c:	f000 fba6 	bl	80065bc <_ZN9I2C_Slave4initEv>
+ 8005e6c:	f000 fbba 	bl	80065e4 <_ZN9I2C_Slave4initEv>
 	i2c_slave_cm4.start();
  8005e70:	4829      	ldr	r0, [pc, #164]	@ (8005f18 <firmware_init+0xd8>)
- 8005e72:	f000 fbad 	bl	80065d0 <_ZN9I2C_Slave5startEv>
+ 8005e72:	f000 fbc1 	bl	80065f8 <_ZN9I2C_Slave5startEv>
 
 	i2c_slave_intern.init();
  8005e76:	4829      	ldr	r0, [pc, #164]	@ (8005f1c <firmware_init+0xdc>)
- 8005e78:	f000 fba0 	bl	80065bc <_ZN9I2C_Slave4initEv>
+ 8005e78:	f000 fbb4 	bl	80065e4 <_ZN9I2C_Slave4initEv>
 	i2c_slave_intern.start();
  8005e7c:	4827      	ldr	r0, [pc, #156]	@ (8005f1c <firmware_init+0xdc>)
- 8005e7e:	f000 fba7 	bl	80065d0 <_ZN9I2C_Slave5startEv>
+ 8005e7e:	f000 fbbb 	bl	80065f8 <_ZN9I2C_Slave5startEv>
 
 	HAL_GPIO_WritePin(ENABLE_CM4_GPIO_Port, ENABLE_CM4_Pin, GPIO_PIN_SET);
  8005e82:	2201      	movs	r2, #1
@@ -16857,7 +16857,7 @@ void firmware_init() {
  8005e94:	2200      	movs	r2, #0
  8005e96:	2164      	movs	r1, #100	@ 0x64
  8005e98:	481d      	ldr	r0, [pc, #116]	@ (8005f10 <firmware_init+0xd0>)
- 8005e9a:	f000 fccf 	bl	800683c <_ZN10WS2812_LED8setColorEhhh>
+ 8005e9a:	f000 fce3 	bl	8006864 <_ZN10WS2812_LED8setColorEhhh>
 	neopixel_intern.led[0].blink_config.on_time_ms = 400;
  8005e9e:	4b1c      	ldr	r3, [pc, #112]	@ (8005f10 <firmware_init+0xd0>)
  8005ea0:	f44f 72c8 	mov.w	r2, #400	@ 0x190
@@ -16867,7 +16867,7 @@ void firmware_init() {
  8005ea8:	220a      	movs	r2, #10
  8005eaa:	719a      	strb	r2, [r3, #6]
 
-	for (int i = 0;i<16; i++){
+	for (int i = 0; i < 16; i++) {
  8005eac:	2300      	movs	r3, #0
  8005eae:	607b      	str	r3, [r7, #4]
  8005eb0:	e018      	b.n	8005ee4 <firmware_init+0xa4>
@@ -16893,8 +16893,8 @@ void firmware_init() {
  8005ed4:	2300      	movs	r3, #0
  8005ed6:	2200      	movs	r2, #0
  8005ed8:	2100      	movs	r1, #0
- 8005eda:	f000 fcaf 	bl	800683c <_ZN10WS2812_LED8setColorEhhh>
-	for (int i = 0;i<16; i++){
+ 8005eda:	f000 fcc3 	bl	8006864 <_ZN10WS2812_LED8setColorEhhh>
+	for (int i = 0; i < 16; i++) {
  8005ede:	687b      	ldr	r3, [r7, #4]
  8005ee0:	3301      	adds	r3, #1
  8005ee2:	607b      	str	r3, [r7, #4]
@@ -16902,7 +16902,6 @@ void firmware_init() {
  8005ee6:	2b0f      	cmp	r3, #15
  8005ee8:	dde3      	ble.n	8005eb2 <firmware_init+0x72>
 	}
-
 
 	rc_buzzer.config.frequency = 440;
  8005eea:	4b0e      	ldr	r3, [pc, #56]	@ (8005f24 <firmware_init+0xe4>)
@@ -16919,11 +16918,10 @@ void firmware_init() {
 
 	led_status.off();
  8005efc:	480b      	ldr	r0, [pc, #44]	@ (8005f2c <firmware_init+0xec>)
- 8005efe:	f000 fc4b 	bl	8006798 <_ZN3LED3offEv>
+ 8005efe:	f000 fc5f 	bl	80067c0 <_ZN3LED3offEv>
 	rc_buzzer.start();
  8005f02:	4808      	ldr	r0, [pc, #32]	@ (8005f24 <firmware_init+0xe4>)
  8005f04:	f7ff fee2 	bl	8005ccc <_ZN6Buzzer5startEv>
-
 
 }
  8005f08:	bf00      	nop
@@ -16989,19 +16987,19 @@ void firmware_update() {
 		updateStatusLEDFromRegisters();
  8005f7a:	f000 f855 	bl	8006028 <_Z28updateStatusLEDFromRegistersv>
 		updateBuzzerFromRegisters();
- 8005f7e:	f000 f915 	bl	80061ac <_Z25updateBuzzerFromRegistersv>
+ 8005f7e:	f000 f8f9 	bl	8006174 <_Z25updateBuzzerFromRegistersv>
 		neopixel_extern.update();
  8005f82:	4811      	ldr	r0, [pc, #68]	@ (8005fc8 <firmware_update+0x98>)
- 8005f84:	f000 fdaa 	bl	8006adc <_ZN13WS2812_Strand6updateEv>
+ 8005f84:	f000 fdbe 	bl	8006b04 <_ZN13WS2812_Strand6updateEv>
 		neopixel_extern.send();
  8005f88:	480f      	ldr	r0, [pc, #60]	@ (8005fc8 <firmware_update+0x98>)
- 8005f8a:	f000 fe3a 	bl	8006c02 <_ZN13WS2812_Strand4sendEv>
+ 8005f8a:	f000 fe4e 	bl	8006c2a <_ZN13WS2812_Strand4sendEv>
 		neopixel_intern.update();
  8005f8e:	480f      	ldr	r0, [pc, #60]	@ (8005fcc <firmware_update+0x9c>)
- 8005f90:	f000 fda4 	bl	8006adc <_ZN13WS2812_Strand6updateEv>
+ 8005f90:	f000 fdb8 	bl	8006b04 <_ZN13WS2812_Strand6updateEv>
 		neopixel_intern.send();
  8005f94:	480d      	ldr	r0, [pc, #52]	@ (8005fcc <firmware_update+0x9c>)
- 8005f96:	f000 fe34 	bl	8006c02 <_ZN13WS2812_Strand4sendEv>
+ 8005f96:	f000 fe48 	bl	8006c2a <_ZN13WS2812_Strand4sendEv>
 
 		rc_buzzer.update();
  8005f9a:	480d      	ldr	r0, [pc, #52]	@ (8005fd0 <firmware_update+0xa0>)
@@ -17088,7 +17086,7 @@ void checkSD() {
 08006028 <_Z28updateStatusLEDFromRegistersv>:
 
 /* ================================================================================= */
-void updateStatusLEDFromRegisters(){
+void updateStatusLEDFromRegisters() {
  8006028:	b580      	push	{r7, lr}
  800602a:	b082      	sub	sp, #8
  800602c:	af00      	add	r7, sp, #0
@@ -17107,34 +17105,34 @@ void updateStatusLEDFromRegisters(){
  8006044:	d002      	beq.n	800604c <_Z28updateStatusLEDFromRegistersv+0x24>
  8006046:	2b00      	cmp	r3, #0
  8006048:	d00b      	beq.n	8006062 <_Z28updateStatusLEDFromRegistersv+0x3a>
-			break;
-		case 1:
-			led_status.on();
-			break;
+		break;
+	case 1:
+		led_status.on();
+		break;
 	}
 }
  800604a:	e012      	b.n	8006072 <_Z28updateStatusLEDFromRegistersv+0x4a>
-			led_status.toggle();
+		led_status.toggle();
  800604c:	480c      	ldr	r0, [pc, #48]	@ (8006080 <_Z28updateStatusLEDFromRegistersv+0x58>)
- 800604e:	f000 fbb3 	bl	80067b8 <_ZN3LED6toggleEv>
-			register_map[REG_ERROR_LED_CONFIG] = (uint8_t) led_status.getState();
+ 800604e:	f000 fbc7 	bl	80067e0 <_ZN3LED6toggleEv>
+		register_map[REG_ERROR_LED_CONFIG] = (uint8_t) led_status.getState();
  8006052:	480b      	ldr	r0, [pc, #44]	@ (8006080 <_Z28updateStatusLEDFromRegistersv+0x58>)
- 8006054:	f000 fbc0 	bl	80067d8 <_ZN3LED8getStateEv>
+ 8006054:	f000 fbd4 	bl	8006800 <_ZN3LED8getStateEv>
  8006058:	4603      	mov	r3, r0
  800605a:	461a      	mov	r2, r3
  800605c:	4b07      	ldr	r3, [pc, #28]	@ (800607c <_Z28updateStatusLEDFromRegistersv+0x54>)
  800605e:	771a      	strb	r2, [r3, #28]
-			break;
+		break;
  8006060:	e007      	b.n	8006072 <_Z28updateStatusLEDFromRegistersv+0x4a>
-			led_status.off();
+		led_status.off();
  8006062:	4807      	ldr	r0, [pc, #28]	@ (8006080 <_Z28updateStatusLEDFromRegistersv+0x58>)
- 8006064:	f000 fb98 	bl	8006798 <_ZN3LED3offEv>
-			break;
+ 8006064:	f000 fbac 	bl	80067c0 <_ZN3LED3offEv>
+		break;
  8006068:	e003      	b.n	8006072 <_Z28updateStatusLEDFromRegistersv+0x4a>
-			led_status.on();
+		led_status.on();
  800606a:	4805      	ldr	r0, [pc, #20]	@ (8006080 <_Z28updateStatusLEDFromRegistersv+0x58>)
- 800606c:	f000 fb84 	bl	8006778 <_ZN3LED2onEv>
-			break;
+ 800606c:	f000 fb98 	bl	80067a0 <_ZN3LED2onEv>
+		break;
  8006070:	bf00      	nop
 }
  8006072:	bf00      	nop
@@ -17147,25 +17145,24 @@ void updateStatusLEDFromRegisters(){
 
 08006084 <_Z32updateInternRGBLEDsFromRegistersv>:
 
-
 /* ================================================================================= */
 
 void updateInternRGBLEDsFromRegisters() {
  8006084:	b5b0      	push	{r4, r5, r7, lr}
- 8006086:	b086      	sub	sp, #24
+ 8006086:	b084      	sub	sp, #16
  8006088:	af04      	add	r7, sp, #16
 	set_rgb_led_data(&neopixel_intern.led[0],
- 800608a:	4b43      	ldr	r3, [pc, #268]	@ (8006198 <_Z32updateInternRGBLEDsFromRegistersv+0x114>)
+ 800608a:	4b36      	ldr	r3, [pc, #216]	@ (8006164 <_Z32updateInternRGBLEDsFromRegistersv+0xe0>)
  800608c:	f893 0020 	ldrb.w	r0, [r3, #32]
- 8006090:	4b41      	ldr	r3, [pc, #260]	@ (8006198 <_Z32updateInternRGBLEDsFromRegistersv+0x114>)
+ 8006090:	4b34      	ldr	r3, [pc, #208]	@ (8006164 <_Z32updateInternRGBLEDsFromRegistersv+0xe0>)
  8006092:	f893 4021 	ldrb.w	r4, [r3, #33]	@ 0x21
- 8006096:	4b40      	ldr	r3, [pc, #256]	@ (8006198 <_Z32updateInternRGBLEDsFromRegistersv+0x114>)
+ 8006096:	4b33      	ldr	r3, [pc, #204]	@ (8006164 <_Z32updateInternRGBLEDsFromRegistersv+0xe0>)
  8006098:	f893 5022 	ldrb.w	r5, [r3, #34]	@ 0x22
- 800609c:	4b3e      	ldr	r3, [pc, #248]	@ (8006198 <_Z32updateInternRGBLEDsFromRegistersv+0x114>)
+ 800609c:	4b31      	ldr	r3, [pc, #196]	@ (8006164 <_Z32updateInternRGBLEDsFromRegistersv+0xe0>)
  800609e:	f893 3023 	ldrb.w	r3, [r3, #35]	@ 0x23
- 80060a2:	4a3d      	ldr	r2, [pc, #244]	@ (8006198 <_Z32updateInternRGBLEDsFromRegistersv+0x114>)
+ 80060a2:	4a30      	ldr	r2, [pc, #192]	@ (8006164 <_Z32updateInternRGBLEDsFromRegistersv+0xe0>)
  80060a4:	f892 2024 	ldrb.w	r2, [r2, #36]	@ 0x24
- 80060a8:	493b      	ldr	r1, [pc, #236]	@ (8006198 <_Z32updateInternRGBLEDsFromRegistersv+0x114>)
+ 80060a8:	492e      	ldr	r1, [pc, #184]	@ (8006164 <_Z32updateInternRGBLEDsFromRegistersv+0xe0>)
  80060aa:	f891 1025 	ldrb.w	r1, [r1, #37]	@ 0x25
  80060ae:	9102      	str	r1, [sp, #8]
  80060b0:	9201      	str	r2, [sp, #4]
@@ -17173,25 +17170,25 @@ void updateInternRGBLEDsFromRegisters() {
  80060b4:	462b      	mov	r3, r5
  80060b6:	4622      	mov	r2, r4
  80060b8:	4601      	mov	r1, r0
- 80060ba:	4838      	ldr	r0, [pc, #224]	@ (800619c <_Z32updateInternRGBLEDsFromRegistersv+0x118>)
- 80060bc:	f000 f8b8 	bl	8006230 <_Z16set_rgb_led_dataP10WS2812_LEDhhhhhh>
+ 80060ba:	482b      	ldr	r0, [pc, #172]	@ (8006168 <_Z32updateInternRGBLEDsFromRegistersv+0xe4>)
+ 80060bc:	f000 f8cc 	bl	8006258 <_Z16set_rgb_led_dataP10WS2812_LEDhhhhhh>
 			register_map[REG_STATUS_RGB_LED_1_RED],
 			register_map[REG_STATUS_RGB_LED_1_GREEN],
 			register_map[REG_STATUS_RGB_LED_1_BLUE],
 			register_map[REG_STATUS_RGB_LED_1_BLINK_TIME],
 			register_map[REG_STATUS_RGB_LED_1_BLINK_COUNTER]);
 	set_rgb_led_data(&neopixel_intern.led[1],
- 80060c0:	4b35      	ldr	r3, [pc, #212]	@ (8006198 <_Z32updateInternRGBLEDsFromRegistersv+0x114>)
+ 80060c0:	4b28      	ldr	r3, [pc, #160]	@ (8006164 <_Z32updateInternRGBLEDsFromRegistersv+0xe0>)
  80060c2:	f893 0026 	ldrb.w	r0, [r3, #38]	@ 0x26
- 80060c6:	4b34      	ldr	r3, [pc, #208]	@ (8006198 <_Z32updateInternRGBLEDsFromRegistersv+0x114>)
+ 80060c6:	4b27      	ldr	r3, [pc, #156]	@ (8006164 <_Z32updateInternRGBLEDsFromRegistersv+0xe0>)
  80060c8:	f893 4027 	ldrb.w	r4, [r3, #39]	@ 0x27
- 80060cc:	4b32      	ldr	r3, [pc, #200]	@ (8006198 <_Z32updateInternRGBLEDsFromRegistersv+0x114>)
+ 80060cc:	4b25      	ldr	r3, [pc, #148]	@ (8006164 <_Z32updateInternRGBLEDsFromRegistersv+0xe0>)
  80060ce:	f893 5028 	ldrb.w	r5, [r3, #40]	@ 0x28
- 80060d2:	4b31      	ldr	r3, [pc, #196]	@ (8006198 <_Z32updateInternRGBLEDsFromRegistersv+0x114>)
+ 80060d2:	4b24      	ldr	r3, [pc, #144]	@ (8006164 <_Z32updateInternRGBLEDsFromRegistersv+0xe0>)
  80060d4:	f893 3029 	ldrb.w	r3, [r3, #41]	@ 0x29
- 80060d8:	4a2f      	ldr	r2, [pc, #188]	@ (8006198 <_Z32updateInternRGBLEDsFromRegistersv+0x114>)
+ 80060d8:	4a22      	ldr	r2, [pc, #136]	@ (8006164 <_Z32updateInternRGBLEDsFromRegistersv+0xe0>)
  80060da:	f892 202a 	ldrb.w	r2, [r2, #42]	@ 0x2a
- 80060de:	492e      	ldr	r1, [pc, #184]	@ (8006198 <_Z32updateInternRGBLEDsFromRegistersv+0x114>)
+ 80060de:	4921      	ldr	r1, [pc, #132]	@ (8006164 <_Z32updateInternRGBLEDsFromRegistersv+0xe0>)
  80060e0:	f891 102b 	ldrb.w	r1, [r1, #43]	@ 0x2b
  80060e4:	9102      	str	r1, [sp, #8]
  80060e6:	9201      	str	r2, [sp, #4]
@@ -17199,25 +17196,25 @@ void updateInternRGBLEDsFromRegisters() {
  80060ea:	462b      	mov	r3, r5
  80060ec:	4622      	mov	r2, r4
  80060ee:	4601      	mov	r1, r0
- 80060f0:	482b      	ldr	r0, [pc, #172]	@ (80061a0 <_Z32updateInternRGBLEDsFromRegistersv+0x11c>)
- 80060f2:	f000 f89d 	bl	8006230 <_Z16set_rgb_led_dataP10WS2812_LEDhhhhhh>
+ 80060f0:	481e      	ldr	r0, [pc, #120]	@ (800616c <_Z32updateInternRGBLEDsFromRegistersv+0xe8>)
+ 80060f2:	f000 f8b1 	bl	8006258 <_Z16set_rgb_led_dataP10WS2812_LEDhhhhhh>
 			register_map[REG_STATUS_RGB_LED_2_RED],
 			register_map[REG_STATUS_RGB_LED_2_GREEN],
 			register_map[REG_STATUS_RGB_LED_2_BLUE],
 			register_map[REG_STATUS_RGB_LED_2_BLINK_TIME],
 			register_map[REG_STATUS_RGB_LED_2_BLINK_COUNTER]);
 	set_rgb_led_data(&neopixel_intern.led[2],
- 80060f6:	4b28      	ldr	r3, [pc, #160]	@ (8006198 <_Z32updateInternRGBLEDsFromRegistersv+0x114>)
+ 80060f6:	4b1b      	ldr	r3, [pc, #108]	@ (8006164 <_Z32updateInternRGBLEDsFromRegistersv+0xe0>)
  80060f8:	f893 002c 	ldrb.w	r0, [r3, #44]	@ 0x2c
- 80060fc:	4b26      	ldr	r3, [pc, #152]	@ (8006198 <_Z32updateInternRGBLEDsFromRegistersv+0x114>)
+ 80060fc:	4b19      	ldr	r3, [pc, #100]	@ (8006164 <_Z32updateInternRGBLEDsFromRegistersv+0xe0>)
  80060fe:	f893 402d 	ldrb.w	r4, [r3, #45]	@ 0x2d
- 8006102:	4b25      	ldr	r3, [pc, #148]	@ (8006198 <_Z32updateInternRGBLEDsFromRegistersv+0x114>)
+ 8006102:	4b18      	ldr	r3, [pc, #96]	@ (8006164 <_Z32updateInternRGBLEDsFromRegistersv+0xe0>)
  8006104:	f893 502e 	ldrb.w	r5, [r3, #46]	@ 0x2e
- 8006108:	4b23      	ldr	r3, [pc, #140]	@ (8006198 <_Z32updateInternRGBLEDsFromRegistersv+0x114>)
+ 8006108:	4b16      	ldr	r3, [pc, #88]	@ (8006164 <_Z32updateInternRGBLEDsFromRegistersv+0xe0>)
  800610a:	f893 302f 	ldrb.w	r3, [r3, #47]	@ 0x2f
- 800610e:	4a22      	ldr	r2, [pc, #136]	@ (8006198 <_Z32updateInternRGBLEDsFromRegistersv+0x114>)
+ 800610e:	4a15      	ldr	r2, [pc, #84]	@ (8006164 <_Z32updateInternRGBLEDsFromRegistersv+0xe0>)
  8006110:	f892 2030 	ldrb.w	r2, [r2, #48]	@ 0x30
- 8006114:	4920      	ldr	r1, [pc, #128]	@ (8006198 <_Z32updateInternRGBLEDsFromRegistersv+0x114>)
+ 8006114:	4913      	ldr	r1, [pc, #76]	@ (8006164 <_Z32updateInternRGBLEDsFromRegistersv+0xe0>)
  8006116:	f891 1031 	ldrb.w	r1, [r1, #49]	@ 0x31
  800611a:	9102      	str	r1, [sp, #8]
  800611c:	9201      	str	r2, [sp, #4]
@@ -17225,1960 +17222,1987 @@ void updateInternRGBLEDsFromRegisters() {
  8006120:	462b      	mov	r3, r5
  8006122:	4622      	mov	r2, r4
  8006124:	4601      	mov	r1, r0
- 8006126:	481f      	ldr	r0, [pc, #124]	@ (80061a4 <_Z32updateInternRGBLEDsFromRegistersv+0x120>)
- 8006128:	f000 f882 	bl	8006230 <_Z16set_rgb_led_dataP10WS2812_LEDhhhhhh>
+ 8006126:	4812      	ldr	r0, [pc, #72]	@ (8006170 <_Z32updateInternRGBLEDsFromRegistersv+0xec>)
+ 8006128:	f000 f896 	bl	8006258 <_Z16set_rgb_led_dataP10WS2812_LEDhhhhhh>
 			register_map[REG_STATUS_RGB_LED_3_GREEN],
 			register_map[REG_STATUS_RGB_LED_3_BLUE],
 			register_map[REG_STATUS_RGB_LED_3_BLINK_TIME],
 			register_map[REG_STATUS_RGB_LED_3_BLINK_COUNTER]);
 
-	for (int i = 0;i<16; i++){
- 800612c:	2300      	movs	r3, #0
- 800612e:	607b      	str	r3, [r7, #4]
- 8006130:	e01e      	b.n	8006170 <_Z32updateInternRGBLEDsFromRegistersv+0xec>
-		neopixel_extern.led[i].continious_output = 1;
- 8006132:	491d      	ldr	r1, [pc, #116]	@ (80061a8 <_Z32updateInternRGBLEDsFromRegistersv+0x124>)
- 8006134:	687a      	ldr	r2, [r7, #4]
- 8006136:	4613      	mov	r3, r2
- 8006138:	005b      	lsls	r3, r3, #1
- 800613a:	4413      	add	r3, r2
- 800613c:	00db      	lsls	r3, r3, #3
- 800613e:	440b      	add	r3, r1
- 8006140:	330a      	adds	r3, #10
- 8006142:	2201      	movs	r2, #1
- 8006144:	701a      	strb	r2, [r3, #0]
-		neopixel_extern.led[i].setColor(register_map[REG_STATUS_RGB_LED_2_RED], register_map[REG_STATUS_RGB_LED_2_GREEN], register_map[REG_STATUS_RGB_LED_2_BLUE]);
- 8006146:	687a      	ldr	r2, [r7, #4]
- 8006148:	4613      	mov	r3, r2
- 800614a:	005b      	lsls	r3, r3, #1
- 800614c:	4413      	add	r3, r2
- 800614e:	00db      	lsls	r3, r3, #3
- 8006150:	4a15      	ldr	r2, [pc, #84]	@ (80061a8 <_Z32updateInternRGBLEDsFromRegistersv+0x124>)
- 8006152:	1898      	adds	r0, r3, r2
- 8006154:	4b10      	ldr	r3, [pc, #64]	@ (8006198 <_Z32updateInternRGBLEDsFromRegistersv+0x114>)
- 8006156:	f893 1027 	ldrb.w	r1, [r3, #39]	@ 0x27
- 800615a:	4b0f      	ldr	r3, [pc, #60]	@ (8006198 <_Z32updateInternRGBLEDsFromRegistersv+0x114>)
- 800615c:	f893 2028 	ldrb.w	r2, [r3, #40]	@ 0x28
- 8006160:	4b0d      	ldr	r3, [pc, #52]	@ (8006198 <_Z32updateInternRGBLEDsFromRegistersv+0x114>)
- 8006162:	f893 3029 	ldrb.w	r3, [r3, #41]	@ 0x29
- 8006166:	f000 fb69 	bl	800683c <_ZN10WS2812_LED8setColorEhhh>
-	for (int i = 0;i<16; i++){
- 800616a:	687b      	ldr	r3, [r7, #4]
- 800616c:	3301      	adds	r3, #1
- 800616e:	607b      	str	r3, [r7, #4]
- 8006170:	687b      	ldr	r3, [r7, #4]
- 8006172:	2b0f      	cmp	r3, #15
- 8006174:	dddd      	ble.n	8006132 <_Z32updateInternRGBLEDsFromRegistersv+0xae>
-	}
+	set_external_rgb_led(register_map[REG_EXTERNAL_RGB_GLOBAL_RED],
+ 800612c:	4b0d      	ldr	r3, [pc, #52]	@ (8006164 <_Z32updateInternRGBLEDsFromRegistersv+0xe0>)
+ 800612e:	f893 3041 	ldrb.w	r3, [r3, #65]	@ 0x41
+ 8006132:	4a0c      	ldr	r2, [pc, #48]	@ (8006164 <_Z32updateInternRGBLEDsFromRegistersv+0xe0>)
+ 8006134:	f892 1042 	ldrb.w	r1, [r2, #66]	@ 0x42
+ 8006138:	4a0a      	ldr	r2, [pc, #40]	@ (8006164 <_Z32updateInternRGBLEDsFromRegistersv+0xe0>)
+ 800613a:	f892 2043 	ldrb.w	r2, [r2, #67]	@ 0x43
+ 800613e:	4618      	mov	r0, r3
+ 8006140:	f000 f85a 	bl	80061f8 <_Z20set_external_rgb_ledhhh>
+			register_map[REG_EXTERNAL_RGB_GLOBAL_GREEN],
+			register_map[REG_EXTERNAL_RGB_GLOBAL_BLUE]);
 
 	register_map[REG_STATUS_RGB_LED_1_BLINK_COUNTER] = 0;
- 8006176:	4b08      	ldr	r3, [pc, #32]	@ (8006198 <_Z32updateInternRGBLEDsFromRegistersv+0x114>)
- 8006178:	2200      	movs	r2, #0
- 800617a:	f883 2025 	strb.w	r2, [r3, #37]	@ 0x25
+ 8006144:	4b07      	ldr	r3, [pc, #28]	@ (8006164 <_Z32updateInternRGBLEDsFromRegistersv+0xe0>)
+ 8006146:	2200      	movs	r2, #0
+ 8006148:	f883 2025 	strb.w	r2, [r3, #37]	@ 0x25
 	register_map[REG_STATUS_RGB_LED_2_BLINK_COUNTER] = 0;
- 800617e:	4b06      	ldr	r3, [pc, #24]	@ (8006198 <_Z32updateInternRGBLEDsFromRegistersv+0x114>)
- 8006180:	2200      	movs	r2, #0
- 8006182:	f883 202b 	strb.w	r2, [r3, #43]	@ 0x2b
+ 800614c:	4b05      	ldr	r3, [pc, #20]	@ (8006164 <_Z32updateInternRGBLEDsFromRegistersv+0xe0>)
+ 800614e:	2200      	movs	r2, #0
+ 8006150:	f883 202b 	strb.w	r2, [r3, #43]	@ 0x2b
 	register_map[REG_STATUS_RGB_LED_3_BLINK_COUNTER] = 0;
- 8006186:	4b04      	ldr	r3, [pc, #16]	@ (8006198 <_Z32updateInternRGBLEDsFromRegistersv+0x114>)
- 8006188:	2200      	movs	r2, #0
- 800618a:	f883 2031 	strb.w	r2, [r3, #49]	@ 0x31
+ 8006154:	4b03      	ldr	r3, [pc, #12]	@ (8006164 <_Z32updateInternRGBLEDsFromRegistersv+0xe0>)
+ 8006156:	2200      	movs	r2, #0
+ 8006158:	f883 2031 	strb.w	r2, [r3, #49]	@ 0x31
 }
- 800618e:	bf00      	nop
- 8006190:	3708      	adds	r7, #8
- 8006192:	46bd      	mov	sp, r7
- 8006194:	bdb0      	pop	{r4, r5, r7, pc}
- 8006196:	bf00      	nop
- 8006198:	20000984 	.word	0x20000984
- 800619c:	20000248 	.word	0x20000248
- 80061a0:	20000260 	.word	0x20000260
- 80061a4:	20000278 	.word	0x20000278
- 80061a8:	200005c8 	.word	0x200005c8
+ 800615c:	bf00      	nop
+ 800615e:	46bd      	mov	sp, r7
+ 8006160:	bdb0      	pop	{r4, r5, r7, pc}
+ 8006162:	bf00      	nop
+ 8006164:	20000984 	.word	0x20000984
+ 8006168:	20000248 	.word	0x20000248
+ 800616c:	20000260 	.word	0x20000260
+ 8006170:	20000278 	.word	0x20000278
 
-080061ac <_Z25updateBuzzerFromRegistersv>:
+08006174 <_Z25updateBuzzerFromRegistersv>:
 
 void updateBuzzerFromRegisters() {
- 80061ac:	b580      	push	{r7, lr}
- 80061ae:	b082      	sub	sp, #8
- 80061b0:	af00      	add	r7, sp, #0
+ 8006174:	b580      	push	{r7, lr}
+ 8006176:	b082      	sub	sp, #8
+ 8006178:	af00      	add	r7, sp, #0
 	uint8_t reg_config = register_map[REG_BUZZER_CONFIG];
- 80061b2:	4b1d      	ldr	r3, [pc, #116]	@ (8006228 <_Z25updateBuzzerFromRegistersv+0x7c>)
- 80061b4:	f893 3033 	ldrb.w	r3, [r3, #51]	@ 0x33
- 80061b8:	71fb      	strb	r3, [r7, #7]
+ 800617a:	4b1d      	ldr	r3, [pc, #116]	@ (80061f0 <_Z25updateBuzzerFromRegistersv+0x7c>)
+ 800617c:	f893 3033 	ldrb.w	r3, [r3, #51]	@ 0x33
+ 8006180:	71fb      	strb	r3, [r7, #7]
 	uint8_t reg_data = register_map[REG_BUZZER_DATA];
- 80061ba:	4b1b      	ldr	r3, [pc, #108]	@ (8006228 <_Z25updateBuzzerFromRegistersv+0x7c>)
- 80061bc:	f893 3034 	ldrb.w	r3, [r3, #52]	@ 0x34
- 80061c0:	71bb      	strb	r3, [r7, #6]
+ 8006182:	4b1b      	ldr	r3, [pc, #108]	@ (80061f0 <_Z25updateBuzzerFromRegistersv+0x7c>)
+ 8006184:	f893 3034 	ldrb.w	r3, [r3, #52]	@ 0x34
+ 8006188:	71bb      	strb	r3, [r7, #6]
 	uint8_t reg_freq = register_map[REG_BUZZER_FREQ];
- 80061c2:	4b19      	ldr	r3, [pc, #100]	@ (8006228 <_Z25updateBuzzerFromRegistersv+0x7c>)
- 80061c4:	f893 3035 	ldrb.w	r3, [r3, #53]	@ 0x35
- 80061c8:	717b      	strb	r3, [r7, #5]
+ 800618a:	4b19      	ldr	r3, [pc, #100]	@ (80061f0 <_Z25updateBuzzerFromRegistersv+0x7c>)
+ 800618c:	f893 3035 	ldrb.w	r3, [r3, #53]	@ 0x35
+ 8006190:	717b      	strb	r3, [r7, #5]
 	uint8_t reg_blink_time = register_map[REG_BUZZER_BLINK_TIME];
- 80061ca:	4b17      	ldr	r3, [pc, #92]	@ (8006228 <_Z25updateBuzzerFromRegistersv+0x7c>)
- 80061cc:	f893 3037 	ldrb.w	r3, [r3, #55]	@ 0x37
- 80061d0:	713b      	strb	r3, [r7, #4]
+ 8006192:	4b17      	ldr	r3, [pc, #92]	@ (80061f0 <_Z25updateBuzzerFromRegistersv+0x7c>)
+ 8006194:	f893 3037 	ldrb.w	r3, [r3, #55]	@ 0x37
+ 8006198:	713b      	strb	r3, [r7, #4]
 	uint8_t reg_blink_counter = register_map[REG_BUZZER_BLINK_COUNTER];
- 80061d2:	4b15      	ldr	r3, [pc, #84]	@ (8006228 <_Z25updateBuzzerFromRegistersv+0x7c>)
- 80061d4:	f893 3038 	ldrb.w	r3, [r3, #56]	@ 0x38
- 80061d8:	70fb      	strb	r3, [r7, #3]
+ 800619a:	4b15      	ldr	r3, [pc, #84]	@ (80061f0 <_Z25updateBuzzerFromRegistersv+0x7c>)
+ 800619c:	f893 3038 	ldrb.w	r3, [r3, #56]	@ 0x38
+ 80061a0:	70fb      	strb	r3, [r7, #3]
 
-	rc_buzzer.setConfig((float) (reg_freq * 10), (uint16_t)(reg_blink_time * 10), reg_blink_counter);
- 80061da:	797a      	ldrb	r2, [r7, #5]
- 80061dc:	4613      	mov	r3, r2
- 80061de:	009b      	lsls	r3, r3, #2
- 80061e0:	4413      	add	r3, r2
- 80061e2:	005b      	lsls	r3, r3, #1
- 80061e4:	ee07 3a90 	vmov	s15, r3
- 80061e8:	eef8 7ae7 	vcvt.f32.s32	s15, s15
- 80061ec:	793b      	ldrb	r3, [r7, #4]
- 80061ee:	b29b      	uxth	r3, r3
- 80061f0:	461a      	mov	r2, r3
- 80061f2:	0092      	lsls	r2, r2, #2
- 80061f4:	4413      	add	r3, r2
- 80061f6:	005b      	lsls	r3, r3, #1
- 80061f8:	b29b      	uxth	r3, r3
- 80061fa:	f997 2003 	ldrsb.w	r2, [r7, #3]
- 80061fe:	4619      	mov	r1, r3
- 8006200:	eeb0 0a67 	vmov.f32	s0, s15
- 8006204:	4809      	ldr	r0, [pc, #36]	@ (800622c <_Z25updateBuzzerFromRegistersv+0x80>)
- 8006206:	f7ff fd48 	bl	8005c9a <_ZN6Buzzer9setConfigEfta>
+	rc_buzzer.setConfig((float) (reg_freq * 10),
+ 80061a2:	797a      	ldrb	r2, [r7, #5]
+ 80061a4:	4613      	mov	r3, r2
+ 80061a6:	009b      	lsls	r3, r3, #2
+ 80061a8:	4413      	add	r3, r2
+ 80061aa:	005b      	lsls	r3, r3, #1
+ 80061ac:	ee07 3a90 	vmov	s15, r3
+ 80061b0:	eef8 7ae7 	vcvt.f32.s32	s15, s15
+ 80061b4:	793b      	ldrb	r3, [r7, #4]
+ 80061b6:	b29b      	uxth	r3, r3
+ 80061b8:	461a      	mov	r2, r3
+ 80061ba:	0092      	lsls	r2, r2, #2
+ 80061bc:	4413      	add	r3, r2
+ 80061be:	005b      	lsls	r3, r3, #1
+ 80061c0:	b29b      	uxth	r3, r3
+ 80061c2:	f997 2003 	ldrsb.w	r2, [r7, #3]
+ 80061c6:	4619      	mov	r1, r3
+ 80061c8:	eeb0 0a67 	vmov.f32	s0, s15
+ 80061cc:	4809      	ldr	r0, [pc, #36]	@ (80061f4 <_Z25updateBuzzerFromRegistersv+0x80>)
+ 80061ce:	f7ff fd64 	bl	8005c9a <_ZN6Buzzer9setConfigEfta>
+			(uint16_t) (reg_blink_time * 10), reg_blink_counter);
 
-	if(reg_data == 1){
- 800620a:	79bb      	ldrb	r3, [r7, #6]
- 800620c:	2b01      	cmp	r3, #1
- 800620e:	d106      	bne.n	800621e <_Z25updateBuzzerFromRegistersv+0x72>
+	if (reg_data == 1) {
+ 80061d2:	79bb      	ldrb	r3, [r7, #6]
+ 80061d4:	2b01      	cmp	r3, #1
+ 80061d6:	d106      	bne.n	80061e6 <_Z25updateBuzzerFromRegistersv+0x72>
 		register_map[REG_BUZZER_DATA] = 0;
- 8006210:	4b05      	ldr	r3, [pc, #20]	@ (8006228 <_Z25updateBuzzerFromRegistersv+0x7c>)
- 8006212:	2200      	movs	r2, #0
- 8006214:	f883 2034 	strb.w	r2, [r3, #52]	@ 0x34
+ 80061d8:	4b05      	ldr	r3, [pc, #20]	@ (80061f0 <_Z25updateBuzzerFromRegistersv+0x7c>)
+ 80061da:	2200      	movs	r2, #0
+ 80061dc:	f883 2034 	strb.w	r2, [r3, #52]	@ 0x34
 		rc_buzzer.start();
- 8006218:	4804      	ldr	r0, [pc, #16]	@ (800622c <_Z25updateBuzzerFromRegistersv+0x80>)
- 800621a:	f7ff fd57 	bl	8005ccc <_ZN6Buzzer5startEv>
+ 80061e0:	4804      	ldr	r0, [pc, #16]	@ (80061f4 <_Z25updateBuzzerFromRegistersv+0x80>)
+ 80061e2:	f7ff fd73 	bl	8005ccc <_ZN6Buzzer5startEv>
 	}
 
 }
- 800621e:	bf00      	nop
- 8006220:	3708      	adds	r7, #8
- 8006222:	46bd      	mov	sp, r7
- 8006224:	bd80      	pop	{r7, pc}
- 8006226:	bf00      	nop
- 8006228:	20000984 	.word	0x20000984
- 800622c:	20000948 	.word	0x20000948
+ 80061e6:	bf00      	nop
+ 80061e8:	3708      	adds	r7, #8
+ 80061ea:	46bd      	mov	sp, r7
+ 80061ec:	bd80      	pop	{r7, pc}
+ 80061ee:	bf00      	nop
+ 80061f0:	20000984 	.word	0x20000984
+ 80061f4:	20000948 	.word	0x20000948
 
-08006230 <_Z16set_rgb_led_dataP10WS2812_LEDhhhhhh>:
+080061f8 <_Z20set_external_rgb_ledhhh>:
+
+void set_external_rgb_led(uint8_t red, uint8_t green, uint8_t blue) {
+ 80061f8:	b580      	push	{r7, lr}
+ 80061fa:	b084      	sub	sp, #16
+ 80061fc:	af00      	add	r7, sp, #0
+ 80061fe:	4603      	mov	r3, r0
+ 8006200:	71fb      	strb	r3, [r7, #7]
+ 8006202:	460b      	mov	r3, r1
+ 8006204:	71bb      	strb	r3, [r7, #6]
+ 8006206:	4613      	mov	r3, r2
+ 8006208:	717b      	strb	r3, [r7, #5]
+	for (int i = 0; i < 16; i++) {
+ 800620a:	2300      	movs	r3, #0
+ 800620c:	60fb      	str	r3, [r7, #12]
+ 800620e:	e018      	b.n	8006242 <_Z20set_external_rgb_ledhhh+0x4a>
+		neopixel_extern.led[i].continious_output = 1;
+ 8006210:	4910      	ldr	r1, [pc, #64]	@ (8006254 <_Z20set_external_rgb_ledhhh+0x5c>)
+ 8006212:	68fa      	ldr	r2, [r7, #12]
+ 8006214:	4613      	mov	r3, r2
+ 8006216:	005b      	lsls	r3, r3, #1
+ 8006218:	4413      	add	r3, r2
+ 800621a:	00db      	lsls	r3, r3, #3
+ 800621c:	440b      	add	r3, r1
+ 800621e:	330a      	adds	r3, #10
+ 8006220:	2201      	movs	r2, #1
+ 8006222:	701a      	strb	r2, [r3, #0]
+		neopixel_extern.led[i].setColor(red, green, blue);
+ 8006224:	68fa      	ldr	r2, [r7, #12]
+ 8006226:	4613      	mov	r3, r2
+ 8006228:	005b      	lsls	r3, r3, #1
+ 800622a:	4413      	add	r3, r2
+ 800622c:	00db      	lsls	r3, r3, #3
+ 800622e:	4a09      	ldr	r2, [pc, #36]	@ (8006254 <_Z20set_external_rgb_ledhhh+0x5c>)
+ 8006230:	1898      	adds	r0, r3, r2
+ 8006232:	797b      	ldrb	r3, [r7, #5]
+ 8006234:	79ba      	ldrb	r2, [r7, #6]
+ 8006236:	79f9      	ldrb	r1, [r7, #7]
+ 8006238:	f000 fb14 	bl	8006864 <_ZN10WS2812_LED8setColorEhhh>
+	for (int i = 0; i < 16; i++) {
+ 800623c:	68fb      	ldr	r3, [r7, #12]
+ 800623e:	3301      	adds	r3, #1
+ 8006240:	60fb      	str	r3, [r7, #12]
+ 8006242:	68fb      	ldr	r3, [r7, #12]
+ 8006244:	2b0f      	cmp	r3, #15
+ 8006246:	dde3      	ble.n	8006210 <_Z20set_external_rgb_ledhhh+0x18>
+	}
+}
+ 8006248:	bf00      	nop
+ 800624a:	bf00      	nop
+ 800624c:	3710      	adds	r7, #16
+ 800624e:	46bd      	mov	sp, r7
+ 8006250:	bd80      	pop	{r7, pc}
+ 8006252:	bf00      	nop
+ 8006254:	200005c8 	.word	0x200005c8
+
+08006258 <_Z16set_rgb_led_dataP10WS2812_LEDhhhhhh>:
 
 void set_rgb_led_data(WS2812_LED *led, uint8_t reg_config, uint8_t reg_red,
 		uint8_t reg_green, uint8_t reg_blue, uint8_t reg_blink_time,
 		uint8_t reg_blink_counter) {
- 8006230:	b580      	push	{r7, lr}
- 8006232:	b084      	sub	sp, #16
- 8006234:	af00      	add	r7, sp, #0
- 8006236:	6078      	str	r0, [r7, #4]
- 8006238:	4608      	mov	r0, r1
- 800623a:	4611      	mov	r1, r2
- 800623c:	461a      	mov	r2, r3
- 800623e:	4603      	mov	r3, r0
- 8006240:	70fb      	strb	r3, [r7, #3]
- 8006242:	460b      	mov	r3, r1
- 8006244:	70bb      	strb	r3, [r7, #2]
- 8006246:	4613      	mov	r3, r2
- 8006248:	707b      	strb	r3, [r7, #1]
+ 8006258:	b580      	push	{r7, lr}
+ 800625a:	b084      	sub	sp, #16
+ 800625c:	af00      	add	r7, sp, #0
+ 800625e:	6078      	str	r0, [r7, #4]
+ 8006260:	4608      	mov	r0, r1
+ 8006262:	4611      	mov	r1, r2
+ 8006264:	461a      	mov	r2, r3
+ 8006266:	4603      	mov	r3, r0
+ 8006268:	70fb      	strb	r3, [r7, #3]
+ 800626a:	460b      	mov	r3, r1
+ 800626c:	70bb      	strb	r3, [r7, #2]
+ 800626e:	4613      	mov	r3, r2
+ 8006270:	707b      	strb	r3, [r7, #1]
 
 	uint8_t config_mode = reg_config;
- 800624a:	78fb      	ldrb	r3, [r7, #3]
- 800624c:	73bb      	strb	r3, [r7, #14]
+ 8006272:	78fb      	ldrb	r3, [r7, #3]
+ 8006274:	73bb      	strb	r3, [r7, #14]
 
 	WS2812_LED_Mode mode;
 	switch (config_mode) {
- 800624e:	7bbb      	ldrb	r3, [r7, #14]
- 8006250:	2b00      	cmp	r3, #0
- 8006252:	d002      	beq.n	800625a <_Z16set_rgb_led_dataP10WS2812_LEDhhhhhh+0x2a>
- 8006254:	2b01      	cmp	r3, #1
- 8006256:	d003      	beq.n	8006260 <_Z16set_rgb_led_dataP10WS2812_LEDhhhhhh+0x30>
- 8006258:	e005      	b.n	8006266 <_Z16set_rgb_led_dataP10WS2812_LEDhhhhhh+0x36>
+ 8006276:	7bbb      	ldrb	r3, [r7, #14]
+ 8006278:	2b00      	cmp	r3, #0
+ 800627a:	d002      	beq.n	8006282 <_Z16set_rgb_led_dataP10WS2812_LEDhhhhhh+0x2a>
+ 800627c:	2b01      	cmp	r3, #1
+ 800627e:	d003      	beq.n	8006288 <_Z16set_rgb_led_dataP10WS2812_LEDhhhhhh+0x30>
+ 8006280:	e005      	b.n	800628e <_Z16set_rgb_led_dataP10WS2812_LEDhhhhhh+0x36>
 	case 0: {
 		mode = WS2812_LED_MODE_CONTINIOUS;
- 800625a:	2300      	movs	r3, #0
- 800625c:	73fb      	strb	r3, [r7, #15]
+ 8006282:	2300      	movs	r3, #0
+ 8006284:	73fb      	strb	r3, [r7, #15]
 		break;
- 800625e:	e005      	b.n	800626c <_Z16set_rgb_led_dataP10WS2812_LEDhhhhhh+0x3c>
+ 8006286:	e005      	b.n	8006294 <_Z16set_rgb_led_dataP10WS2812_LEDhhhhhh+0x3c>
 	}
 	case 1: {
 		mode = WS2812_LED_MODE_BLINK;
- 8006260:	2301      	movs	r3, #1
- 8006262:	73fb      	strb	r3, [r7, #15]
+ 8006288:	2301      	movs	r3, #1
+ 800628a:	73fb      	strb	r3, [r7, #15]
 		break;
- 8006264:	e002      	b.n	800626c <_Z16set_rgb_led_dataP10WS2812_LEDhhhhhh+0x3c>
+ 800628c:	e002      	b.n	8006294 <_Z16set_rgb_led_dataP10WS2812_LEDhhhhhh+0x3c>
 	}
 	default: {
 		mode = WS2812_LED_MODE_CONTINIOUS;
- 8006266:	2300      	movs	r3, #0
- 8006268:	73fb      	strb	r3, [r7, #15]
+ 800628e:	2300      	movs	r3, #0
+ 8006290:	73fb      	strb	r3, [r7, #15]
 		break;
- 800626a:	bf00      	nop
+ 8006292:	bf00      	nop
 	}
 	}
 
 	// Set the Color based on the register entries
 	led->setColor(reg_red, reg_green, reg_blue);
- 800626c:	7e3b      	ldrb	r3, [r7, #24]
- 800626e:	787a      	ldrb	r2, [r7, #1]
- 8006270:	78b9      	ldrb	r1, [r7, #2]
- 8006272:	6878      	ldr	r0, [r7, #4]
- 8006274:	f000 fae2 	bl	800683c <_ZN10WS2812_LED8setColorEhhh>
+ 8006294:	7e3b      	ldrb	r3, [r7, #24]
+ 8006296:	787a      	ldrb	r2, [r7, #1]
+ 8006298:	78b9      	ldrb	r1, [r7, #2]
+ 800629a:	6878      	ldr	r0, [r7, #4]
+ 800629c:	f000 fae2 	bl	8006864 <_ZN10WS2812_LED8setColorEhhh>
 
+	if (led->mode == WS2812_LED_MODE_CONTINIOUS) {
+ 80062a0:	687b      	ldr	r3, [r7, #4]
+ 80062a2:	791b      	ldrb	r3, [r3, #4]
+ 80062a4:	2b00      	cmp	r3, #0
+ 80062a6:	d118      	bne.n	80062da <_Z16set_rgb_led_dataP10WS2812_LEDhhhhhh+0x82>
+		led->continious_output = (reg_config >> 7);
+ 80062a8:	78fb      	ldrb	r3, [r7, #3]
+ 80062aa:	09db      	lsrs	r3, r3, #7
+ 80062ac:	b2da      	uxtb	r2, r3
+ 80062ae:	687b      	ldr	r3, [r7, #4]
+ 80062b0:	729a      	strb	r2, [r3, #10]
 
-	if (led->mode == WS2812_LED_MODE_CONTINIOUS){
- 8006278:	687b      	ldr	r3, [r7, #4]
- 800627a:	791b      	ldrb	r3, [r3, #4]
- 800627c:	2b00      	cmp	r3, #0
- 800627e:	d118      	bne.n	80062b2 <_Z16set_rgb_led_dataP10WS2812_LEDhhhhhh+0x82>
-		led->continious_output  = (reg_config >> 7);
- 8006280:	78fb      	ldrb	r3, [r7, #3]
- 8006282:	09db      	lsrs	r3, r3, #7
- 8006284:	b2da      	uxtb	r2, r3
- 8006286:	687b      	ldr	r3, [r7, #4]
- 8006288:	729a      	strb	r2, [r3, #10]
-
-		if (mode == WS2812_LED_MODE_BLINK){
- 800628a:	7bfb      	ldrb	r3, [r7, #15]
- 800628c:	2b01      	cmp	r3, #1
- 800628e:	d121      	bne.n	80062d4 <_Z16set_rgb_led_dataP10WS2812_LEDhhhhhh+0xa4>
+		if (mode == WS2812_LED_MODE_BLINK) {
+ 80062b2:	7bfb      	ldrb	r3, [r7, #15]
+ 80062b4:	2b01      	cmp	r3, #1
+ 80062b6:	d121      	bne.n	80062fc <_Z16set_rgb_led_dataP10WS2812_LEDhhhhhh+0xa4>
 			led->setBlinkConfig((uint16_t) reg_blink_time * 10, -1);
- 8006290:	7f3b      	ldrb	r3, [r7, #28]
- 8006292:	b29b      	uxth	r3, r3
- 8006294:	461a      	mov	r2, r3
- 8006296:	0092      	lsls	r2, r2, #2
- 8006298:	4413      	add	r3, r2
- 800629a:	005b      	lsls	r3, r3, #1
- 800629c:	b29b      	uxth	r3, r3
- 800629e:	f04f 32ff 	mov.w	r2, #4294967295
- 80062a2:	4619      	mov	r1, r3
- 80062a4:	6878      	ldr	r0, [r7, #4]
- 80062a6:	f000 fafc 	bl	80068a2 <_ZN10WS2812_LED14setBlinkConfigEta>
+ 80062b8:	7f3b      	ldrb	r3, [r7, #28]
+ 80062ba:	b29b      	uxth	r3, r3
+ 80062bc:	461a      	mov	r2, r3
+ 80062be:	0092      	lsls	r2, r2, #2
+ 80062c0:	4413      	add	r3, r2
+ 80062c2:	005b      	lsls	r3, r3, #1
+ 80062c4:	b29b      	uxth	r3, r3
+ 80062c6:	f04f 32ff 	mov.w	r2, #4294967295
+ 80062ca:	4619      	mov	r1, r3
+ 80062cc:	6878      	ldr	r0, [r7, #4]
+ 80062ce:	f000 fafc 	bl	80068ca <_ZN10WS2812_LED14setBlinkConfigEta>
 			led->blink();
- 80062aa:	6878      	ldr	r0, [r7, #4]
- 80062ac:	f000 fb0d 	bl	80068ca <_ZN10WS2812_LED5blinkEv>
+ 80062d2:	6878      	ldr	r0, [r7, #4]
+ 80062d4:	f000 fb0d 	bl	80068f2 <_ZN10WS2812_LED5blinkEv>
 			led->setMode(mode);
-			led->continious_output  = (reg_config >> 7);
+			led->continious_output = (reg_config >> 7);
 		}
 	}
 
 }
- 80062b0:	e010      	b.n	80062d4 <_Z16set_rgb_led_dataP10WS2812_LEDhhhhhh+0xa4>
-	} else if(led->mode == WS2812_LED_MODE_BLINK) {
- 80062b2:	687b      	ldr	r3, [r7, #4]
- 80062b4:	791b      	ldrb	r3, [r3, #4]
- 80062b6:	2b01      	cmp	r3, #1
- 80062b8:	d10c      	bne.n	80062d4 <_Z16set_rgb_led_dataP10WS2812_LEDhhhhhh+0xa4>
-		if (mode == WS2812_LED_MODE_CONTINIOUS){
- 80062ba:	7bfb      	ldrb	r3, [r7, #15]
- 80062bc:	2b00      	cmp	r3, #0
- 80062be:	d109      	bne.n	80062d4 <_Z16set_rgb_led_dataP10WS2812_LEDhhhhhh+0xa4>
+ 80062d8:	e010      	b.n	80062fc <_Z16set_rgb_led_dataP10WS2812_LEDhhhhhh+0xa4>
+	} else if (led->mode == WS2812_LED_MODE_BLINK) {
+ 80062da:	687b      	ldr	r3, [r7, #4]
+ 80062dc:	791b      	ldrb	r3, [r3, #4]
+ 80062de:	2b01      	cmp	r3, #1
+ 80062e0:	d10c      	bne.n	80062fc <_Z16set_rgb_led_dataP10WS2812_LEDhhhhhh+0xa4>
+		if (mode == WS2812_LED_MODE_CONTINIOUS) {
+ 80062e2:	7bfb      	ldrb	r3, [r7, #15]
+ 80062e4:	2b00      	cmp	r3, #0
+ 80062e6:	d109      	bne.n	80062fc <_Z16set_rgb_led_dataP10WS2812_LEDhhhhhh+0xa4>
 			led->setMode(mode);
- 80062c0:	7bfb      	ldrb	r3, [r7, #15]
- 80062c2:	4619      	mov	r1, r3
- 80062c4:	6878      	ldr	r0, [r7, #4]
- 80062c6:	f000 fad5 	bl	8006874 <_ZN10WS2812_LED7setModeE15WS2812_LED_Mode>
-			led->continious_output  = (reg_config >> 7);
- 80062ca:	78fb      	ldrb	r3, [r7, #3]
- 80062cc:	09db      	lsrs	r3, r3, #7
- 80062ce:	b2da      	uxtb	r2, r3
- 80062d0:	687b      	ldr	r3, [r7, #4]
- 80062d2:	729a      	strb	r2, [r3, #10]
+ 80062e8:	7bfb      	ldrb	r3, [r7, #15]
+ 80062ea:	4619      	mov	r1, r3
+ 80062ec:	6878      	ldr	r0, [r7, #4]
+ 80062ee:	f000 fad5 	bl	800689c <_ZN10WS2812_LED7setModeE15WS2812_LED_Mode>
+			led->continious_output = (reg_config >> 7);
+ 80062f2:	78fb      	ldrb	r3, [r7, #3]
+ 80062f4:	09db      	lsrs	r3, r3, #7
+ 80062f6:	b2da      	uxtb	r2, r3
+ 80062f8:	687b      	ldr	r3, [r7, #4]
+ 80062fa:	729a      	strb	r2, [r3, #10]
 }
- 80062d4:	bf00      	nop
- 80062d6:	3710      	adds	r7, #16
- 80062d8:	46bd      	mov	sp, r7
- 80062da:	bd80      	pop	{r7, pc}
+ 80062fc:	bf00      	nop
+ 80062fe:	3710      	adds	r7, #16
+ 8006300:	46bd      	mov	sp, r7
+ 8006302:	bd80      	pop	{r7, pc}
 
-080062dc <_Z41__static_initialization_and_destruction_0ii>:
- 80062dc:	b580      	push	{r7, lr}
- 80062de:	b084      	sub	sp, #16
- 80062e0:	af02      	add	r7, sp, #8
- 80062e2:	6078      	str	r0, [r7, #4]
- 80062e4:	6039      	str	r1, [r7, #0]
- 80062e6:	687b      	ldr	r3, [r7, #4]
- 80062e8:	2b01      	cmp	r3, #1
- 80062ea:	d146      	bne.n	800637a <_Z41__static_initialization_and_destruction_0ii+0x9e>
- 80062ec:	683b      	ldr	r3, [r7, #0]
- 80062ee:	f64f 72ff 	movw	r2, #65535	@ 0xffff
- 80062f2:	4293      	cmp	r3, r2
- 80062f4:	d141      	bne.n	800637a <_Z41__static_initialization_and_destruction_0ii+0x9e>
+08006304 <_Z41__static_initialization_and_destruction_0ii>:
+ 8006304:	b580      	push	{r7, lr}
+ 8006306:	b084      	sub	sp, #16
+ 8006308:	af02      	add	r7, sp, #8
+ 800630a:	6078      	str	r0, [r7, #4]
+ 800630c:	6039      	str	r1, [r7, #0]
+ 800630e:	687b      	ldr	r3, [r7, #4]
+ 8006310:	2b01      	cmp	r3, #1
+ 8006312:	d146      	bne.n	80063a2 <_Z41__static_initialization_and_destruction_0ii+0x9e>
+ 8006314:	683b      	ldr	r3, [r7, #0]
+ 8006316:	f64f 72ff 	movw	r2, #65535	@ 0xffff
+ 800631a:	4293      	cmp	r3, r2
+ 800631c:	d141      	bne.n	80063a2 <_Z41__static_initialization_and_destruction_0ii+0x9e>
 FIRMWARE_NEOPIXEL_INTERN_CHANNEL, 2);
- 80062f6:	2302      	movs	r3, #2
- 80062f8:	2200      	movs	r2, #0
- 80062fa:	4922      	ldr	r1, [pc, #136]	@ (8006384 <_Z41__static_initialization_and_destruction_0ii+0xa8>)
- 80062fc:	4822      	ldr	r0, [pc, #136]	@ (8006388 <_Z41__static_initialization_and_destruction_0ii+0xac>)
- 80062fe:	f000 fb8a 	bl	8006a16 <_ZN13WS2812_StrandC1EP17TIM_HandleTypeDefmh>
+ 800631e:	2302      	movs	r3, #2
+ 8006320:	2200      	movs	r2, #0
+ 8006322:	4922      	ldr	r1, [pc, #136]	@ (80063ac <_Z41__static_initialization_and_destruction_0ii+0xa8>)
+ 8006324:	4822      	ldr	r0, [pc, #136]	@ (80063b0 <_Z41__static_initialization_and_destruction_0ii+0xac>)
+ 8006326:	f000 fb8a 	bl	8006a3e <_ZN13WS2812_StrandC1EP17TIM_HandleTypeDefmh>
 FIRMWARE_NEOPIXEL_EXTERN_CHANNEL, 16);
- 8006302:	2310      	movs	r3, #16
- 8006304:	2200      	movs	r2, #0
- 8006306:	4921      	ldr	r1, [pc, #132]	@ (800638c <_Z41__static_initialization_and_destruction_0ii+0xb0>)
- 8006308:	4821      	ldr	r0, [pc, #132]	@ (8006390 <_Z41__static_initialization_and_destruction_0ii+0xb4>)
- 800630a:	f000 fb84 	bl	8006a16 <_ZN13WS2812_StrandC1EP17TIM_HandleTypeDefmh>
+ 800632a:	2310      	movs	r3, #16
+ 800632c:	2200      	movs	r2, #0
+ 800632e:	4921      	ldr	r1, [pc, #132]	@ (80063b4 <_Z41__static_initialization_and_destruction_0ii+0xb0>)
+ 8006330:	4821      	ldr	r0, [pc, #132]	@ (80063b8 <_Z41__static_initialization_and_destruction_0ii+0xb4>)
+ 8006332:	f000 fb84 	bl	8006a3e <_ZN13WS2812_StrandC1EP17TIM_HandleTypeDefmh>
 Buzzer rc_buzzer(FIRMWARE_PWM_BUZZER_TIM, FIRMWARE_PWM_BUZZER_CHANNEL);
- 800630e:	2200      	movs	r2, #0
- 8006310:	4920      	ldr	r1, [pc, #128]	@ (8006394 <_Z41__static_initialization_and_destruction_0ii+0xb8>)
- 8006312:	4821      	ldr	r0, [pc, #132]	@ (8006398 <_Z41__static_initialization_and_destruction_0ii+0xbc>)
- 8006314:	f7ff fbbb 	bl	8005a8e <_ZN6BuzzerC1EP17TIM_HandleTypeDefm>
+ 8006336:	2200      	movs	r2, #0
+ 8006338:	4920      	ldr	r1, [pc, #128]	@ (80063bc <_Z41__static_initialization_and_destruction_0ii+0xb8>)
+ 800633a:	4821      	ldr	r0, [pc, #132]	@ (80063c0 <_Z41__static_initialization_and_destruction_0ii+0xbc>)
+ 800633c:	f7ff fba7 	bl	8005a8e <_ZN6BuzzerC1EP17TIM_HandleTypeDefm>
 LED led_status(LED_STATUS_GPIO_Port, LED_STATUS_Pin);
- 8006318:	f44f 4200 	mov.w	r2, #32768	@ 0x8000
- 800631c:	f04f 4190 	mov.w	r1, #1207959552	@ 0x48000000
- 8006320:	481e      	ldr	r0, [pc, #120]	@ (800639c <_Z41__static_initialization_and_destruction_0ii+0xc0>)
- 8006322:	f000 fa15 	bl	8006750 <_ZN3LEDC1EP12GPIO_TypeDeft>
+ 8006340:	f44f 4200 	mov.w	r2, #32768	@ 0x8000
+ 8006344:	f04f 4190 	mov.w	r1, #1207959552	@ 0x48000000
+ 8006348:	481e      	ldr	r0, [pc, #120]	@ (80063c4 <_Z41__static_initialization_and_destruction_0ii+0xc0>)
+ 800634a:	f000 fa15 	bl	8006778 <_ZN3LEDC1EP12GPIO_TypeDeft>
 LED led_error(LED_ERROR_GPIO_Port, LED_ERROR_Pin);
- 8006326:	2208      	movs	r2, #8
- 8006328:	491d      	ldr	r1, [pc, #116]	@ (80063a0 <_Z41__static_initialization_and_destruction_0ii+0xc4>)
- 800632a:	481e      	ldr	r0, [pc, #120]	@ (80063a4 <_Z41__static_initialization_and_destruction_0ii+0xc8>)
- 800632c:	f000 fa10 	bl	8006750 <_ZN3LEDC1EP12GPIO_TypeDeft>
+ 800634e:	2208      	movs	r2, #8
+ 8006350:	491d      	ldr	r1, [pc, #116]	@ (80063c8 <_Z41__static_initialization_and_destruction_0ii+0xc4>)
+ 8006352:	481e      	ldr	r0, [pc, #120]	@ (80063cc <_Z41__static_initialization_and_destruction_0ii+0xc8>)
+ 8006354:	f000 fa10 	bl	8006778 <_ZN3LEDC1EP12GPIO_TypeDeft>
 EEPROM eeprom_config(FIRMWARE_I2C_INTERN, BOARD_EEPROM_CONFIG_ADDRESS);
- 8006330:	22a0      	movs	r2, #160	@ 0xa0
- 8006332:	491d      	ldr	r1, [pc, #116]	@ (80063a8 <_Z41__static_initialization_and_destruction_0ii+0xcc>)
- 8006334:	481d      	ldr	r0, [pc, #116]	@ (80063ac <_Z41__static_initialization_and_destruction_0ii+0xd0>)
- 8006336:	f7ff fd4d 	bl	8005dd4 <_ZN6EEPROMC1EP19__I2C_HandleTypeDefh>
+ 8006358:	22a0      	movs	r2, #160	@ 0xa0
+ 800635a:	491d      	ldr	r1, [pc, #116]	@ (80063d0 <_Z41__static_initialization_and_destruction_0ii+0xcc>)
+ 800635c:	481d      	ldr	r0, [pc, #116]	@ (80063d4 <_Z41__static_initialization_and_destruction_0ii+0xd0>)
+ 800635e:	f7ff fd39 	bl	8005dd4 <_ZN6EEPROMC1EP19__I2C_HandleTypeDefh>
 elapsedMillis timer_check = 1000;
- 800633a:	f44f 717a 	mov.w	r1, #1000	@ 0x3e8
- 800633e:	481c      	ldr	r0, [pc, #112]	@ (80063b0 <_Z41__static_initialization_and_destruction_0ii+0xd4>)
- 8006340:	f7ff fd5c 	bl	8005dfc <_ZN13elapsedMillisC1Em>
+ 8006362:	f44f 717a 	mov.w	r1, #1000	@ 0x3e8
+ 8006366:	481c      	ldr	r0, [pc, #112]	@ (80063d8 <_Z41__static_initialization_and_destruction_0ii+0xd4>)
+ 8006368:	f7ff fd48 	bl	8005dfc <_ZN13elapsedMillisC1Em>
 elapsedMillis timer_led_update;
- 8006344:	481b      	ldr	r0, [pc, #108]	@ (80063b4 <_Z41__static_initialization_and_destruction_0ii+0xd8>)
- 8006346:	f7ff fb86 	bl	8005a56 <_ZN13elapsedMillisC1Ev>
+ 800636c:	481b      	ldr	r0, [pc, #108]	@ (80063dc <_Z41__static_initialization_and_destruction_0ii+0xd8>)
+ 800636e:	f7ff fb72 	bl	8005a56 <_ZN13elapsedMillisC1Ev>
 elapsedMillis timer_led_register_read;
- 800634a:	481b      	ldr	r0, [pc, #108]	@ (80063b8 <_Z41__static_initialization_and_destruction_0ii+0xdc>)
- 800634c:	f7ff fb83 	bl	8005a56 <_ZN13elapsedMillisC1Ev>
+ 8006372:	481b      	ldr	r0, [pc, #108]	@ (80063e0 <_Z41__static_initialization_and_destruction_0ii+0xdc>)
+ 8006374:	f7ff fb6f 	bl	8005a56 <_ZN13elapsedMillisC1Ev>
 I2C_Slave i2c_slave_cm4(&hi2c2, 0x02, register_map, 255);
- 8006350:	23ff      	movs	r3, #255	@ 0xff
- 8006352:	9300      	str	r3, [sp, #0]
- 8006354:	4b19      	ldr	r3, [pc, #100]	@ (80063bc <_Z41__static_initialization_and_destruction_0ii+0xe0>)
- 8006356:	2202      	movs	r2, #2
- 8006358:	4919      	ldr	r1, [pc, #100]	@ (80063c0 <_Z41__static_initialization_and_destruction_0ii+0xe4>)
- 800635a:	481a      	ldr	r0, [pc, #104]	@ (80063c4 <_Z41__static_initialization_and_destruction_0ii+0xe8>)
- 800635c:	f000 f8f4 	bl	8006548 <_ZN9I2C_SlaveC1EP19__I2C_HandleTypeDefhPhh>
+ 8006378:	23ff      	movs	r3, #255	@ 0xff
+ 800637a:	9300      	str	r3, [sp, #0]
+ 800637c:	4b19      	ldr	r3, [pc, #100]	@ (80063e4 <_Z41__static_initialization_and_destruction_0ii+0xe0>)
+ 800637e:	2202      	movs	r2, #2
+ 8006380:	4919      	ldr	r1, [pc, #100]	@ (80063e8 <_Z41__static_initialization_and_destruction_0ii+0xe4>)
+ 8006382:	481a      	ldr	r0, [pc, #104]	@ (80063ec <_Z41__static_initialization_and_destruction_0ii+0xe8>)
+ 8006384:	f000 f8f4 	bl	8006570 <_ZN9I2C_SlaveC1EP19__I2C_HandleTypeDefhPhh>
 I2C_Slave i2c_slave_intern(&hi2c1, 0x02, register_map, 255);
- 8006360:	23ff      	movs	r3, #255	@ 0xff
- 8006362:	9300      	str	r3, [sp, #0]
- 8006364:	4b15      	ldr	r3, [pc, #84]	@ (80063bc <_Z41__static_initialization_and_destruction_0ii+0xe0>)
- 8006366:	2202      	movs	r2, #2
- 8006368:	490f      	ldr	r1, [pc, #60]	@ (80063a8 <_Z41__static_initialization_and_destruction_0ii+0xcc>)
- 800636a:	4817      	ldr	r0, [pc, #92]	@ (80063c8 <_Z41__static_initialization_and_destruction_0ii+0xec>)
- 800636c:	f000 f8ec 	bl	8006548 <_ZN9I2C_SlaveC1EP19__I2C_HandleTypeDefhPhh>
+ 8006388:	23ff      	movs	r3, #255	@ 0xff
+ 800638a:	9300      	str	r3, [sp, #0]
+ 800638c:	4b15      	ldr	r3, [pc, #84]	@ (80063e4 <_Z41__static_initialization_and_destruction_0ii+0xe0>)
+ 800638e:	2202      	movs	r2, #2
+ 8006390:	490f      	ldr	r1, [pc, #60]	@ (80063d0 <_Z41__static_initialization_and_destruction_0ii+0xcc>)
+ 8006392:	4817      	ldr	r0, [pc, #92]	@ (80063f0 <_Z41__static_initialization_and_destruction_0ii+0xec>)
+ 8006394:	f000 f8ec 	bl	8006570 <_ZN9I2C_SlaveC1EP19__I2C_HandleTypeDefhPhh>
 elapsedMillis timer_test = 10000;
- 8006370:	f242 7110 	movw	r1, #10000	@ 0x2710
- 8006374:	4815      	ldr	r0, [pc, #84]	@ (80063cc <_Z41__static_initialization_and_destruction_0ii+0xf0>)
- 8006376:	f7ff fd41 	bl	8005dfc <_ZN13elapsedMillisC1Em>
+ 8006398:	f242 7110 	movw	r1, #10000	@ 0x2710
+ 800639c:	4815      	ldr	r0, [pc, #84]	@ (80063f4 <_Z41__static_initialization_and_destruction_0ii+0xf0>)
+ 800639e:	f7ff fd2d 	bl	8005dfc <_ZN13elapsedMillisC1Em>
 }
- 800637a:	bf00      	nop
- 800637c:	3708      	adds	r7, #8
- 800637e:	46bd      	mov	sp, r7
- 8006380:	bd80      	pop	{r7, pc}
- 8006382:	bf00      	nop
- 8006384:	2000011c 	.word	0x2000011c
- 8006388:	20000248 	.word	0x20000248
- 800638c:	200000d0 	.word	0x200000d0
- 8006390:	200005c8 	.word	0x200005c8
- 8006394:	20000168 	.word	0x20000168
- 8006398:	20000948 	.word	0x20000948
- 800639c:	20000960 	.word	0x20000960
- 80063a0:	48000400 	.word	0x48000400
- 80063a4:	20000968 	.word	0x20000968
- 80063a8:	20000028 	.word	0x20000028
- 80063ac:	20000970 	.word	0x20000970
- 80063b0:	20000978 	.word	0x20000978
- 80063b4:	2000097c 	.word	0x2000097c
- 80063b8:	20000980 	.word	0x20000980
- 80063bc:	20000984 	.word	0x20000984
- 80063c0:	2000007c 	.word	0x2000007c
- 80063c4:	20000a84 	.word	0x20000a84
- 80063c8:	20000aa4 	.word	0x20000aa4
- 80063cc:	20000ac4 	.word	0x20000ac4
+ 80063a2:	bf00      	nop
+ 80063a4:	3708      	adds	r7, #8
+ 80063a6:	46bd      	mov	sp, r7
+ 80063a8:	bd80      	pop	{r7, pc}
+ 80063aa:	bf00      	nop
+ 80063ac:	2000011c 	.word	0x2000011c
+ 80063b0:	20000248 	.word	0x20000248
+ 80063b4:	200000d0 	.word	0x200000d0
+ 80063b8:	200005c8 	.word	0x200005c8
+ 80063bc:	20000168 	.word	0x20000168
+ 80063c0:	20000948 	.word	0x20000948
+ 80063c4:	20000960 	.word	0x20000960
+ 80063c8:	48000400 	.word	0x48000400
+ 80063cc:	20000968 	.word	0x20000968
+ 80063d0:	20000028 	.word	0x20000028
+ 80063d4:	20000970 	.word	0x20000970
+ 80063d8:	20000978 	.word	0x20000978
+ 80063dc:	2000097c 	.word	0x2000097c
+ 80063e0:	20000980 	.word	0x20000980
+ 80063e4:	20000984 	.word	0x20000984
+ 80063e8:	2000007c 	.word	0x2000007c
+ 80063ec:	20000a84 	.word	0x20000a84
+ 80063f0:	20000aa4 	.word	0x20000aa4
+ 80063f4:	20000ac4 	.word	0x20000ac4
 
-080063d0 <_GLOBAL__sub_I_neopixel_intern>:
- 80063d0:	b580      	push	{r7, lr}
- 80063d2:	af00      	add	r7, sp, #0
- 80063d4:	f64f 71ff 	movw	r1, #65535	@ 0xffff
- 80063d8:	2001      	movs	r0, #1
- 80063da:	f7ff ff7f 	bl	80062dc <_Z41__static_initialization_and_destruction_0ii>
- 80063de:	bd80      	pop	{r7, pc}
+080063f8 <_GLOBAL__sub_I_neopixel_intern>:
+ 80063f8:	b580      	push	{r7, lr}
+ 80063fa:	af00      	add	r7, sp, #0
+ 80063fc:	f64f 71ff 	movw	r1, #65535	@ 0xffff
+ 8006400:	2001      	movs	r0, #1
+ 8006402:	f7ff ff7f 	bl	8006304 <_Z41__static_initialization_and_destruction_0ii>
+ 8006406:	bd80      	pop	{r7, pc}
 
-080063e0 <_Z3nopv>:
+08006408 <_Z3nopv>:
 #include "i2c_slave.h"
 
 I2C_Slave *registered_i2c_slaves[FIRMWARE_NUM_I2C_SLAVES];
 uint8_t num_i2c_slave = 0;
 
 void nop() {
- 80063e0:	b480      	push	{r7}
- 80063e2:	af00      	add	r7, sp, #0
+ 8006408:	b480      	push	{r7}
+ 800640a:	af00      	add	r7, sp, #0
 
 }
- 80063e4:	bf00      	nop
- 80063e6:	46bd      	mov	sp, r7
- 80063e8:	f85d 7b04 	ldr.w	r7, [sp], #4
- 80063ec:	4770      	bx	lr
+ 800640c:	bf00      	nop
+ 800640e:	46bd      	mov	sp, r7
+ 8006410:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 8006414:	4770      	bx	lr
 	...
 
-080063f0 <_Z13get_I2C_slaveP19__I2C_HandleTypeDef>:
+08006418 <_Z13get_I2C_slaveP19__I2C_HandleTypeDef>:
 
 I2C_Slave* get_I2C_slave(I2C_HandleTypeDef *hi2c) {
- 80063f0:	b480      	push	{r7}
- 80063f2:	b085      	sub	sp, #20
- 80063f4:	af00      	add	r7, sp, #0
- 80063f6:	6078      	str	r0, [r7, #4]
+ 8006418:	b480      	push	{r7}
+ 800641a:	b085      	sub	sp, #20
+ 800641c:	af00      	add	r7, sp, #0
+ 800641e:	6078      	str	r0, [r7, #4]
 	for (int i = 0; i < num_i2c_slave; i++) {
- 80063f8:	2300      	movs	r3, #0
- 80063fa:	60fb      	str	r3, [r7, #12]
- 80063fc:	e00f      	b.n	800641e <_Z13get_I2C_slaveP19__I2C_HandleTypeDef+0x2e>
+ 8006420:	2300      	movs	r3, #0
+ 8006422:	60fb      	str	r3, [r7, #12]
+ 8006424:	e00f      	b.n	8006446 <_Z13get_I2C_slaveP19__I2C_HandleTypeDef+0x2e>
 		if (registered_i2c_slaves[i]->hi2c == hi2c) {
- 80063fe:	4a0e      	ldr	r2, [pc, #56]	@ (8006438 <_Z13get_I2C_slaveP19__I2C_HandleTypeDef+0x48>)
- 8006400:	68fb      	ldr	r3, [r7, #12]
- 8006402:	f852 3023 	ldr.w	r3, [r2, r3, lsl #2]
- 8006406:	691b      	ldr	r3, [r3, #16]
- 8006408:	687a      	ldr	r2, [r7, #4]
- 800640a:	429a      	cmp	r2, r3
- 800640c:	d104      	bne.n	8006418 <_Z13get_I2C_slaveP19__I2C_HandleTypeDef+0x28>
+ 8006426:	4a0e      	ldr	r2, [pc, #56]	@ (8006460 <_Z13get_I2C_slaveP19__I2C_HandleTypeDef+0x48>)
+ 8006428:	68fb      	ldr	r3, [r7, #12]
+ 800642a:	f852 3023 	ldr.w	r3, [r2, r3, lsl #2]
+ 800642e:	691b      	ldr	r3, [r3, #16]
+ 8006430:	687a      	ldr	r2, [r7, #4]
+ 8006432:	429a      	cmp	r2, r3
+ 8006434:	d104      	bne.n	8006440 <_Z13get_I2C_slaveP19__I2C_HandleTypeDef+0x28>
 			return registered_i2c_slaves[i];
- 800640e:	4a0a      	ldr	r2, [pc, #40]	@ (8006438 <_Z13get_I2C_slaveP19__I2C_HandleTypeDef+0x48>)
- 8006410:	68fb      	ldr	r3, [r7, #12]
- 8006412:	f852 3023 	ldr.w	r3, [r2, r3, lsl #2]
- 8006416:	e009      	b.n	800642c <_Z13get_I2C_slaveP19__I2C_HandleTypeDef+0x3c>
+ 8006436:	4a0a      	ldr	r2, [pc, #40]	@ (8006460 <_Z13get_I2C_slaveP19__I2C_HandleTypeDef+0x48>)
+ 8006438:	68fb      	ldr	r3, [r7, #12]
+ 800643a:	f852 3023 	ldr.w	r3, [r2, r3, lsl #2]
+ 800643e:	e009      	b.n	8006454 <_Z13get_I2C_slaveP19__I2C_HandleTypeDef+0x3c>
 	for (int i = 0; i < num_i2c_slave; i++) {
- 8006418:	68fb      	ldr	r3, [r7, #12]
- 800641a:	3301      	adds	r3, #1
- 800641c:	60fb      	str	r3, [r7, #12]
- 800641e:	4b07      	ldr	r3, [pc, #28]	@ (800643c <_Z13get_I2C_slaveP19__I2C_HandleTypeDef+0x4c>)
- 8006420:	781b      	ldrb	r3, [r3, #0]
- 8006422:	461a      	mov	r2, r3
- 8006424:	68fb      	ldr	r3, [r7, #12]
- 8006426:	4293      	cmp	r3, r2
- 8006428:	dbe9      	blt.n	80063fe <_Z13get_I2C_slaveP19__I2C_HandleTypeDef+0xe>
+ 8006440:	68fb      	ldr	r3, [r7, #12]
+ 8006442:	3301      	adds	r3, #1
+ 8006444:	60fb      	str	r3, [r7, #12]
+ 8006446:	4b07      	ldr	r3, [pc, #28]	@ (8006464 <_Z13get_I2C_slaveP19__I2C_HandleTypeDef+0x4c>)
+ 8006448:	781b      	ldrb	r3, [r3, #0]
+ 800644a:	461a      	mov	r2, r3
+ 800644c:	68fb      	ldr	r3, [r7, #12]
+ 800644e:	4293      	cmp	r3, r2
+ 8006450:	dbe9      	blt.n	8006426 <_Z13get_I2C_slaveP19__I2C_HandleTypeDef+0xe>
 		}
 	}
 	return NULL;
- 800642a:	2300      	movs	r3, #0
+ 8006452:	2300      	movs	r3, #0
 }
- 800642c:	4618      	mov	r0, r3
- 800642e:	3714      	adds	r7, #20
- 8006430:	46bd      	mov	sp, r7
- 8006432:	f85d 7b04 	ldr.w	r7, [sp], #4
- 8006436:	4770      	bx	lr
- 8006438:	20000ac8 	.word	0x20000ac8
- 800643c:	20000ad0 	.word	0x20000ad0
+ 8006454:	4618      	mov	r0, r3
+ 8006456:	3714      	adds	r7, #20
+ 8006458:	46bd      	mov	sp, r7
+ 800645a:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 800645e:	4770      	bx	lr
+ 8006460:	20000ac8 	.word	0x20000ac8
+ 8006464:	20000ad0 	.word	0x20000ad0
 
-08006440 <HAL_I2C_ListenCpltCallback>:
+08006468 <HAL_I2C_ListenCpltCallback>:
 
 void HAL_I2C_ListenCpltCallback(I2C_HandleTypeDef *hi2c) {
- 8006440:	b580      	push	{r7, lr}
- 8006442:	b084      	sub	sp, #16
- 8006444:	af00      	add	r7, sp, #0
- 8006446:	6078      	str	r0, [r7, #4]
+ 8006468:	b580      	push	{r7, lr}
+ 800646a:	b084      	sub	sp, #16
+ 800646c:	af00      	add	r7, sp, #0
+ 800646e:	6078      	str	r0, [r7, #4]
 	I2C_Slave *slave = get_I2C_slave(hi2c);
- 8006448:	6878      	ldr	r0, [r7, #4]
- 800644a:	f7ff ffd1 	bl	80063f0 <_Z13get_I2C_slaveP19__I2C_HandleTypeDef>
- 800644e:	60f8      	str	r0, [r7, #12]
+ 8006470:	6878      	ldr	r0, [r7, #4]
+ 8006472:	f7ff ffd1 	bl	8006418 <_Z13get_I2C_slaveP19__I2C_HandleTypeDef>
+ 8006476:	60f8      	str	r0, [r7, #12]
 	if (slave != NULL) {
- 8006450:	68fb      	ldr	r3, [r7, #12]
- 8006452:	2b00      	cmp	r3, #0
- 8006454:	d002      	beq.n	800645c <HAL_I2C_ListenCpltCallback+0x1c>
+ 8006478:	68fb      	ldr	r3, [r7, #12]
+ 800647a:	2b00      	cmp	r3, #0
+ 800647c:	d002      	beq.n	8006484 <HAL_I2C_ListenCpltCallback+0x1c>
 		slave->i2c_listenCompleteCallback();
- 8006456:	68f8      	ldr	r0, [r7, #12]
- 8006458:	f000 f901 	bl	800665e <_ZN9I2C_Slave26i2c_listenCompleteCallbackEv>
+ 800647e:	68f8      	ldr	r0, [r7, #12]
+ 8006480:	f000 f901 	bl	8006686 <_ZN9I2C_Slave26i2c_listenCompleteCallbackEv>
 	}
 }
- 800645c:	bf00      	nop
- 800645e:	3710      	adds	r7, #16
- 8006460:	46bd      	mov	sp, r7
- 8006462:	bd80      	pop	{r7, pc}
+ 8006484:	bf00      	nop
+ 8006486:	3710      	adds	r7, #16
+ 8006488:	46bd      	mov	sp, r7
+ 800648a:	bd80      	pop	{r7, pc}
 
-08006464 <HAL_I2C_AddrCallback>:
+0800648c <HAL_I2C_AddrCallback>:
 
 void HAL_I2C_AddrCallback(I2C_HandleTypeDef *hi2c, uint8_t TransferDirection,
 		uint16_t AddrMatchCode) {
- 8006464:	b580      	push	{r7, lr}
- 8006466:	b084      	sub	sp, #16
- 8006468:	af00      	add	r7, sp, #0
- 800646a:	6078      	str	r0, [r7, #4]
- 800646c:	460b      	mov	r3, r1
- 800646e:	70fb      	strb	r3, [r7, #3]
- 8006470:	4613      	mov	r3, r2
- 8006472:	803b      	strh	r3, [r7, #0]
+ 800648c:	b580      	push	{r7, lr}
+ 800648e:	b084      	sub	sp, #16
+ 8006490:	af00      	add	r7, sp, #0
+ 8006492:	6078      	str	r0, [r7, #4]
+ 8006494:	460b      	mov	r3, r1
+ 8006496:	70fb      	strb	r3, [r7, #3]
+ 8006498:	4613      	mov	r3, r2
+ 800649a:	803b      	strh	r3, [r7, #0]
 	I2C_Slave *slave = get_I2C_slave(hi2c);
- 8006474:	6878      	ldr	r0, [r7, #4]
- 8006476:	f7ff ffbb 	bl	80063f0 <_Z13get_I2C_slaveP19__I2C_HandleTypeDef>
- 800647a:	60f8      	str	r0, [r7, #12]
+ 800649c:	6878      	ldr	r0, [r7, #4]
+ 800649e:	f7ff ffbb 	bl	8006418 <_Z13get_I2C_slaveP19__I2C_HandleTypeDef>
+ 80064a2:	60f8      	str	r0, [r7, #12]
 	if (slave != NULL) {
- 800647c:	68fb      	ldr	r3, [r7, #12]
- 800647e:	2b00      	cmp	r3, #0
- 8006480:	d005      	beq.n	800648e <HAL_I2C_AddrCallback+0x2a>
+ 80064a4:	68fb      	ldr	r3, [r7, #12]
+ 80064a6:	2b00      	cmp	r3, #0
+ 80064a8:	d005      	beq.n	80064b6 <HAL_I2C_AddrCallback+0x2a>
 		slave->i2c_addrCallback(TransferDirection, AddrMatchCode);
- 8006482:	883a      	ldrh	r2, [r7, #0]
- 8006484:	78fb      	ldrb	r3, [r7, #3]
- 8006486:	4619      	mov	r1, r3
- 8006488:	68f8      	ldr	r0, [r7, #12]
- 800648a:	f000 f8ae 	bl	80065ea <_ZN9I2C_Slave16i2c_addrCallbackEht>
+ 80064aa:	883a      	ldrh	r2, [r7, #0]
+ 80064ac:	78fb      	ldrb	r3, [r7, #3]
+ 80064ae:	4619      	mov	r1, r3
+ 80064b0:	68f8      	ldr	r0, [r7, #12]
+ 80064b2:	f000 f8ae 	bl	8006612 <_ZN9I2C_Slave16i2c_addrCallbackEht>
 	}
 }
- 800648e:	bf00      	nop
- 8006490:	3710      	adds	r7, #16
- 8006492:	46bd      	mov	sp, r7
- 8006494:	bd80      	pop	{r7, pc}
+ 80064b6:	bf00      	nop
+ 80064b8:	3710      	adds	r7, #16
+ 80064ba:	46bd      	mov	sp, r7
+ 80064bc:	bd80      	pop	{r7, pc}
 
-08006496 <HAL_I2C_SlaveRxCpltCallback>:
+080064be <HAL_I2C_SlaveRxCpltCallback>:
 
 void HAL_I2C_SlaveRxCpltCallback(I2C_HandleTypeDef *hi2c) {
- 8006496:	b580      	push	{r7, lr}
- 8006498:	b084      	sub	sp, #16
- 800649a:	af00      	add	r7, sp, #0
- 800649c:	6078      	str	r0, [r7, #4]
+ 80064be:	b580      	push	{r7, lr}
+ 80064c0:	b084      	sub	sp, #16
+ 80064c2:	af00      	add	r7, sp, #0
+ 80064c4:	6078      	str	r0, [r7, #4]
 	I2C_Slave *slave = get_I2C_slave(hi2c);
- 800649e:	6878      	ldr	r0, [r7, #4]
- 80064a0:	f7ff ffa6 	bl	80063f0 <_Z13get_I2C_slaveP19__I2C_HandleTypeDef>
- 80064a4:	60f8      	str	r0, [r7, #12]
+ 80064c6:	6878      	ldr	r0, [r7, #4]
+ 80064c8:	f7ff ffa6 	bl	8006418 <_Z13get_I2C_slaveP19__I2C_HandleTypeDef>
+ 80064cc:	60f8      	str	r0, [r7, #12]
 	if (slave != NULL) {
- 80064a6:	68fb      	ldr	r3, [r7, #12]
- 80064a8:	2b00      	cmp	r3, #0
- 80064aa:	d002      	beq.n	80064b2 <HAL_I2C_SlaveRxCpltCallback+0x1c>
+ 80064ce:	68fb      	ldr	r3, [r7, #12]
+ 80064d0:	2b00      	cmp	r3, #0
+ 80064d2:	d002      	beq.n	80064da <HAL_I2C_SlaveRxCpltCallback+0x1c>
 		slave->i2c_rxCompleteCallback();
- 80064ac:	68f8      	ldr	r0, [r7, #12]
- 80064ae:	f000 f8f2 	bl	8006696 <_ZN9I2C_Slave22i2c_rxCompleteCallbackEv>
+ 80064d4:	68f8      	ldr	r0, [r7, #12]
+ 80064d6:	f000 f8f2 	bl	80066be <_ZN9I2C_Slave22i2c_rxCompleteCallbackEv>
 	}
 }
- 80064b2:	bf00      	nop
- 80064b4:	3710      	adds	r7, #16
- 80064b6:	46bd      	mov	sp, r7
- 80064b8:	bd80      	pop	{r7, pc}
+ 80064da:	bf00      	nop
+ 80064dc:	3710      	adds	r7, #16
+ 80064de:	46bd      	mov	sp, r7
+ 80064e0:	bd80      	pop	{r7, pc}
 
-080064ba <HAL_I2C_SlaveTxCpltCallback>:
+080064e2 <HAL_I2C_SlaveTxCpltCallback>:
 
 void HAL_I2C_SlaveTxCpltCallback(I2C_HandleTypeDef *hi2c) {
- 80064ba:	b580      	push	{r7, lr}
- 80064bc:	b084      	sub	sp, #16
- 80064be:	af00      	add	r7, sp, #0
- 80064c0:	6078      	str	r0, [r7, #4]
+ 80064e2:	b580      	push	{r7, lr}
+ 80064e4:	b084      	sub	sp, #16
+ 80064e6:	af00      	add	r7, sp, #0
+ 80064e8:	6078      	str	r0, [r7, #4]
 	I2C_Slave *slave = get_I2C_slave(hi2c);
- 80064c2:	6878      	ldr	r0, [r7, #4]
- 80064c4:	f7ff ff94 	bl	80063f0 <_Z13get_I2C_slaveP19__I2C_HandleTypeDef>
- 80064c8:	60f8      	str	r0, [r7, #12]
+ 80064ea:	6878      	ldr	r0, [r7, #4]
+ 80064ec:	f7ff ff94 	bl	8006418 <_Z13get_I2C_slaveP19__I2C_HandleTypeDef>
+ 80064f0:	60f8      	str	r0, [r7, #12]
 	if (slave != NULL) {
- 80064ca:	68fb      	ldr	r3, [r7, #12]
- 80064cc:	2b00      	cmp	r3, #0
- 80064ce:	d002      	beq.n	80064d6 <HAL_I2C_SlaveTxCpltCallback+0x1c>
+ 80064f2:	68fb      	ldr	r3, [r7, #12]
+ 80064f4:	2b00      	cmp	r3, #0
+ 80064f6:	d002      	beq.n	80064fe <HAL_I2C_SlaveTxCpltCallback+0x1c>
 		slave->i2c_txCompleteCallback();
- 80064d0:	68f8      	ldr	r0, [r7, #12]
- 80064d2:	f000 f904 	bl	80066de <_ZN9I2C_Slave22i2c_txCompleteCallbackEv>
+ 80064f8:	68f8      	ldr	r0, [r7, #12]
+ 80064fa:	f000 f904 	bl	8006706 <_ZN9I2C_Slave22i2c_txCompleteCallbackEv>
 	}
 }
- 80064d6:	bf00      	nop
- 80064d8:	3710      	adds	r7, #16
- 80064da:	46bd      	mov	sp, r7
- 80064dc:	bd80      	pop	{r7, pc}
+ 80064fe:	bf00      	nop
+ 8006500:	3710      	adds	r7, #16
+ 8006502:	46bd      	mov	sp, r7
+ 8006504:	bd80      	pop	{r7, pc}
 
-080064de <HAL_I2C_ErrorCallback>:
+08006506 <HAL_I2C_ErrorCallback>:
 
 void HAL_I2C_ErrorCallback(I2C_HandleTypeDef *hi2c) {
- 80064de:	b580      	push	{r7, lr}
- 80064e0:	b084      	sub	sp, #16
- 80064e2:	af00      	add	r7, sp, #0
- 80064e4:	6078      	str	r0, [r7, #4]
+ 8006506:	b580      	push	{r7, lr}
+ 8006508:	b084      	sub	sp, #16
+ 800650a:	af00      	add	r7, sp, #0
+ 800650c:	6078      	str	r0, [r7, #4]
 	I2C_Slave *slave = get_I2C_slave(hi2c);
- 80064e6:	6878      	ldr	r0, [r7, #4]
- 80064e8:	f7ff ff82 	bl	80063f0 <_Z13get_I2C_slaveP19__I2C_HandleTypeDef>
- 80064ec:	60f8      	str	r0, [r7, #12]
+ 800650e:	6878      	ldr	r0, [r7, #4]
+ 8006510:	f7ff ff82 	bl	8006418 <_Z13get_I2C_slaveP19__I2C_HandleTypeDef>
+ 8006514:	60f8      	str	r0, [r7, #12]
 	uint32_t x = HAL_I2C_GetError(hi2c);
- 80064ee:	6878      	ldr	r0, [r7, #4]
- 80064f0:	f7fb fc7b 	bl	8001dea <HAL_I2C_GetError>
- 80064f4:	60b8      	str	r0, [r7, #8]
+ 8006516:	6878      	ldr	r0, [r7, #4]
+ 8006518:	f7fb fc67 	bl	8001dea <HAL_I2C_GetError>
+ 800651c:	60b8      	str	r0, [r7, #8]
 	if (slave != NULL) {
- 80064f6:	68fb      	ldr	r3, [r7, #12]
- 80064f8:	2b00      	cmp	r3, #0
- 80064fa:	d002      	beq.n	8006502 <HAL_I2C_ErrorCallback+0x24>
+ 800651e:	68fb      	ldr	r3, [r7, #12]
+ 8006520:	2b00      	cmp	r3, #0
+ 8006522:	d002      	beq.n	800652a <HAL_I2C_ErrorCallback+0x24>
 		slave->i2c_errorCallback();
- 80064fc:	68f8      	ldr	r0, [r7, #12]
- 80064fe:	f000 f90e 	bl	800671e <_ZN9I2C_Slave17i2c_errorCallbackEv>
+ 8006524:	68f8      	ldr	r0, [r7, #12]
+ 8006526:	f000 f90e 	bl	8006746 <_ZN9I2C_Slave17i2c_errorCallbackEv>
 	}
 }
- 8006502:	bf00      	nop
- 8006504:	3710      	adds	r7, #16
- 8006506:	46bd      	mov	sp, r7
- 8006508:	bd80      	pop	{r7, pc}
+ 800652a:	bf00      	nop
+ 800652c:	3710      	adds	r7, #16
+ 800652e:	46bd      	mov	sp, r7
+ 8006530:	bd80      	pop	{r7, pc}
 
-0800650a <HAL_I2C_AbortCpltCallback>:
+08006532 <HAL_I2C_AbortCpltCallback>:
 
 void HAL_I2C_AbortCpltCallback(I2C_HandleTypeDef *hi2c) {
- 800650a:	b580      	push	{r7, lr}
- 800650c:	b084      	sub	sp, #16
- 800650e:	af00      	add	r7, sp, #0
- 8006510:	6078      	str	r0, [r7, #4]
+ 8006532:	b580      	push	{r7, lr}
+ 8006534:	b084      	sub	sp, #16
+ 8006536:	af00      	add	r7, sp, #0
+ 8006538:	6078      	str	r0, [r7, #4]
 	I2C_Slave *slave = get_I2C_slave(hi2c);
- 8006512:	6878      	ldr	r0, [r7, #4]
- 8006514:	f7ff ff6c 	bl	80063f0 <_Z13get_I2C_slaveP19__I2C_HandleTypeDef>
- 8006518:	60f8      	str	r0, [r7, #12]
+ 800653a:	6878      	ldr	r0, [r7, #4]
+ 800653c:	f7ff ff6c 	bl	8006418 <_Z13get_I2C_slaveP19__I2C_HandleTypeDef>
+ 8006540:	60f8      	str	r0, [r7, #12]
 	if (slave != NULL) {
- 800651a:	68fb      	ldr	r3, [r7, #12]
- 800651c:	2b00      	cmp	r3, #0
- 800651e:	d002      	beq.n	8006526 <HAL_I2C_AbortCpltCallback+0x1c>
+ 8006542:	68fb      	ldr	r3, [r7, #12]
+ 8006544:	2b00      	cmp	r3, #0
+ 8006546:	d002      	beq.n	800654e <HAL_I2C_AbortCpltCallback+0x1c>
 		slave->i2c_abortCompleteCallback();
- 8006520:	68f8      	ldr	r0, [r7, #12]
- 8006522:	f000 f90b 	bl	800673c <_ZN9I2C_Slave25i2c_abortCompleteCallbackEv>
+ 8006548:	68f8      	ldr	r0, [r7, #12]
+ 800654a:	f000 f90b 	bl	8006764 <_ZN9I2C_Slave25i2c_abortCompleteCallbackEv>
 	}
 }
- 8006526:	bf00      	nop
- 8006528:	3710      	adds	r7, #16
- 800652a:	46bd      	mov	sp, r7
- 800652c:	bd80      	pop	{r7, pc}
+ 800654e:	bf00      	nop
+ 8006550:	3710      	adds	r7, #16
+ 8006552:	46bd      	mov	sp, r7
+ 8006554:	bd80      	pop	{r7, pc}
 
-0800652e <_ZN19I2C_Slave_callbacksC1Ev>:
+08006556 <_ZN19I2C_Slave_callbacksC1Ev>:
 
 typedef struct I2C_Slave_config {
 	I2C_Slave_mode mode;
 } I2C_Slave_config;
 
 struct I2C_Slave_callbacks {
- 800652e:	b580      	push	{r7, lr}
- 8006530:	b082      	sub	sp, #8
- 8006532:	af00      	add	r7, sp, #0
- 8006534:	6078      	str	r0, [r7, #4]
- 8006536:	687b      	ldr	r3, [r7, #4]
- 8006538:	4618      	mov	r0, r3
- 800653a:	f7ff fc2d 	bl	8005d98 <_ZN19core_utils_CallbackC1Ev>
- 800653e:	687b      	ldr	r3, [r7, #4]
- 8006540:	4618      	mov	r0, r3
- 8006542:	3708      	adds	r7, #8
- 8006544:	46bd      	mov	sp, r7
- 8006546:	bd80      	pop	{r7, pc}
+ 8006556:	b580      	push	{r7, lr}
+ 8006558:	b082      	sub	sp, #8
+ 800655a:	af00      	add	r7, sp, #0
+ 800655c:	6078      	str	r0, [r7, #4]
+ 800655e:	687b      	ldr	r3, [r7, #4]
+ 8006560:	4618      	mov	r0, r3
+ 8006562:	f7ff fc19 	bl	8005d98 <_ZN19core_utils_CallbackC1Ev>
+ 8006566:	687b      	ldr	r3, [r7, #4]
+ 8006568:	4618      	mov	r0, r3
+ 800656a:	3708      	adds	r7, #8
+ 800656c:	46bd      	mov	sp, r7
+ 800656e:	bd80      	pop	{r7, pc}
 
-08006548 <_ZN9I2C_SlaveC1EP19__I2C_HandleTypeDefhPhh>:
+08006570 <_ZN9I2C_SlaveC1EP19__I2C_HandleTypeDefhPhh>:
 
 /* ===================================================================== */
 I2C_Slave::I2C_Slave(I2C_HandleTypeDef *hi2c, uint8_t address,
- 8006548:	b580      	push	{r7, lr}
- 800654a:	b084      	sub	sp, #16
- 800654c:	af00      	add	r7, sp, #0
- 800654e:	60f8      	str	r0, [r7, #12]
- 8006550:	60b9      	str	r1, [r7, #8]
- 8006552:	603b      	str	r3, [r7, #0]
- 8006554:	4613      	mov	r3, r2
- 8006556:	71fb      	strb	r3, [r7, #7]
+ 8006570:	b580      	push	{r7, lr}
+ 8006572:	b084      	sub	sp, #16
+ 8006574:	af00      	add	r7, sp, #0
+ 8006576:	60f8      	str	r0, [r7, #12]
+ 8006578:	60b9      	str	r1, [r7, #8]
+ 800657a:	603b      	str	r3, [r7, #0]
+ 800657c:	4613      	mov	r3, r2
+ 800657e:	71fb      	strb	r3, [r7, #7]
 		uint8_t *registerMap, uint8_t num_registers) {
- 8006558:	68fb      	ldr	r3, [r7, #12]
- 800655a:	4618      	mov	r0, r3
- 800655c:	f7ff ffe7 	bl	800652e <_ZN19I2C_Slave_callbacksC1Ev>
- 8006560:	68fb      	ldr	r3, [r7, #12]
- 8006562:	2200      	movs	r2, #0
- 8006564:	615a      	str	r2, [r3, #20]
- 8006566:	68fb      	ldr	r3, [r7, #12]
- 8006568:	2200      	movs	r2, #0
- 800656a:	761a      	strb	r2, [r3, #24]
- 800656c:	68fb      	ldr	r3, [r7, #12]
- 800656e:	2200      	movs	r2, #0
- 8006570:	76da      	strb	r2, [r3, #27]
- 8006572:	68fb      	ldr	r3, [r7, #12]
- 8006574:	2200      	movs	r2, #0
- 8006576:	771a      	strb	r2, [r3, #28]
+ 8006580:	68fb      	ldr	r3, [r7, #12]
+ 8006582:	4618      	mov	r0, r3
+ 8006584:	f7ff ffe7 	bl	8006556 <_ZN19I2C_Slave_callbacksC1Ev>
+ 8006588:	68fb      	ldr	r3, [r7, #12]
+ 800658a:	2200      	movs	r2, #0
+ 800658c:	615a      	str	r2, [r3, #20]
+ 800658e:	68fb      	ldr	r3, [r7, #12]
+ 8006590:	2200      	movs	r2, #0
+ 8006592:	761a      	strb	r2, [r3, #24]
+ 8006594:	68fb      	ldr	r3, [r7, #12]
+ 8006596:	2200      	movs	r2, #0
+ 8006598:	76da      	strb	r2, [r3, #27]
+ 800659a:	68fb      	ldr	r3, [r7, #12]
+ 800659c:	2200      	movs	r2, #0
+ 800659e:	771a      	strb	r2, [r3, #28]
 	this->hi2c = hi2c;
- 8006578:	68fb      	ldr	r3, [r7, #12]
- 800657a:	68ba      	ldr	r2, [r7, #8]
- 800657c:	611a      	str	r2, [r3, #16]
+ 80065a0:	68fb      	ldr	r3, [r7, #12]
+ 80065a2:	68ba      	ldr	r2, [r7, #8]
+ 80065a4:	611a      	str	r2, [r3, #16]
 	this->address = address;
- 800657e:	68fb      	ldr	r3, [r7, #12]
- 8006580:	79fa      	ldrb	r2, [r7, #7]
- 8006582:	775a      	strb	r2, [r3, #29]
+ 80065a6:	68fb      	ldr	r3, [r7, #12]
+ 80065a8:	79fa      	ldrb	r2, [r7, #7]
+ 80065aa:	775a      	strb	r2, [r3, #29]
 	this->register_map = registerMap;
- 8006584:	68fb      	ldr	r3, [r7, #12]
- 8006586:	683a      	ldr	r2, [r7, #0]
- 8006588:	615a      	str	r2, [r3, #20]
+ 80065ac:	68fb      	ldr	r3, [r7, #12]
+ 80065ae:	683a      	ldr	r2, [r7, #0]
+ 80065b0:	615a      	str	r2, [r3, #20]
 	this->register_map_length = num_registers;
- 800658a:	68fb      	ldr	r3, [r7, #12]
- 800658c:	7e3a      	ldrb	r2, [r7, #24]
- 800658e:	765a      	strb	r2, [r3, #25]
+ 80065b2:	68fb      	ldr	r3, [r7, #12]
+ 80065b4:	7e3a      	ldrb	r2, [r7, #24]
+ 80065b6:	765a      	strb	r2, [r3, #25]
 
 	registered_i2c_slaves[num_i2c_slave] = this;
- 8006590:	4b08      	ldr	r3, [pc, #32]	@ (80065b4 <_ZN9I2C_SlaveC1EP19__I2C_HandleTypeDefhPhh+0x6c>)
- 8006592:	781b      	ldrb	r3, [r3, #0]
- 8006594:	4619      	mov	r1, r3
- 8006596:	4a08      	ldr	r2, [pc, #32]	@ (80065b8 <_ZN9I2C_SlaveC1EP19__I2C_HandleTypeDefhPhh+0x70>)
- 8006598:	68fb      	ldr	r3, [r7, #12]
- 800659a:	f842 3021 	str.w	r3, [r2, r1, lsl #2]
+ 80065b8:	4b08      	ldr	r3, [pc, #32]	@ (80065dc <_ZN9I2C_SlaveC1EP19__I2C_HandleTypeDefhPhh+0x6c>)
+ 80065ba:	781b      	ldrb	r3, [r3, #0]
+ 80065bc:	4619      	mov	r1, r3
+ 80065be:	4a08      	ldr	r2, [pc, #32]	@ (80065e0 <_ZN9I2C_SlaveC1EP19__I2C_HandleTypeDefhPhh+0x70>)
+ 80065c0:	68fb      	ldr	r3, [r7, #12]
+ 80065c2:	f842 3021 	str.w	r3, [r2, r1, lsl #2]
 	num_i2c_slave++;
- 800659e:	4b05      	ldr	r3, [pc, #20]	@ (80065b4 <_ZN9I2C_SlaveC1EP19__I2C_HandleTypeDefhPhh+0x6c>)
- 80065a0:	781b      	ldrb	r3, [r3, #0]
- 80065a2:	3301      	adds	r3, #1
- 80065a4:	b2da      	uxtb	r2, r3
- 80065a6:	4b03      	ldr	r3, [pc, #12]	@ (80065b4 <_ZN9I2C_SlaveC1EP19__I2C_HandleTypeDefhPhh+0x6c>)
- 80065a8:	701a      	strb	r2, [r3, #0]
+ 80065c6:	4b05      	ldr	r3, [pc, #20]	@ (80065dc <_ZN9I2C_SlaveC1EP19__I2C_HandleTypeDefhPhh+0x6c>)
+ 80065c8:	781b      	ldrb	r3, [r3, #0]
+ 80065ca:	3301      	adds	r3, #1
+ 80065cc:	b2da      	uxtb	r2, r3
+ 80065ce:	4b03      	ldr	r3, [pc, #12]	@ (80065dc <_ZN9I2C_SlaveC1EP19__I2C_HandleTypeDefhPhh+0x6c>)
+ 80065d0:	701a      	strb	r2, [r3, #0]
 }
- 80065aa:	68fb      	ldr	r3, [r7, #12]
- 80065ac:	4618      	mov	r0, r3
- 80065ae:	3710      	adds	r7, #16
- 80065b0:	46bd      	mov	sp, r7
- 80065b2:	bd80      	pop	{r7, pc}
- 80065b4:	20000ad0 	.word	0x20000ad0
- 80065b8:	20000ac8 	.word	0x20000ac8
+ 80065d2:	68fb      	ldr	r3, [r7, #12]
+ 80065d4:	4618      	mov	r0, r3
+ 80065d6:	3710      	adds	r7, #16
+ 80065d8:	46bd      	mov	sp, r7
+ 80065da:	bd80      	pop	{r7, pc}
+ 80065dc:	20000ad0 	.word	0x20000ad0
+ 80065e0:	20000ac8 	.word	0x20000ac8
 
-080065bc <_ZN9I2C_Slave4initEv>:
+080065e4 <_ZN9I2C_Slave4initEv>:
 
 	registered_i2c_slaves[num_i2c_slave] = this;
 	num_i2c_slave++;
 }
 
 void I2C_Slave::init() {
- 80065bc:	b480      	push	{r7}
- 80065be:	b083      	sub	sp, #12
- 80065c0:	af00      	add	r7, sp, #0
- 80065c2:	6078      	str	r0, [r7, #4]
+ 80065e4:	b480      	push	{r7}
+ 80065e6:	b083      	sub	sp, #12
+ 80065e8:	af00      	add	r7, sp, #0
+ 80065ea:	6078      	str	r0, [r7, #4]
 
 }
- 80065c4:	bf00      	nop
- 80065c6:	370c      	adds	r7, #12
- 80065c8:	46bd      	mov	sp, r7
- 80065ca:	f85d 7b04 	ldr.w	r7, [sp], #4
- 80065ce:	4770      	bx	lr
+ 80065ec:	bf00      	nop
+ 80065ee:	370c      	adds	r7, #12
+ 80065f0:	46bd      	mov	sp, r7
+ 80065f2:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 80065f6:	4770      	bx	lr
 
-080065d0 <_ZN9I2C_Slave5startEv>:
+080065f8 <_ZN9I2C_Slave5startEv>:
 
 void I2C_Slave::start() {
- 80065d0:	b580      	push	{r7, lr}
- 80065d2:	b082      	sub	sp, #8
- 80065d4:	af00      	add	r7, sp, #0
- 80065d6:	6078      	str	r0, [r7, #4]
+ 80065f8:	b580      	push	{r7, lr}
+ 80065fa:	b082      	sub	sp, #8
+ 80065fc:	af00      	add	r7, sp, #0
+ 80065fe:	6078      	str	r0, [r7, #4]
 	HAL_I2C_EnableListen_IT(this->hi2c);
- 80065d8:	687b      	ldr	r3, [r7, #4]
- 80065da:	691b      	ldr	r3, [r3, #16]
- 80065dc:	4618      	mov	r0, r3
- 80065de:	f7fb fb47 	bl	8001c70 <HAL_I2C_EnableListen_IT>
+ 8006600:	687b      	ldr	r3, [r7, #4]
+ 8006602:	691b      	ldr	r3, [r3, #16]
+ 8006604:	4618      	mov	r0, r3
+ 8006606:	f7fb fb33 	bl	8001c70 <HAL_I2C_EnableListen_IT>
 }
- 80065e2:	bf00      	nop
- 80065e4:	3708      	adds	r7, #8
- 80065e6:	46bd      	mov	sp, r7
- 80065e8:	bd80      	pop	{r7, pc}
+ 800660a:	bf00      	nop
+ 800660c:	3708      	adds	r7, #8
+ 800660e:	46bd      	mov	sp, r7
+ 8006610:	bd80      	pop	{r7, pc}
 
-080065ea <_ZN9I2C_Slave16i2c_addrCallbackEht>:
+08006612 <_ZN9I2C_Slave16i2c_addrCallbackEht>:
 	}
 	}
 }
 
 void I2C_Slave::i2c_addrCallback(uint8_t TransferDirection,
 		uint16_t AddrMatchCode) {
- 80065ea:	b580      	push	{r7, lr}
- 80065ec:	b084      	sub	sp, #16
- 80065ee:	af00      	add	r7, sp, #0
- 80065f0:	6078      	str	r0, [r7, #4]
- 80065f2:	460b      	mov	r3, r1
- 80065f4:	70fb      	strb	r3, [r7, #3]
- 80065f6:	4613      	mov	r3, r2
- 80065f8:	803b      	strh	r3, [r7, #0]
+ 8006612:	b580      	push	{r7, lr}
+ 8006614:	b084      	sub	sp, #16
+ 8006616:	af00      	add	r7, sp, #0
+ 8006618:	6078      	str	r0, [r7, #4]
+ 800661a:	460b      	mov	r3, r1
+ 800661c:	70fb      	strb	r3, [r7, #3]
+ 800661e:	4613      	mov	r3, r2
+ 8006620:	803b      	strh	r3, [r7, #0]
 
 	if (TransferDirection == I2C_DIRECTION_TRANSMIT) {
- 80065fa:	78fb      	ldrb	r3, [r7, #3]
- 80065fc:	2b00      	cmp	r3, #0
- 80065fe:	d118      	bne.n	8006632 <_ZN9I2C_Slave16i2c_addrCallbackEht+0x48>
+ 8006622:	78fb      	ldrb	r3, [r7, #3]
+ 8006624:	2b00      	cmp	r3, #0
+ 8006626:	d118      	bne.n	800665a <_ZN9I2C_Slave16i2c_addrCallbackEht+0x48>
 		this->direction = I2C_SLAVE_DIRECTION_TRANSMIT;
- 8006600:	687b      	ldr	r3, [r7, #4]
- 8006602:	2200      	movs	r2, #0
- 8006604:	769a      	strb	r2, [r3, #26]
+ 8006628:	687b      	ldr	r3, [r7, #4]
+ 800662a:	2200      	movs	r2, #0
+ 800662c:	769a      	strb	r2, [r3, #26]
 		if (this->received_bytes == 0) {
- 8006606:	687b      	ldr	r3, [r7, #4]
- 8006608:	7edb      	ldrb	r3, [r3, #27]
- 800660a:	2b00      	cmp	r3, #0
- 800660c:	d10e      	bne.n	800662c <_ZN9I2C_Slave16i2c_addrCallbackEht+0x42>
+ 800662e:	687b      	ldr	r3, [r7, #4]
+ 8006630:	7edb      	ldrb	r3, [r3, #27]
+ 8006632:	2b00      	cmp	r3, #0
+ 8006634:	d10e      	bne.n	8006654 <_ZN9I2C_Slave16i2c_addrCallbackEht+0x42>
 			HAL_StatusTypeDef status = HAL_I2C_Slave_Seq_Receive_IT(this->hi2c, &this->bufferAddress, 1,
- 800660e:	687b      	ldr	r3, [r7, #4]
- 8006610:	6918      	ldr	r0, [r3, #16]
- 8006612:	687b      	ldr	r3, [r7, #4]
- 8006614:	f103 0118 	add.w	r1, r3, #24
- 8006618:	f04f 7380 	mov.w	r3, #16777216	@ 0x1000000
- 800661c:	2201      	movs	r2, #1
- 800661e:	f7fb fa75 	bl	8001b0c <HAL_I2C_Slave_Seq_Receive_IT>
- 8006622:	4603      	mov	r3, r0
- 8006624:	73fb      	strb	r3, [r7, #15]
+ 8006636:	687b      	ldr	r3, [r7, #4]
+ 8006638:	6918      	ldr	r0, [r3, #16]
+ 800663a:	687b      	ldr	r3, [r7, #4]
+ 800663c:	f103 0118 	add.w	r1, r3, #24
+ 8006640:	f04f 7380 	mov.w	r3, #16777216	@ 0x1000000
+ 8006644:	2201      	movs	r2, #1
+ 8006646:	f7fb fa61 	bl	8001b0c <HAL_I2C_Slave_Seq_Receive_IT>
+ 800664a:	4603      	mov	r3, r0
+ 800664c:	73fb      	strb	r3, [r7, #15]
 			I2C_NEXT_FRAME);
 			nop();
- 8006626:	f7ff fedb 	bl	80063e0 <_Z3nopv>
+ 800664e:	f7ff fedb 	bl	8006408 <_Z3nopv>
 	} else if (TransferDirection == I2C_DIRECTION_RECEIVE) {
 		this->direction = I2C_SLAVE_DIRECTION_RECEIVE;
 		HAL_I2C_Slave_Seq_Transmit_IT(this->hi2c,
 				&this->register_map[this->bufferAddress], 1, I2C_NEXT_FRAME);
 	}
 }
- 800662a:	e014      	b.n	8006656 <_ZN9I2C_Slave16i2c_addrCallbackEht+0x6c>
+ 8006652:	e014      	b.n	800667e <_ZN9I2C_Slave16i2c_addrCallbackEht+0x6c>
 			nop();
- 800662c:	f7ff fed8 	bl	80063e0 <_Z3nopv>
+ 8006654:	f7ff fed8 	bl	8006408 <_Z3nopv>
 }
- 8006630:	e011      	b.n	8006656 <_ZN9I2C_Slave16i2c_addrCallbackEht+0x6c>
+ 8006658:	e011      	b.n	800667e <_ZN9I2C_Slave16i2c_addrCallbackEht+0x6c>
 	} else if (TransferDirection == I2C_DIRECTION_RECEIVE) {
- 8006632:	78fb      	ldrb	r3, [r7, #3]
- 8006634:	2b01      	cmp	r3, #1
- 8006636:	d10e      	bne.n	8006656 <_ZN9I2C_Slave16i2c_addrCallbackEht+0x6c>
+ 800665a:	78fb      	ldrb	r3, [r7, #3]
+ 800665c:	2b01      	cmp	r3, #1
+ 800665e:	d10e      	bne.n	800667e <_ZN9I2C_Slave16i2c_addrCallbackEht+0x6c>
 		this->direction = I2C_SLAVE_DIRECTION_RECEIVE;
- 8006638:	687b      	ldr	r3, [r7, #4]
- 800663a:	2201      	movs	r2, #1
- 800663c:	769a      	strb	r2, [r3, #26]
+ 8006660:	687b      	ldr	r3, [r7, #4]
+ 8006662:	2201      	movs	r2, #1
+ 8006664:	769a      	strb	r2, [r3, #26]
 		HAL_I2C_Slave_Seq_Transmit_IT(this->hi2c,
- 800663e:	687b      	ldr	r3, [r7, #4]
- 8006640:	6918      	ldr	r0, [r3, #16]
+ 8006666:	687b      	ldr	r3, [r7, #4]
+ 8006668:	6918      	ldr	r0, [r3, #16]
 				&this->register_map[this->bufferAddress], 1, I2C_NEXT_FRAME);
- 8006642:	687b      	ldr	r3, [r7, #4]
- 8006644:	695b      	ldr	r3, [r3, #20]
- 8006646:	687a      	ldr	r2, [r7, #4]
- 8006648:	7e12      	ldrb	r2, [r2, #24]
+ 800666a:	687b      	ldr	r3, [r7, #4]
+ 800666c:	695b      	ldr	r3, [r3, #20]
+ 800666e:	687a      	ldr	r2, [r7, #4]
+ 8006670:	7e12      	ldrb	r2, [r2, #24]
 		HAL_I2C_Slave_Seq_Transmit_IT(this->hi2c,
- 800664a:	1899      	adds	r1, r3, r2
- 800664c:	f04f 7380 	mov.w	r3, #16777216	@ 0x1000000
- 8006650:	2201      	movs	r2, #1
- 8006652:	f7fb f9a9 	bl	80019a8 <HAL_I2C_Slave_Seq_Transmit_IT>
+ 8006672:	1899      	adds	r1, r3, r2
+ 8006674:	f04f 7380 	mov.w	r3, #16777216	@ 0x1000000
+ 8006678:	2201      	movs	r2, #1
+ 800667a:	f7fb f995 	bl	80019a8 <HAL_I2C_Slave_Seq_Transmit_IT>
 }
- 8006656:	bf00      	nop
- 8006658:	3710      	adds	r7, #16
- 800665a:	46bd      	mov	sp, r7
- 800665c:	bd80      	pop	{r7, pc}
+ 800667e:	bf00      	nop
+ 8006680:	3710      	adds	r7, #16
+ 8006682:	46bd      	mov	sp, r7
+ 8006684:	bd80      	pop	{r7, pc}
 
-0800665e <_ZN9I2C_Slave26i2c_listenCompleteCallbackEv>:
+08006686 <_ZN9I2C_Slave26i2c_listenCompleteCallbackEv>:
 void I2C_Slave::i2c_listenCompleteCallback() {
- 800665e:	b580      	push	{r7, lr}
- 8006660:	b082      	sub	sp, #8
- 8006662:	af00      	add	r7, sp, #0
- 8006664:	6078      	str	r0, [r7, #4]
+ 8006686:	b580      	push	{r7, lr}
+ 8006688:	b082      	sub	sp, #8
+ 800668a:	af00      	add	r7, sp, #0
+ 800668c:	6078      	str	r0, [r7, #4]
 
 	this->received_bytes = 0;
- 8006666:	687b      	ldr	r3, [r7, #4]
- 8006668:	2200      	movs	r2, #0
- 800666a:	76da      	strb	r2, [r3, #27]
+ 800668e:	687b      	ldr	r3, [r7, #4]
+ 8006690:	2200      	movs	r2, #0
+ 8006692:	76da      	strb	r2, [r3, #27]
 	this->sent_bytes = 0;
- 800666c:	687b      	ldr	r3, [r7, #4]
- 800666e:	2200      	movs	r2, #0
- 8006670:	771a      	strb	r2, [r3, #28]
+ 8006694:	687b      	ldr	r3, [r7, #4]
+ 8006696:	2200      	movs	r2, #0
+ 8006698:	771a      	strb	r2, [r3, #28]
 	HAL_I2C_EnableListen_IT(this->hi2c);
- 8006672:	687b      	ldr	r3, [r7, #4]
- 8006674:	691b      	ldr	r3, [r3, #16]
- 8006676:	4618      	mov	r0, r3
- 8006678:	f7fb fafa 	bl	8001c70 <HAL_I2C_EnableListen_IT>
+ 800669a:	687b      	ldr	r3, [r7, #4]
+ 800669c:	691b      	ldr	r3, [r3, #16]
+ 800669e:	4618      	mov	r0, r3
+ 80066a0:	f7fb fae6 	bl	8001c70 <HAL_I2C_EnableListen_IT>
 	if (this->callbacks.listen_cmplt_callback.registered) {
- 800667c:	687b      	ldr	r3, [r7, #4]
- 800667e:	7a1b      	ldrb	r3, [r3, #8]
- 8006680:	2b00      	cmp	r3, #0
- 8006682:	d004      	beq.n	800668e <_ZN9I2C_Slave26i2c_listenCompleteCallbackEv+0x30>
+ 80066a4:	687b      	ldr	r3, [r7, #4]
+ 80066a6:	7a1b      	ldrb	r3, [r3, #8]
+ 80066a8:	2b00      	cmp	r3, #0
+ 80066aa:	d004      	beq.n	80066b6 <_ZN9I2C_Slave26i2c_listenCompleteCallbackEv+0x30>
 		this->callbacks.listen_cmplt_callback.call(this);
- 8006684:	687b      	ldr	r3, [r7, #4]
- 8006686:	6879      	ldr	r1, [r7, #4]
- 8006688:	4618      	mov	r0, r3
- 800668a:	f7ff fb93 	bl	8005db4 <_ZN19core_utils_Callback4callEPv>
+ 80066ac:	687b      	ldr	r3, [r7, #4]
+ 80066ae:	6879      	ldr	r1, [r7, #4]
+ 80066b0:	4618      	mov	r0, r3
+ 80066b2:	f7ff fb7f 	bl	8005db4 <_ZN19core_utils_Callback4callEPv>
 	}
 }
- 800668e:	bf00      	nop
- 8006690:	3708      	adds	r7, #8
- 8006692:	46bd      	mov	sp, r7
- 8006694:	bd80      	pop	{r7, pc}
+ 80066b6:	bf00      	nop
+ 80066b8:	3708      	adds	r7, #8
+ 80066ba:	46bd      	mov	sp, r7
+ 80066bc:	bd80      	pop	{r7, pc}
 
-08006696 <_ZN9I2C_Slave22i2c_rxCompleteCallbackEv>:
+080066be <_ZN9I2C_Slave22i2c_rxCompleteCallbackEv>:
 void I2C_Slave::i2c_rxCompleteCallback() {
- 8006696:	b580      	push	{r7, lr}
- 8006698:	b082      	sub	sp, #8
- 800669a:	af00      	add	r7, sp, #0
- 800669c:	6078      	str	r0, [r7, #4]
+ 80066be:	b580      	push	{r7, lr}
+ 80066c0:	b082      	sub	sp, #8
+ 80066c2:	af00      	add	r7, sp, #0
+ 80066c4:	6078      	str	r0, [r7, #4]
 	this->received_bytes++;
- 800669e:	687b      	ldr	r3, [r7, #4]
- 80066a0:	7edb      	ldrb	r3, [r3, #27]
- 80066a2:	3301      	adds	r3, #1
- 80066a4:	b2da      	uxtb	r2, r3
- 80066a6:	687b      	ldr	r3, [r7, #4]
- 80066a8:	76da      	strb	r2, [r3, #27]
+ 80066c6:	687b      	ldr	r3, [r7, #4]
+ 80066c8:	7edb      	ldrb	r3, [r3, #27]
+ 80066ca:	3301      	adds	r3, #1
+ 80066cc:	b2da      	uxtb	r2, r3
+ 80066ce:	687b      	ldr	r3, [r7, #4]
+ 80066d0:	76da      	strb	r2, [r3, #27]
 	if (this->received_bytes > 1) {
- 80066aa:	687b      	ldr	r3, [r7, #4]
- 80066ac:	7edb      	ldrb	r3, [r3, #27]
- 80066ae:	2b01      	cmp	r3, #1
- 80066b0:	d905      	bls.n	80066be <_ZN9I2C_Slave22i2c_rxCompleteCallbackEv+0x28>
+ 80066d2:	687b      	ldr	r3, [r7, #4]
+ 80066d4:	7edb      	ldrb	r3, [r3, #27]
+ 80066d6:	2b01      	cmp	r3, #1
+ 80066d8:	d905      	bls.n	80066e6 <_ZN9I2C_Slave22i2c_rxCompleteCallbackEv+0x28>
 
 		this->bufferAddress++;
- 80066b2:	687b      	ldr	r3, [r7, #4]
- 80066b4:	7e1b      	ldrb	r3, [r3, #24]
- 80066b6:	3301      	adds	r3, #1
- 80066b8:	b2da      	uxtb	r2, r3
- 80066ba:	687b      	ldr	r3, [r7, #4]
- 80066bc:	761a      	strb	r2, [r3, #24]
+ 80066da:	687b      	ldr	r3, [r7, #4]
+ 80066dc:	7e1b      	ldrb	r3, [r3, #24]
+ 80066de:	3301      	adds	r3, #1
+ 80066e0:	b2da      	uxtb	r2, r3
+ 80066e2:	687b      	ldr	r3, [r7, #4]
+ 80066e4:	761a      	strb	r2, [r3, #24]
 
 	}
 	HAL_I2C_Slave_Seq_Receive_IT(this->hi2c,
- 80066be:	687b      	ldr	r3, [r7, #4]
- 80066c0:	6918      	ldr	r0, [r3, #16]
-			&this->register_map[this->bufferAddress], 1, I2C_NEXT_FRAME);
- 80066c2:	687b      	ldr	r3, [r7, #4]
- 80066c4:	695b      	ldr	r3, [r3, #20]
- 80066c6:	687a      	ldr	r2, [r7, #4]
- 80066c8:	7e12      	ldrb	r2, [r2, #24]
-	HAL_I2C_Slave_Seq_Receive_IT(this->hi2c,
- 80066ca:	1899      	adds	r1, r3, r2
- 80066cc:	f04f 7380 	mov.w	r3, #16777216	@ 0x1000000
- 80066d0:	2201      	movs	r2, #1
- 80066d2:	f7fb fa1b 	bl	8001b0c <HAL_I2C_Slave_Seq_Receive_IT>
-
-}
- 80066d6:	bf00      	nop
- 80066d8:	3708      	adds	r7, #8
- 80066da:	46bd      	mov	sp, r7
- 80066dc:	bd80      	pop	{r7, pc}
-
-080066de <_ZN9I2C_Slave22i2c_txCompleteCallbackEv>:
-void I2C_Slave::i2c_txCompleteCallback() {
- 80066de:	b580      	push	{r7, lr}
- 80066e0:	b082      	sub	sp, #8
- 80066e2:	af00      	add	r7, sp, #0
- 80066e4:	6078      	str	r0, [r7, #4]
-	this->bufferAddress++;
  80066e6:	687b      	ldr	r3, [r7, #4]
- 80066e8:	7e1b      	ldrb	r3, [r3, #24]
- 80066ea:	3301      	adds	r3, #1
- 80066ec:	b2da      	uxtb	r2, r3
- 80066ee:	687b      	ldr	r3, [r7, #4]
- 80066f0:	761a      	strb	r2, [r3, #24]
-	this->sent_bytes++;
- 80066f2:	687b      	ldr	r3, [r7, #4]
- 80066f4:	7f1b      	ldrb	r3, [r3, #28]
- 80066f6:	3301      	adds	r3, #1
- 80066f8:	b2da      	uxtb	r2, r3
- 80066fa:	687b      	ldr	r3, [r7, #4]
- 80066fc:	771a      	strb	r2, [r3, #28]
-	HAL_I2C_Slave_Seq_Transmit_IT(this->hi2c,
- 80066fe:	687b      	ldr	r3, [r7, #4]
- 8006700:	6918      	ldr	r0, [r3, #16]
+ 80066e8:	6918      	ldr	r0, [r3, #16]
 			&this->register_map[this->bufferAddress], 1, I2C_NEXT_FRAME);
- 8006702:	687b      	ldr	r3, [r7, #4]
- 8006704:	695b      	ldr	r3, [r3, #20]
- 8006706:	687a      	ldr	r2, [r7, #4]
- 8006708:	7e12      	ldrb	r2, [r2, #24]
+ 80066ea:	687b      	ldr	r3, [r7, #4]
+ 80066ec:	695b      	ldr	r3, [r3, #20]
+ 80066ee:	687a      	ldr	r2, [r7, #4]
+ 80066f0:	7e12      	ldrb	r2, [r2, #24]
+	HAL_I2C_Slave_Seq_Receive_IT(this->hi2c,
+ 80066f2:	1899      	adds	r1, r3, r2
+ 80066f4:	f04f 7380 	mov.w	r3, #16777216	@ 0x1000000
+ 80066f8:	2201      	movs	r2, #1
+ 80066fa:	f7fb fa07 	bl	8001b0c <HAL_I2C_Slave_Seq_Receive_IT>
+
+}
+ 80066fe:	bf00      	nop
+ 8006700:	3708      	adds	r7, #8
+ 8006702:	46bd      	mov	sp, r7
+ 8006704:	bd80      	pop	{r7, pc}
+
+08006706 <_ZN9I2C_Slave22i2c_txCompleteCallbackEv>:
+void I2C_Slave::i2c_txCompleteCallback() {
+ 8006706:	b580      	push	{r7, lr}
+ 8006708:	b082      	sub	sp, #8
+ 800670a:	af00      	add	r7, sp, #0
+ 800670c:	6078      	str	r0, [r7, #4]
+	this->bufferAddress++;
+ 800670e:	687b      	ldr	r3, [r7, #4]
+ 8006710:	7e1b      	ldrb	r3, [r3, #24]
+ 8006712:	3301      	adds	r3, #1
+ 8006714:	b2da      	uxtb	r2, r3
+ 8006716:	687b      	ldr	r3, [r7, #4]
+ 8006718:	761a      	strb	r2, [r3, #24]
+	this->sent_bytes++;
+ 800671a:	687b      	ldr	r3, [r7, #4]
+ 800671c:	7f1b      	ldrb	r3, [r3, #28]
+ 800671e:	3301      	adds	r3, #1
+ 8006720:	b2da      	uxtb	r2, r3
+ 8006722:	687b      	ldr	r3, [r7, #4]
+ 8006724:	771a      	strb	r2, [r3, #28]
 	HAL_I2C_Slave_Seq_Transmit_IT(this->hi2c,
- 800670a:	1899      	adds	r1, r3, r2
- 800670c:	f04f 7380 	mov.w	r3, #16777216	@ 0x1000000
- 8006710:	2201      	movs	r2, #1
- 8006712:	f7fb f949 	bl	80019a8 <HAL_I2C_Slave_Seq_Transmit_IT>
-
-}
- 8006716:	bf00      	nop
- 8006718:	3708      	adds	r7, #8
- 800671a:	46bd      	mov	sp, r7
- 800671c:	bd80      	pop	{r7, pc}
-
-0800671e <_ZN9I2C_Slave17i2c_errorCallbackEv>:
-void I2C_Slave::i2c_errorCallback() {
- 800671e:	b580      	push	{r7, lr}
- 8006720:	b082      	sub	sp, #8
- 8006722:	af00      	add	r7, sp, #0
- 8006724:	6078      	str	r0, [r7, #4]
-	nop();
- 8006726:	f7ff fe5b 	bl	80063e0 <_Z3nopv>
-	HAL_I2C_EnableListen_IT(this->hi2c);
+ 8006726:	687b      	ldr	r3, [r7, #4]
+ 8006728:	6918      	ldr	r0, [r3, #16]
+			&this->register_map[this->bufferAddress], 1, I2C_NEXT_FRAME);
  800672a:	687b      	ldr	r3, [r7, #4]
- 800672c:	691b      	ldr	r3, [r3, #16]
- 800672e:	4618      	mov	r0, r3
- 8006730:	f7fb fa9e 	bl	8001c70 <HAL_I2C_EnableListen_IT>
-}
- 8006734:	bf00      	nop
- 8006736:	3708      	adds	r7, #8
- 8006738:	46bd      	mov	sp, r7
- 800673a:	bd80      	pop	{r7, pc}
+ 800672c:	695b      	ldr	r3, [r3, #20]
+ 800672e:	687a      	ldr	r2, [r7, #4]
+ 8006730:	7e12      	ldrb	r2, [r2, #24]
+	HAL_I2C_Slave_Seq_Transmit_IT(this->hi2c,
+ 8006732:	1899      	adds	r1, r3, r2
+ 8006734:	f04f 7380 	mov.w	r3, #16777216	@ 0x1000000
+ 8006738:	2201      	movs	r2, #1
+ 800673a:	f7fb f935 	bl	80019a8 <HAL_I2C_Slave_Seq_Transmit_IT>
 
-0800673c <_ZN9I2C_Slave25i2c_abortCompleteCallbackEv>:
-void I2C_Slave::i2c_abortCompleteCallback() {
- 800673c:	b580      	push	{r7, lr}
- 800673e:	b082      	sub	sp, #8
- 8006740:	af00      	add	r7, sp, #0
- 8006742:	6078      	str	r0, [r7, #4]
+}
+ 800673e:	bf00      	nop
+ 8006740:	3708      	adds	r7, #8
+ 8006742:	46bd      	mov	sp, r7
+ 8006744:	bd80      	pop	{r7, pc}
+
+08006746 <_ZN9I2C_Slave17i2c_errorCallbackEv>:
+void I2C_Slave::i2c_errorCallback() {
+ 8006746:	b580      	push	{r7, lr}
+ 8006748:	b082      	sub	sp, #8
+ 800674a:	af00      	add	r7, sp, #0
+ 800674c:	6078      	str	r0, [r7, #4]
 	nop();
- 8006744:	f7ff fe4c 	bl	80063e0 <_Z3nopv>
+ 800674e:	f7ff fe5b 	bl	8006408 <_Z3nopv>
+	HAL_I2C_EnableListen_IT(this->hi2c);
+ 8006752:	687b      	ldr	r3, [r7, #4]
+ 8006754:	691b      	ldr	r3, [r3, #16]
+ 8006756:	4618      	mov	r0, r3
+ 8006758:	f7fb fa8a 	bl	8001c70 <HAL_I2C_EnableListen_IT>
 }
- 8006748:	bf00      	nop
- 800674a:	3708      	adds	r7, #8
- 800674c:	46bd      	mov	sp, r7
- 800674e:	bd80      	pop	{r7, pc}
+ 800675c:	bf00      	nop
+ 800675e:	3708      	adds	r7, #8
+ 8006760:	46bd      	mov	sp, r7
+ 8006762:	bd80      	pop	{r7, pc}
 
-08006750 <_ZN3LEDC1EP12GPIO_TypeDeft>:
+08006764 <_ZN9I2C_Slave25i2c_abortCompleteCallbackEv>:
+void I2C_Slave::i2c_abortCompleteCallback() {
+ 8006764:	b580      	push	{r7, lr}
+ 8006766:	b082      	sub	sp, #8
+ 8006768:	af00      	add	r7, sp, #0
+ 800676a:	6078      	str	r0, [r7, #4]
+	nop();
+ 800676c:	f7ff fe4c 	bl	8006408 <_Z3nopv>
+}
+ 8006770:	bf00      	nop
+ 8006772:	3708      	adds	r7, #8
+ 8006774:	46bd      	mov	sp, r7
+ 8006776:	bd80      	pop	{r7, pc}
+
+08006778 <_ZN3LEDC1EP12GPIO_TypeDeft>:
  */
 
 
 #include "led.h"
 
 LED::LED(GPIO_TypeDef* GPIOx, uint16_t PINx) {
- 8006750:	b480      	push	{r7}
- 8006752:	b085      	sub	sp, #20
- 8006754:	af00      	add	r7, sp, #0
- 8006756:	60f8      	str	r0, [r7, #12]
- 8006758:	60b9      	str	r1, [r7, #8]
- 800675a:	4613      	mov	r3, r2
- 800675c:	80fb      	strh	r3, [r7, #6]
+ 8006778:	b480      	push	{r7}
+ 800677a:	b085      	sub	sp, #20
+ 800677c:	af00      	add	r7, sp, #0
+ 800677e:	60f8      	str	r0, [r7, #12]
+ 8006780:	60b9      	str	r1, [r7, #8]
+ 8006782:	4613      	mov	r3, r2
+ 8006784:	80fb      	strh	r3, [r7, #6]
 	this->GPIOx = GPIOx;
- 800675e:	68fb      	ldr	r3, [r7, #12]
- 8006760:	68ba      	ldr	r2, [r7, #8]
- 8006762:	601a      	str	r2, [r3, #0]
+ 8006786:	68fb      	ldr	r3, [r7, #12]
+ 8006788:	68ba      	ldr	r2, [r7, #8]
+ 800678a:	601a      	str	r2, [r3, #0]
 	this->PINx = PINx;
- 8006764:	68fb      	ldr	r3, [r7, #12]
- 8006766:	88fa      	ldrh	r2, [r7, #6]
- 8006768:	809a      	strh	r2, [r3, #4]
+ 800678c:	68fb      	ldr	r3, [r7, #12]
+ 800678e:	88fa      	ldrh	r2, [r7, #6]
+ 8006790:	809a      	strh	r2, [r3, #4]
 }
- 800676a:	68fb      	ldr	r3, [r7, #12]
- 800676c:	4618      	mov	r0, r3
- 800676e:	3714      	adds	r7, #20
- 8006770:	46bd      	mov	sp, r7
- 8006772:	f85d 7b04 	ldr.w	r7, [sp], #4
- 8006776:	4770      	bx	lr
+ 8006792:	68fb      	ldr	r3, [r7, #12]
+ 8006794:	4618      	mov	r0, r3
+ 8006796:	3714      	adds	r7, #20
+ 8006798:	46bd      	mov	sp, r7
+ 800679a:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 800679e:	4770      	bx	lr
 
-08006778 <_ZN3LED2onEv>:
+080067a0 <_ZN3LED2onEv>:
 
 void LED::on() {
- 8006778:	b580      	push	{r7, lr}
- 800677a:	b082      	sub	sp, #8
- 800677c:	af00      	add	r7, sp, #0
- 800677e:	6078      	str	r0, [r7, #4]
+ 80067a0:	b580      	push	{r7, lr}
+ 80067a2:	b082      	sub	sp, #8
+ 80067a4:	af00      	add	r7, sp, #0
+ 80067a6:	6078      	str	r0, [r7, #4]
 	HAL_GPIO_WritePin(this->GPIOx, this->PINx, GPIO_PIN_SET);
- 8006780:	687b      	ldr	r3, [r7, #4]
- 8006782:	6818      	ldr	r0, [r3, #0]
- 8006784:	687b      	ldr	r3, [r7, #4]
- 8006786:	889b      	ldrh	r3, [r3, #4]
- 8006788:	2201      	movs	r2, #1
- 800678a:	4619      	mov	r1, r3
- 800678c:	f7fb f83e 	bl	800180c <HAL_GPIO_WritePin>
+ 80067a8:	687b      	ldr	r3, [r7, #4]
+ 80067aa:	6818      	ldr	r0, [r3, #0]
+ 80067ac:	687b      	ldr	r3, [r7, #4]
+ 80067ae:	889b      	ldrh	r3, [r3, #4]
+ 80067b0:	2201      	movs	r2, #1
+ 80067b2:	4619      	mov	r1, r3
+ 80067b4:	f7fb f82a 	bl	800180c <HAL_GPIO_WritePin>
 }
- 8006790:	bf00      	nop
- 8006792:	3708      	adds	r7, #8
- 8006794:	46bd      	mov	sp, r7
- 8006796:	bd80      	pop	{r7, pc}
+ 80067b8:	bf00      	nop
+ 80067ba:	3708      	adds	r7, #8
+ 80067bc:	46bd      	mov	sp, r7
+ 80067be:	bd80      	pop	{r7, pc}
 
-08006798 <_ZN3LED3offEv>:
+080067c0 <_ZN3LED3offEv>:
 
 
 void LED::off() {
- 8006798:	b580      	push	{r7, lr}
- 800679a:	b082      	sub	sp, #8
- 800679c:	af00      	add	r7, sp, #0
- 800679e:	6078      	str	r0, [r7, #4]
+ 80067c0:	b580      	push	{r7, lr}
+ 80067c2:	b082      	sub	sp, #8
+ 80067c4:	af00      	add	r7, sp, #0
+ 80067c6:	6078      	str	r0, [r7, #4]
 	HAL_GPIO_WritePin(this->GPIOx, this->PINx, GPIO_PIN_RESET);
- 80067a0:	687b      	ldr	r3, [r7, #4]
- 80067a2:	6818      	ldr	r0, [r3, #0]
- 80067a4:	687b      	ldr	r3, [r7, #4]
- 80067a6:	889b      	ldrh	r3, [r3, #4]
- 80067a8:	2200      	movs	r2, #0
- 80067aa:	4619      	mov	r1, r3
- 80067ac:	f7fb f82e 	bl	800180c <HAL_GPIO_WritePin>
+ 80067c8:	687b      	ldr	r3, [r7, #4]
+ 80067ca:	6818      	ldr	r0, [r3, #0]
+ 80067cc:	687b      	ldr	r3, [r7, #4]
+ 80067ce:	889b      	ldrh	r3, [r3, #4]
+ 80067d0:	2200      	movs	r2, #0
+ 80067d2:	4619      	mov	r1, r3
+ 80067d4:	f7fb f81a 	bl	800180c <HAL_GPIO_WritePin>
 }
- 80067b0:	bf00      	nop
- 80067b2:	3708      	adds	r7, #8
- 80067b4:	46bd      	mov	sp, r7
- 80067b6:	bd80      	pop	{r7, pc}
+ 80067d8:	bf00      	nop
+ 80067da:	3708      	adds	r7, #8
+ 80067dc:	46bd      	mov	sp, r7
+ 80067de:	bd80      	pop	{r7, pc}
 
-080067b8 <_ZN3LED6toggleEv>:
+080067e0 <_ZN3LED6toggleEv>:
 
 void LED::toggle() {
- 80067b8:	b580      	push	{r7, lr}
- 80067ba:	b082      	sub	sp, #8
- 80067bc:	af00      	add	r7, sp, #0
- 80067be:	6078      	str	r0, [r7, #4]
+ 80067e0:	b580      	push	{r7, lr}
+ 80067e2:	b082      	sub	sp, #8
+ 80067e4:	af00      	add	r7, sp, #0
+ 80067e6:	6078      	str	r0, [r7, #4]
 	HAL_GPIO_TogglePin(this->GPIOx, this->PINx);
- 80067c0:	687b      	ldr	r3, [r7, #4]
- 80067c2:	681a      	ldr	r2, [r3, #0]
- 80067c4:	687b      	ldr	r3, [r7, #4]
- 80067c6:	889b      	ldrh	r3, [r3, #4]
- 80067c8:	4619      	mov	r1, r3
- 80067ca:	4610      	mov	r0, r2
- 80067cc:	f7fb f836 	bl	800183c <HAL_GPIO_TogglePin>
+ 80067e8:	687b      	ldr	r3, [r7, #4]
+ 80067ea:	681a      	ldr	r2, [r3, #0]
+ 80067ec:	687b      	ldr	r3, [r7, #4]
+ 80067ee:	889b      	ldrh	r3, [r3, #4]
+ 80067f0:	4619      	mov	r1, r3
+ 80067f2:	4610      	mov	r0, r2
+ 80067f4:	f7fb f822 	bl	800183c <HAL_GPIO_TogglePin>
 }
- 80067d0:	bf00      	nop
- 80067d2:	3708      	adds	r7, #8
- 80067d4:	46bd      	mov	sp, r7
- 80067d6:	bd80      	pop	{r7, pc}
+ 80067f8:	bf00      	nop
+ 80067fa:	3708      	adds	r7, #8
+ 80067fc:	46bd      	mov	sp, r7
+ 80067fe:	bd80      	pop	{r7, pc}
 
-080067d8 <_ZN3LED8getStateEv>:
+08006800 <_ZN3LED8getStateEv>:
 
 uint8_t LED::getState(){
- 80067d8:	b580      	push	{r7, lr}
- 80067da:	b082      	sub	sp, #8
- 80067dc:	af00      	add	r7, sp, #0
- 80067de:	6078      	str	r0, [r7, #4]
+ 8006800:	b580      	push	{r7, lr}
+ 8006802:	b082      	sub	sp, #8
+ 8006804:	af00      	add	r7, sp, #0
+ 8006806:	6078      	str	r0, [r7, #4]
 	HAL_GPIO_ReadPin(this->GPIOx, this->PINx);
- 80067e0:	687b      	ldr	r3, [r7, #4]
- 80067e2:	681a      	ldr	r2, [r3, #0]
- 80067e4:	687b      	ldr	r3, [r7, #4]
- 80067e6:	889b      	ldrh	r3, [r3, #4]
- 80067e8:	4619      	mov	r1, r3
- 80067ea:	4610      	mov	r0, r2
- 80067ec:	f7fa fff6 	bl	80017dc <HAL_GPIO_ReadPin>
+ 8006808:	687b      	ldr	r3, [r7, #4]
+ 800680a:	681a      	ldr	r2, [r3, #0]
+ 800680c:	687b      	ldr	r3, [r7, #4]
+ 800680e:	889b      	ldrh	r3, [r3, #4]
+ 8006810:	4619      	mov	r1, r3
+ 8006812:	4610      	mov	r0, r2
+ 8006814:	f7fa ffe2 	bl	80017dc <HAL_GPIO_ReadPin>
 }
- 80067f0:	bf00      	nop
- 80067f2:	4618      	mov	r0, r3
- 80067f4:	3708      	adds	r7, #8
- 80067f6:	46bd      	mov	sp, r7
- 80067f8:	bd80      	pop	{r7, pc}
+ 8006818:	bf00      	nop
+ 800681a:	4618      	mov	r0, r3
+ 800681c:	3708      	adds	r7, #8
+ 800681e:	46bd      	mov	sp, r7
+ 8006820:	bd80      	pop	{r7, pc}
 
-080067fa <_ZN10WS2812_LEDC1Ev>:
+08006822 <_ZN10WS2812_LEDC1Ev>:
 #include <ws2812.h>
 
 uint8_t num_neopixel = 0;
 WS2812_Strand *neopixel_handler[2] = { 0 };
 
 WS2812_LED::WS2812_LED() {
- 80067fa:	b580      	push	{r7, lr}
- 80067fc:	b082      	sub	sp, #8
- 80067fe:	af00      	add	r7, sp, #0
- 8006800:	6078      	str	r0, [r7, #4]
- 8006802:	687b      	ldr	r3, [r7, #4]
- 8006804:	2200      	movs	r2, #0
- 8006806:	705a      	strb	r2, [r3, #1]
- 8006808:	687b      	ldr	r3, [r7, #4]
- 800680a:	2200      	movs	r2, #0
- 800680c:	709a      	strb	r2, [r3, #2]
- 800680e:	687b      	ldr	r3, [r7, #4]
- 8006810:	2200      	movs	r2, #0
- 8006812:	70da      	strb	r2, [r3, #3]
- 8006814:	687b      	ldr	r3, [r7, #4]
- 8006816:	2200      	movs	r2, #0
- 8006818:	729a      	strb	r2, [r3, #10]
- 800681a:	687b      	ldr	r3, [r7, #4]
- 800681c:	330c      	adds	r3, #12
- 800681e:	4618      	mov	r0, r3
- 8006820:	f7ff f919 	bl	8005a56 <_ZN13elapsedMillisC1Ev>
- 8006824:	687b      	ldr	r3, [r7, #4]
- 8006826:	3310      	adds	r3, #16
- 8006828:	2100      	movs	r1, #0
- 800682a:	460a      	mov	r2, r1
- 800682c:	801a      	strh	r2, [r3, #0]
- 800682e:	460a      	mov	r2, r1
- 8006830:	709a      	strb	r2, [r3, #2]
+ 8006822:	b580      	push	{r7, lr}
+ 8006824:	b082      	sub	sp, #8
+ 8006826:	af00      	add	r7, sp, #0
+ 8006828:	6078      	str	r0, [r7, #4]
+ 800682a:	687b      	ldr	r3, [r7, #4]
+ 800682c:	2200      	movs	r2, #0
+ 800682e:	705a      	strb	r2, [r3, #1]
+ 8006830:	687b      	ldr	r3, [r7, #4]
+ 8006832:	2200      	movs	r2, #0
+ 8006834:	709a      	strb	r2, [r3, #2]
+ 8006836:	687b      	ldr	r3, [r7, #4]
+ 8006838:	2200      	movs	r2, #0
+ 800683a:	70da      	strb	r2, [r3, #3]
+ 800683c:	687b      	ldr	r3, [r7, #4]
+ 800683e:	2200      	movs	r2, #0
+ 8006840:	729a      	strb	r2, [r3, #10]
+ 8006842:	687b      	ldr	r3, [r7, #4]
+ 8006844:	330c      	adds	r3, #12
+ 8006846:	4618      	mov	r0, r3
+ 8006848:	f7ff f905 	bl	8005a56 <_ZN13elapsedMillisC1Ev>
+ 800684c:	687b      	ldr	r3, [r7, #4]
+ 800684e:	3310      	adds	r3, #16
+ 8006850:	2100      	movs	r1, #0
+ 8006852:	460a      	mov	r2, r1
+ 8006854:	801a      	strh	r2, [r3, #0]
+ 8006856:	460a      	mov	r2, r1
+ 8006858:	709a      	strb	r2, [r3, #2]
 }
- 8006832:	687b      	ldr	r3, [r7, #4]
- 8006834:	4618      	mov	r0, r3
- 8006836:	3708      	adds	r7, #8
- 8006838:	46bd      	mov	sp, r7
- 800683a:	bd80      	pop	{r7, pc}
+ 800685a:	687b      	ldr	r3, [r7, #4]
+ 800685c:	4618      	mov	r0, r3
+ 800685e:	3708      	adds	r7, #8
+ 8006860:	46bd      	mov	sp, r7
+ 8006862:	bd80      	pop	{r7, pc}
 
-0800683c <_ZN10WS2812_LED8setColorEhhh>:
+08006864 <_ZN10WS2812_LED8setColorEhhh>:
 
 WS2812_LED::WS2812_LED(uint8_t position) {
 	this->strand_position = position;
 }
 
 void WS2812_LED::setColor(uint8_t red, uint8_t green, uint8_t blue) {
- 800683c:	b480      	push	{r7}
- 800683e:	b083      	sub	sp, #12
- 8006840:	af00      	add	r7, sp, #0
- 8006842:	6078      	str	r0, [r7, #4]
- 8006844:	4608      	mov	r0, r1
- 8006846:	4611      	mov	r1, r2
- 8006848:	461a      	mov	r2, r3
- 800684a:	4603      	mov	r3, r0
- 800684c:	70fb      	strb	r3, [r7, #3]
- 800684e:	460b      	mov	r3, r1
- 8006850:	70bb      	strb	r3, [r7, #2]
- 8006852:	4613      	mov	r3, r2
- 8006854:	707b      	strb	r3, [r7, #1]
+ 8006864:	b480      	push	{r7}
+ 8006866:	b083      	sub	sp, #12
+ 8006868:	af00      	add	r7, sp, #0
+ 800686a:	6078      	str	r0, [r7, #4]
+ 800686c:	4608      	mov	r0, r1
+ 800686e:	4611      	mov	r1, r2
+ 8006870:	461a      	mov	r2, r3
+ 8006872:	4603      	mov	r3, r0
+ 8006874:	70fb      	strb	r3, [r7, #3]
+ 8006876:	460b      	mov	r3, r1
+ 8006878:	70bb      	strb	r3, [r7, #2]
+ 800687a:	4613      	mov	r3, r2
+ 800687c:	707b      	strb	r3, [r7, #1]
 	this->red = red;
- 8006856:	687b      	ldr	r3, [r7, #4]
- 8006858:	78fa      	ldrb	r2, [r7, #3]
- 800685a:	705a      	strb	r2, [r3, #1]
+ 800687e:	687b      	ldr	r3, [r7, #4]
+ 8006880:	78fa      	ldrb	r2, [r7, #3]
+ 8006882:	705a      	strb	r2, [r3, #1]
 	this->green = green;
- 800685c:	687b      	ldr	r3, [r7, #4]
- 800685e:	78ba      	ldrb	r2, [r7, #2]
- 8006860:	709a      	strb	r2, [r3, #2]
+ 8006884:	687b      	ldr	r3, [r7, #4]
+ 8006886:	78ba      	ldrb	r2, [r7, #2]
+ 8006888:	709a      	strb	r2, [r3, #2]
 	this->blue = blue;
- 8006862:	687b      	ldr	r3, [r7, #4]
- 8006864:	787a      	ldrb	r2, [r7, #1]
- 8006866:	70da      	strb	r2, [r3, #3]
+ 800688a:	687b      	ldr	r3, [r7, #4]
+ 800688c:	787a      	ldrb	r2, [r7, #1]
+ 800688e:	70da      	strb	r2, [r3, #3]
 }
- 8006868:	bf00      	nop
- 800686a:	370c      	adds	r7, #12
- 800686c:	46bd      	mov	sp, r7
- 800686e:	f85d 7b04 	ldr.w	r7, [sp], #4
- 8006872:	4770      	bx	lr
+ 8006890:	bf00      	nop
+ 8006892:	370c      	adds	r7, #12
+ 8006894:	46bd      	mov	sp, r7
+ 8006896:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 800689a:	4770      	bx	lr
 
-08006874 <_ZN10WS2812_LED7setModeE15WS2812_LED_Mode>:
+0800689c <_ZN10WS2812_LED7setModeE15WS2812_LED_Mode>:
 
 void WS2812_LED::setMode(WS2812_LED_Mode mode) {
- 8006874:	b580      	push	{r7, lr}
- 8006876:	b082      	sub	sp, #8
- 8006878:	af00      	add	r7, sp, #0
- 800687a:	6078      	str	r0, [r7, #4]
- 800687c:	460b      	mov	r3, r1
- 800687e:	70fb      	strb	r3, [r7, #3]
+ 800689c:	b580      	push	{r7, lr}
+ 800689e:	b082      	sub	sp, #8
+ 80068a0:	af00      	add	r7, sp, #0
+ 80068a2:	6078      	str	r0, [r7, #4]
+ 80068a4:	460b      	mov	r3, r1
+ 80068a6:	70fb      	strb	r3, [r7, #3]
 	if (this->mode == WS2812_LED_MODE_CONTINIOUS && mode == WS2812_LED_MODE_BLINK){
- 8006880:	687b      	ldr	r3, [r7, #4]
- 8006882:	791b      	ldrb	r3, [r3, #4]
- 8006884:	2b00      	cmp	r3, #0
- 8006886:	d105      	bne.n	8006894 <_ZN10WS2812_LED7setModeE15WS2812_LED_Mode+0x20>
- 8006888:	78fb      	ldrb	r3, [r7, #3]
- 800688a:	2b01      	cmp	r3, #1
- 800688c:	d102      	bne.n	8006894 <_ZN10WS2812_LED7setModeE15WS2812_LED_Mode+0x20>
+ 80068a8:	687b      	ldr	r3, [r7, #4]
+ 80068aa:	791b      	ldrb	r3, [r3, #4]
+ 80068ac:	2b00      	cmp	r3, #0
+ 80068ae:	d105      	bne.n	80068bc <_ZN10WS2812_LED7setModeE15WS2812_LED_Mode+0x20>
+ 80068b0:	78fb      	ldrb	r3, [r7, #3]
+ 80068b2:	2b01      	cmp	r3, #1
+ 80068b4:	d102      	bne.n	80068bc <_ZN10WS2812_LED7setModeE15WS2812_LED_Mode+0x20>
 		this->blink();
- 800688e:	6878      	ldr	r0, [r7, #4]
- 8006890:	f000 f81b 	bl	80068ca <_ZN10WS2812_LED5blinkEv>
+ 80068b6:	6878      	ldr	r0, [r7, #4]
+ 80068b8:	f000 f81b 	bl	80068f2 <_ZN10WS2812_LED5blinkEv>
 	}
 	this->mode = mode;
- 8006894:	687b      	ldr	r3, [r7, #4]
- 8006896:	78fa      	ldrb	r2, [r7, #3]
- 8006898:	711a      	strb	r2, [r3, #4]
+ 80068bc:	687b      	ldr	r3, [r7, #4]
+ 80068be:	78fa      	ldrb	r2, [r7, #3]
+ 80068c0:	711a      	strb	r2, [r3, #4]
 }
- 800689a:	bf00      	nop
- 800689c:	3708      	adds	r7, #8
- 800689e:	46bd      	mov	sp, r7
- 80068a0:	bd80      	pop	{r7, pc}
+ 80068c2:	bf00      	nop
+ 80068c4:	3708      	adds	r7, #8
+ 80068c6:	46bd      	mov	sp, r7
+ 80068c8:	bd80      	pop	{r7, pc}
 
-080068a2 <_ZN10WS2812_LED14setBlinkConfigEta>:
+080068ca <_ZN10WS2812_LED14setBlinkConfigEta>:
 void WS2812_LED::setBlinkConfig(WS2812_blink_config config) {
 	this->blink_config = config;
 }
 
 void WS2812_LED::setBlinkConfig(uint16_t on_time_ms, int8_t counter) {
- 80068a2:	b480      	push	{r7}
- 80068a4:	b083      	sub	sp, #12
- 80068a6:	af00      	add	r7, sp, #0
- 80068a8:	6078      	str	r0, [r7, #4]
- 80068aa:	460b      	mov	r3, r1
- 80068ac:	807b      	strh	r3, [r7, #2]
- 80068ae:	4613      	mov	r3, r2
- 80068b0:	707b      	strb	r3, [r7, #1]
+ 80068ca:	b480      	push	{r7}
+ 80068cc:	b083      	sub	sp, #12
+ 80068ce:	af00      	add	r7, sp, #0
+ 80068d0:	6078      	str	r0, [r7, #4]
+ 80068d2:	460b      	mov	r3, r1
+ 80068d4:	807b      	strh	r3, [r7, #2]
+ 80068d6:	4613      	mov	r3, r2
+ 80068d8:	707b      	strb	r3, [r7, #1]
 	this->blink_config.on_time_ms = on_time_ms;
- 80068b2:	687b      	ldr	r3, [r7, #4]
- 80068b4:	887a      	ldrh	r2, [r7, #2]
- 80068b6:	811a      	strh	r2, [r3, #8]
+ 80068da:	687b      	ldr	r3, [r7, #4]
+ 80068dc:	887a      	ldrh	r2, [r7, #2]
+ 80068de:	811a      	strh	r2, [r3, #8]
 	this->blink_config.counter = counter;
- 80068b8:	687b      	ldr	r3, [r7, #4]
- 80068ba:	787a      	ldrb	r2, [r7, #1]
- 80068bc:	719a      	strb	r2, [r3, #6]
+ 80068e0:	687b      	ldr	r3, [r7, #4]
+ 80068e2:	787a      	ldrb	r2, [r7, #1]
+ 80068e4:	719a      	strb	r2, [r3, #6]
 }
- 80068be:	bf00      	nop
- 80068c0:	370c      	adds	r7, #12
- 80068c2:	46bd      	mov	sp, r7
- 80068c4:	f85d 7b04 	ldr.w	r7, [sp], #4
- 80068c8:	4770      	bx	lr
+ 80068e6:	bf00      	nop
+ 80068e8:	370c      	adds	r7, #12
+ 80068ea:	46bd      	mov	sp, r7
+ 80068ec:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 80068f0:	4770      	bx	lr
 
-080068ca <_ZN10WS2812_LED5blinkEv>:
+080068f2 <_ZN10WS2812_LED5blinkEv>:
 
 void WS2812_LED::setContiniousOutput(uint8_t output) {
 	this->continious_output = output;
 }
 
 void WS2812_LED::blink() {
- 80068ca:	b580      	push	{r7, lr}
- 80068cc:	b082      	sub	sp, #8
- 80068ce:	af00      	add	r7, sp, #0
- 80068d0:	6078      	str	r0, [r7, #4]
+ 80068f2:	b580      	push	{r7, lr}
+ 80068f4:	b082      	sub	sp, #8
+ 80068f6:	af00      	add	r7, sp, #0
+ 80068f8:	6078      	str	r0, [r7, #4]
 	if (this->mode == WS2812_LED_MODE_CONTINIOUS){
- 80068d2:	687b      	ldr	r3, [r7, #4]
- 80068d4:	791b      	ldrb	r3, [r3, #4]
- 80068d6:	2b00      	cmp	r3, #0
- 80068d8:	d11a      	bne.n	8006910 <_ZN10WS2812_LED5blinkEv+0x46>
+ 80068fa:	687b      	ldr	r3, [r7, #4]
+ 80068fc:	791b      	ldrb	r3, [r3, #4]
+ 80068fe:	2b00      	cmp	r3, #0
+ 8006900:	d11a      	bne.n	8006938 <_ZN10WS2812_LED5blinkEv+0x46>
 		this->mode = WS2812_LED_MODE_BLINK;
- 80068da:	687b      	ldr	r3, [r7, #4]
- 80068dc:	2201      	movs	r2, #1
- 80068de:	711a      	strb	r2, [r3, #4]
-		this->blink_output = !this->continious_output;
- 80068e0:	687b      	ldr	r3, [r7, #4]
- 80068e2:	7a9b      	ldrb	r3, [r3, #10]
- 80068e4:	2b00      	cmp	r3, #0
- 80068e6:	bf0c      	ite	eq
- 80068e8:	2301      	moveq	r3, #1
- 80068ea:	2300      	movne	r3, #0
- 80068ec:	b2db      	uxtb	r3, r3
- 80068ee:	461a      	mov	r2, r3
- 80068f0:	687b      	ldr	r3, [r7, #4]
- 80068f2:	74da      	strb	r2, [r3, #19]
-		this->blink_counter = this->blink_config.counter*2;
- 80068f4:	687b      	ldr	r3, [r7, #4]
- 80068f6:	f993 3006 	ldrsb.w	r3, [r3, #6]
- 80068fa:	b2db      	uxtb	r3, r3
- 80068fc:	005b      	lsls	r3, r3, #1
- 80068fe:	b2db      	uxtb	r3, r3
- 8006900:	b25a      	sxtb	r2, r3
  8006902:	687b      	ldr	r3, [r7, #4]
- 8006904:	751a      	strb	r2, [r3, #20]
+ 8006904:	2201      	movs	r2, #1
+ 8006906:	711a      	strb	r2, [r3, #4]
+		this->blink_output = !this->continious_output;
+ 8006908:	687b      	ldr	r3, [r7, #4]
+ 800690a:	7a9b      	ldrb	r3, [r3, #10]
+ 800690c:	2b00      	cmp	r3, #0
+ 800690e:	bf0c      	ite	eq
+ 8006910:	2301      	moveq	r3, #1
+ 8006912:	2300      	movne	r3, #0
+ 8006914:	b2db      	uxtb	r3, r3
+ 8006916:	461a      	mov	r2, r3
+ 8006918:	687b      	ldr	r3, [r7, #4]
+ 800691a:	74da      	strb	r2, [r3, #19]
+		this->blink_counter = this->blink_config.counter*2;
+ 800691c:	687b      	ldr	r3, [r7, #4]
+ 800691e:	f993 3006 	ldrsb.w	r3, [r3, #6]
+ 8006922:	b2db      	uxtb	r3, r3
+ 8006924:	005b      	lsls	r3, r3, #1
+ 8006926:	b2db      	uxtb	r3, r3
+ 8006928:	b25a      	sxtb	r2, r3
+ 800692a:	687b      	ldr	r3, [r7, #4]
+ 800692c:	751a      	strb	r2, [r3, #20]
 		this->blinkTimer.reset();
- 8006906:	687b      	ldr	r3, [r7, #4]
- 8006908:	330c      	adds	r3, #12
- 800690a:	4618      	mov	r0, r3
- 800690c:	f7ff f896 	bl	8005a3c <_ZN13elapsedMillis5resetEv>
+ 800692e:	687b      	ldr	r3, [r7, #4]
+ 8006930:	330c      	adds	r3, #12
+ 8006932:	4618      	mov	r0, r3
+ 8006934:	f7ff f882 	bl	8005a3c <_ZN13elapsedMillis5resetEv>
 	}
 }
- 8006910:	bf00      	nop
- 8006912:	3708      	adds	r7, #8
- 8006914:	46bd      	mov	sp, r7
- 8006916:	bd80      	pop	{r7, pc}
+ 8006938:	bf00      	nop
+ 800693a:	3708      	adds	r7, #8
+ 800693c:	46bd      	mov	sp, r7
+ 800693e:	bd80      	pop	{r7, pc}
 
-08006918 <_ZN10WS2812_LED6updateEv>:
+08006940 <_ZN10WS2812_LED6updateEv>:
 
 void WS2812_LED::update() {
- 8006918:	b580      	push	{r7, lr}
- 800691a:	b082      	sub	sp, #8
- 800691c:	af00      	add	r7, sp, #0
- 800691e:	6078      	str	r0, [r7, #4]
+ 8006940:	b580      	push	{r7, lr}
+ 8006942:	b082      	sub	sp, #8
+ 8006944:	af00      	add	r7, sp, #0
+ 8006946:	6078      	str	r0, [r7, #4]
 
 	if (this->mode == WS2812_LED_MODE_CONTINIOUS) {
- 8006920:	687b      	ldr	r3, [r7, #4]
- 8006922:	791b      	ldrb	r3, [r3, #4]
- 8006924:	2b00      	cmp	r3, #0
- 8006926:	d11b      	bne.n	8006960 <_ZN10WS2812_LED6updateEv+0x48>
+ 8006948:	687b      	ldr	r3, [r7, #4]
+ 800694a:	791b      	ldrb	r3, [r3, #4]
+ 800694c:	2b00      	cmp	r3, #0
+ 800694e:	d11b      	bne.n	8006988 <_ZN10WS2812_LED6updateEv+0x48>
 
 		this->led_data[0] = this->green * this->continious_output;
- 8006928:	687b      	ldr	r3, [r7, #4]
- 800692a:	789a      	ldrb	r2, [r3, #2]
- 800692c:	687b      	ldr	r3, [r7, #4]
- 800692e:	7a9b      	ldrb	r3, [r3, #10]
- 8006930:	fb12 f303 	smulbb	r3, r2, r3
- 8006934:	b2da      	uxtb	r2, r3
- 8006936:	687b      	ldr	r3, [r7, #4]
- 8006938:	741a      	strb	r2, [r3, #16]
-		this->led_data[1] = this->red * this->continious_output;
- 800693a:	687b      	ldr	r3, [r7, #4]
- 800693c:	785a      	ldrb	r2, [r3, #1]
- 800693e:	687b      	ldr	r3, [r7, #4]
- 8006940:	7a9b      	ldrb	r3, [r3, #10]
- 8006942:	fb12 f303 	smulbb	r3, r2, r3
- 8006946:	b2da      	uxtb	r2, r3
- 8006948:	687b      	ldr	r3, [r7, #4]
- 800694a:	745a      	strb	r2, [r3, #17]
-		this->led_data[2] = this->blue * this->continious_output;
- 800694c:	687b      	ldr	r3, [r7, #4]
- 800694e:	78da      	ldrb	r2, [r3, #3]
  8006950:	687b      	ldr	r3, [r7, #4]
- 8006952:	7a9b      	ldrb	r3, [r3, #10]
- 8006954:	fb12 f303 	smulbb	r3, r2, r3
- 8006958:	b2da      	uxtb	r2, r3
- 800695a:	687b      	ldr	r3, [r7, #4]
- 800695c:	749a      	strb	r2, [r3, #18]
+ 8006952:	789a      	ldrb	r2, [r3, #2]
+ 8006954:	687b      	ldr	r3, [r7, #4]
+ 8006956:	7a9b      	ldrb	r3, [r3, #10]
+ 8006958:	fb12 f303 	smulbb	r3, r2, r3
+ 800695c:	b2da      	uxtb	r2, r3
+ 800695e:	687b      	ldr	r3, [r7, #4]
+ 8006960:	741a      	strb	r2, [r3, #16]
+		this->led_data[1] = this->red * this->continious_output;
+ 8006962:	687b      	ldr	r3, [r7, #4]
+ 8006964:	785a      	ldrb	r2, [r3, #1]
+ 8006966:	687b      	ldr	r3, [r7, #4]
+ 8006968:	7a9b      	ldrb	r3, [r3, #10]
+ 800696a:	fb12 f303 	smulbb	r3, r2, r3
+ 800696e:	b2da      	uxtb	r2, r3
+ 8006970:	687b      	ldr	r3, [r7, #4]
+ 8006972:	745a      	strb	r2, [r3, #17]
+		this->led_data[2] = this->blue * this->continious_output;
+ 8006974:	687b      	ldr	r3, [r7, #4]
+ 8006976:	78da      	ldrb	r2, [r3, #3]
+ 8006978:	687b      	ldr	r3, [r7, #4]
+ 800697a:	7a9b      	ldrb	r3, [r3, #10]
+ 800697c:	fb12 f303 	smulbb	r3, r2, r3
+ 8006980:	b2da      	uxtb	r2, r3
+ 8006982:	687b      	ldr	r3, [r7, #4]
+ 8006984:	749a      	strb	r2, [r3, #18]
 
 		this->led_data[0] = this->green * this->blink_output;
 		this->led_data[1] = this->red * this->blink_output;
 		this->led_data[2] = this->blue * this->blink_output;
 	}
 }
- 800695e:	e056      	b.n	8006a0e <_ZN10WS2812_LED6updateEv+0xf6>
+ 8006986:	e056      	b.n	8006a36 <_ZN10WS2812_LED6updateEv+0xf6>
 	} else if (this->mode == WS2812_LED_MODE_BLINK) {
- 8006960:	687b      	ldr	r3, [r7, #4]
- 8006962:	791b      	ldrb	r3, [r3, #4]
- 8006964:	2b01      	cmp	r3, #1
- 8006966:	d152      	bne.n	8006a0e <_ZN10WS2812_LED6updateEv+0xf6>
+ 8006988:	687b      	ldr	r3, [r7, #4]
+ 800698a:	791b      	ldrb	r3, [r3, #4]
+ 800698c:	2b01      	cmp	r3, #1
+ 800698e:	d152      	bne.n	8006a36 <_ZN10WS2812_LED6updateEv+0xf6>
 		if (this->blinkTimer >= this->blink_config.on_time_ms){
- 8006968:	687b      	ldr	r3, [r7, #4]
- 800696a:	330c      	adds	r3, #12
- 800696c:	4618      	mov	r0, r3
- 800696e:	f7ff f880 	bl	8005a72 <_ZNK13elapsedMilliscvmEv>
- 8006972:	4602      	mov	r2, r0
- 8006974:	687b      	ldr	r3, [r7, #4]
- 8006976:	891b      	ldrh	r3, [r3, #8]
- 8006978:	429a      	cmp	r2, r3
- 800697a:	bf2c      	ite	cs
- 800697c:	2301      	movcs	r3, #1
- 800697e:	2300      	movcc	r3, #0
- 8006980:	b2db      	uxtb	r3, r3
- 8006982:	2b00      	cmp	r3, #0
- 8006984:	d028      	beq.n	80069d8 <_ZN10WS2812_LED6updateEv+0xc0>
-			this->blinkTimer.reset();
- 8006986:	687b      	ldr	r3, [r7, #4]
- 8006988:	330c      	adds	r3, #12
- 800698a:	4618      	mov	r0, r3
- 800698c:	f7ff f856 	bl	8005a3c <_ZN13elapsedMillis5resetEv>
-			this->blink_output = !this->blink_output;
  8006990:	687b      	ldr	r3, [r7, #4]
- 8006992:	7cdb      	ldrb	r3, [r3, #19]
- 8006994:	2b00      	cmp	r3, #0
- 8006996:	bf0c      	ite	eq
- 8006998:	2301      	moveq	r3, #1
- 800699a:	2300      	movne	r3, #0
- 800699c:	b2db      	uxtb	r3, r3
- 800699e:	461a      	mov	r2, r3
- 80069a0:	687b      	ldr	r3, [r7, #4]
- 80069a2:	74da      	strb	r2, [r3, #19]
-			if (this->blink_counter > 0){
- 80069a4:	687b      	ldr	r3, [r7, #4]
- 80069a6:	f993 3014 	ldrsb.w	r3, [r3, #20]
+ 8006992:	330c      	adds	r3, #12
+ 8006994:	4618      	mov	r0, r3
+ 8006996:	f7ff f86c 	bl	8005a72 <_ZNK13elapsedMilliscvmEv>
+ 800699a:	4602      	mov	r2, r0
+ 800699c:	687b      	ldr	r3, [r7, #4]
+ 800699e:	891b      	ldrh	r3, [r3, #8]
+ 80069a0:	429a      	cmp	r2, r3
+ 80069a2:	bf2c      	ite	cs
+ 80069a4:	2301      	movcs	r3, #1
+ 80069a6:	2300      	movcc	r3, #0
+ 80069a8:	b2db      	uxtb	r3, r3
  80069aa:	2b00      	cmp	r3, #0
- 80069ac:	dd14      	ble.n	80069d8 <_ZN10WS2812_LED6updateEv+0xc0>
-				this->blink_counter--;
+ 80069ac:	d028      	beq.n	8006a00 <_ZN10WS2812_LED6updateEv+0xc0>
+			this->blinkTimer.reset();
  80069ae:	687b      	ldr	r3, [r7, #4]
- 80069b0:	f993 3014 	ldrsb.w	r3, [r3, #20]
- 80069b4:	b2db      	uxtb	r3, r3
- 80069b6:	3b01      	subs	r3, #1
- 80069b8:	b2db      	uxtb	r3, r3
- 80069ba:	b25a      	sxtb	r2, r3
- 80069bc:	687b      	ldr	r3, [r7, #4]
- 80069be:	751a      	strb	r2, [r3, #20]
+ 80069b0:	330c      	adds	r3, #12
+ 80069b2:	4618      	mov	r0, r3
+ 80069b4:	f7ff f842 	bl	8005a3c <_ZN13elapsedMillis5resetEv>
+			this->blink_output = !this->blink_output;
+ 80069b8:	687b      	ldr	r3, [r7, #4]
+ 80069ba:	7cdb      	ldrb	r3, [r3, #19]
+ 80069bc:	2b00      	cmp	r3, #0
+ 80069be:	bf0c      	ite	eq
+ 80069c0:	2301      	moveq	r3, #1
+ 80069c2:	2300      	movne	r3, #0
+ 80069c4:	b2db      	uxtb	r3, r3
+ 80069c6:	461a      	mov	r2, r3
+ 80069c8:	687b      	ldr	r3, [r7, #4]
+ 80069ca:	74da      	strb	r2, [r3, #19]
+			if (this->blink_counter > 0){
+ 80069cc:	687b      	ldr	r3, [r7, #4]
+ 80069ce:	f993 3014 	ldrsb.w	r3, [r3, #20]
+ 80069d2:	2b00      	cmp	r3, #0
+ 80069d4:	dd14      	ble.n	8006a00 <_ZN10WS2812_LED6updateEv+0xc0>
+				this->blink_counter--;
+ 80069d6:	687b      	ldr	r3, [r7, #4]
+ 80069d8:	f993 3014 	ldrsb.w	r3, [r3, #20]
+ 80069dc:	b2db      	uxtb	r3, r3
+ 80069de:	3b01      	subs	r3, #1
+ 80069e0:	b2db      	uxtb	r3, r3
+ 80069e2:	b25a      	sxtb	r2, r3
+ 80069e4:	687b      	ldr	r3, [r7, #4]
+ 80069e6:	751a      	strb	r2, [r3, #20]
 				if (this->blink_counter == 0){
- 80069c0:	687b      	ldr	r3, [r7, #4]
- 80069c2:	f993 3014 	ldrsb.w	r3, [r3, #20]
- 80069c6:	2b00      	cmp	r3, #0
- 80069c8:	d106      	bne.n	80069d8 <_ZN10WS2812_LED6updateEv+0xc0>
+ 80069e8:	687b      	ldr	r3, [r7, #4]
+ 80069ea:	f993 3014 	ldrsb.w	r3, [r3, #20]
+ 80069ee:	2b00      	cmp	r3, #0
+ 80069f0:	d106      	bne.n	8006a00 <_ZN10WS2812_LED6updateEv+0xc0>
 					this->mode = WS2812_LED_MODE_CONTINIOUS;
- 80069ca:	687b      	ldr	r3, [r7, #4]
- 80069cc:	2200      	movs	r2, #0
- 80069ce:	711a      	strb	r2, [r3, #4]
+ 80069f2:	687b      	ldr	r3, [r7, #4]
+ 80069f4:	2200      	movs	r2, #0
+ 80069f6:	711a      	strb	r2, [r3, #4]
 					this->blink_output = this->continious_output;
- 80069d0:	687b      	ldr	r3, [r7, #4]
- 80069d2:	7a9a      	ldrb	r2, [r3, #10]
- 80069d4:	687b      	ldr	r3, [r7, #4]
- 80069d6:	74da      	strb	r2, [r3, #19]
-		this->led_data[0] = this->green * this->blink_output;
- 80069d8:	687b      	ldr	r3, [r7, #4]
- 80069da:	789a      	ldrb	r2, [r3, #2]
- 80069dc:	687b      	ldr	r3, [r7, #4]
- 80069de:	7cdb      	ldrb	r3, [r3, #19]
- 80069e0:	fb12 f303 	smulbb	r3, r2, r3
- 80069e4:	b2da      	uxtb	r2, r3
- 80069e6:	687b      	ldr	r3, [r7, #4]
- 80069e8:	741a      	strb	r2, [r3, #16]
-		this->led_data[1] = this->red * this->blink_output;
- 80069ea:	687b      	ldr	r3, [r7, #4]
- 80069ec:	785a      	ldrb	r2, [r3, #1]
- 80069ee:	687b      	ldr	r3, [r7, #4]
- 80069f0:	7cdb      	ldrb	r3, [r3, #19]
- 80069f2:	fb12 f303 	smulbb	r3, r2, r3
- 80069f6:	b2da      	uxtb	r2, r3
  80069f8:	687b      	ldr	r3, [r7, #4]
- 80069fa:	745a      	strb	r2, [r3, #17]
-		this->led_data[2] = this->blue * this->blink_output;
+ 80069fa:	7a9a      	ldrb	r2, [r3, #10]
  80069fc:	687b      	ldr	r3, [r7, #4]
- 80069fe:	78da      	ldrb	r2, [r3, #3]
+ 80069fe:	74da      	strb	r2, [r3, #19]
+		this->led_data[0] = this->green * this->blink_output;
  8006a00:	687b      	ldr	r3, [r7, #4]
- 8006a02:	7cdb      	ldrb	r3, [r3, #19]
- 8006a04:	fb12 f303 	smulbb	r3, r2, r3
- 8006a08:	b2da      	uxtb	r2, r3
- 8006a0a:	687b      	ldr	r3, [r7, #4]
- 8006a0c:	749a      	strb	r2, [r3, #18]
+ 8006a02:	789a      	ldrb	r2, [r3, #2]
+ 8006a04:	687b      	ldr	r3, [r7, #4]
+ 8006a06:	7cdb      	ldrb	r3, [r3, #19]
+ 8006a08:	fb12 f303 	smulbb	r3, r2, r3
+ 8006a0c:	b2da      	uxtb	r2, r3
+ 8006a0e:	687b      	ldr	r3, [r7, #4]
+ 8006a10:	741a      	strb	r2, [r3, #16]
+		this->led_data[1] = this->red * this->blink_output;
+ 8006a12:	687b      	ldr	r3, [r7, #4]
+ 8006a14:	785a      	ldrb	r2, [r3, #1]
+ 8006a16:	687b      	ldr	r3, [r7, #4]
+ 8006a18:	7cdb      	ldrb	r3, [r3, #19]
+ 8006a1a:	fb12 f303 	smulbb	r3, r2, r3
+ 8006a1e:	b2da      	uxtb	r2, r3
+ 8006a20:	687b      	ldr	r3, [r7, #4]
+ 8006a22:	745a      	strb	r2, [r3, #17]
+		this->led_data[2] = this->blue * this->blink_output;
+ 8006a24:	687b      	ldr	r3, [r7, #4]
+ 8006a26:	78da      	ldrb	r2, [r3, #3]
+ 8006a28:	687b      	ldr	r3, [r7, #4]
+ 8006a2a:	7cdb      	ldrb	r3, [r3, #19]
+ 8006a2c:	fb12 f303 	smulbb	r3, r2, r3
+ 8006a30:	b2da      	uxtb	r2, r3
+ 8006a32:	687b      	ldr	r3, [r7, #4]
+ 8006a34:	749a      	strb	r2, [r3, #18]
 }
- 8006a0e:	bf00      	nop
- 8006a10:	3708      	adds	r7, #8
- 8006a12:	46bd      	mov	sp, r7
- 8006a14:	bd80      	pop	{r7, pc}
+ 8006a36:	bf00      	nop
+ 8006a38:	3708      	adds	r7, #8
+ 8006a3a:	46bd      	mov	sp, r7
+ 8006a3c:	bd80      	pop	{r7, pc}
 
-08006a16 <_ZN13WS2812_StrandC1EP17TIM_HandleTypeDefmh>:
+08006a3e <_ZN13WS2812_StrandC1EP17TIM_HandleTypeDefmh>:
 	this->tim = tim;
 	this->timer_channel = timer_channel;
 	this->num_led = MAX_LED;
 }
 
 WS2812_Strand::WS2812_Strand(TIM_HandleTypeDef *tim, uint32_t timer_channel,
- 8006a16:	b5b0      	push	{r4, r5, r7, lr}
- 8006a18:	b084      	sub	sp, #16
- 8006a1a:	af00      	add	r7, sp, #0
- 8006a1c:	60f8      	str	r0, [r7, #12]
- 8006a1e:	60b9      	str	r1, [r7, #8]
- 8006a20:	607a      	str	r2, [r7, #4]
- 8006a22:	70fb      	strb	r3, [r7, #3]
+ 8006a3e:	b5b0      	push	{r4, r5, r7, lr}
+ 8006a40:	b084      	sub	sp, #16
+ 8006a42:	af00      	add	r7, sp, #0
+ 8006a44:	60f8      	str	r0, [r7, #12]
+ 8006a46:	60b9      	str	r1, [r7, #8]
+ 8006a48:	607a      	str	r2, [r7, #4]
+ 8006a4a:	70fb      	strb	r3, [r7, #3]
 		uint8_t num_led) {
- 8006a24:	68fb      	ldr	r3, [r7, #12]
- 8006a26:	240f      	movs	r4, #15
- 8006a28:	461d      	mov	r5, r3
- 8006a2a:	e004      	b.n	8006a36 <_ZN13WS2812_StrandC1EP17TIM_HandleTypeDefmh+0x20>
- 8006a2c:	4628      	mov	r0, r5
- 8006a2e:	f7ff fee4 	bl	80067fa <_ZN10WS2812_LEDC1Ev>
- 8006a32:	3c01      	subs	r4, #1
- 8006a34:	3518      	adds	r5, #24
- 8006a36:	2c00      	cmp	r4, #0
- 8006a38:	daf8      	bge.n	8006a2c <_ZN13WS2812_StrandC1EP17TIM_HandleTypeDefmh+0x16>
- 8006a3a:	68fb      	ldr	r3, [r7, #12]
- 8006a3c:	2200      	movs	r2, #0
- 8006a3e:	f883 2188 	strb.w	r2, [r3, #392]	@ 0x188
- 8006a42:	68fb      	ldr	r3, [r7, #12]
- 8006a44:	2200      	movs	r2, #0
- 8006a46:	f8c3 237c 	str.w	r2, [r3, #892]	@ 0x37c
-	this->tim = tim;
- 8006a4a:	68fb      	ldr	r3, [r7, #12]
- 8006a4c:	68ba      	ldr	r2, [r7, #8]
- 8006a4e:	f8c3 2180 	str.w	r2, [r3, #384]	@ 0x180
-	this->timer_channel = timer_channel;
- 8006a52:	68fb      	ldr	r3, [r7, #12]
- 8006a54:	687a      	ldr	r2, [r7, #4]
- 8006a56:	f8c3 2184 	str.w	r2, [r3, #388]	@ 0x184
-	this->num_led = num_led;
- 8006a5a:	68fb      	ldr	r3, [r7, #12]
- 8006a5c:	78fa      	ldrb	r2, [r7, #3]
- 8006a5e:	f883 2189 	strb.w	r2, [r3, #393]	@ 0x189
-}
+ 8006a4c:	68fb      	ldr	r3, [r7, #12]
+ 8006a4e:	240f      	movs	r4, #15
+ 8006a50:	461d      	mov	r5, r3
+ 8006a52:	e004      	b.n	8006a5e <_ZN13WS2812_StrandC1EP17TIM_HandleTypeDefmh+0x20>
+ 8006a54:	4628      	mov	r0, r5
+ 8006a56:	f7ff fee4 	bl	8006822 <_ZN10WS2812_LEDC1Ev>
+ 8006a5a:	3c01      	subs	r4, #1
+ 8006a5c:	3518      	adds	r5, #24
+ 8006a5e:	2c00      	cmp	r4, #0
+ 8006a60:	daf8      	bge.n	8006a54 <_ZN13WS2812_StrandC1EP17TIM_HandleTypeDefmh+0x16>
  8006a62:	68fb      	ldr	r3, [r7, #12]
- 8006a64:	4618      	mov	r0, r3
- 8006a66:	3710      	adds	r7, #16
- 8006a68:	46bd      	mov	sp, r7
- 8006a6a:	bdb0      	pop	{r4, r5, r7, pc}
+ 8006a64:	2200      	movs	r2, #0
+ 8006a66:	f883 2188 	strb.w	r2, [r3, #392]	@ 0x188
+ 8006a6a:	68fb      	ldr	r3, [r7, #12]
+ 8006a6c:	2200      	movs	r2, #0
+ 8006a6e:	f8c3 237c 	str.w	r2, [r3, #892]	@ 0x37c
+	this->tim = tim;
+ 8006a72:	68fb      	ldr	r3, [r7, #12]
+ 8006a74:	68ba      	ldr	r2, [r7, #8]
+ 8006a76:	f8c3 2180 	str.w	r2, [r3, #384]	@ 0x180
+	this->timer_channel = timer_channel;
+ 8006a7a:	68fb      	ldr	r3, [r7, #12]
+ 8006a7c:	687a      	ldr	r2, [r7, #4]
+ 8006a7e:	f8c3 2184 	str.w	r2, [r3, #388]	@ 0x184
+	this->num_led = num_led;
+ 8006a82:	68fb      	ldr	r3, [r7, #12]
+ 8006a84:	78fa      	ldrb	r2, [r7, #3]
+ 8006a86:	f883 2189 	strb.w	r2, [r3, #393]	@ 0x189
+}
+ 8006a8a:	68fb      	ldr	r3, [r7, #12]
+ 8006a8c:	4618      	mov	r0, r3
+ 8006a8e:	3710      	adds	r7, #16
+ 8006a90:	46bd      	mov	sp, r7
+ 8006a92:	bdb0      	pop	{r4, r5, r7, pc}
 
-08006a6c <_ZN13WS2812_Strand4initEv>:
+08006a94 <_ZN13WS2812_Strand4initEv>:
 
 void WS2812_Strand::init() {
- 8006a6c:	b580      	push	{r7, lr}
- 8006a6e:	b084      	sub	sp, #16
- 8006a70:	af00      	add	r7, sp, #0
- 8006a72:	6078      	str	r0, [r7, #4]
+ 8006a94:	b580      	push	{r7, lr}
+ 8006a96:	b084      	sub	sp, #16
+ 8006a98:	af00      	add	r7, sp, #0
+ 8006a9a:	6078      	str	r0, [r7, #4]
 	neopixel_handler[num_neopixel] = this;
- 8006a74:	4b17      	ldr	r3, [pc, #92]	@ (8006ad4 <_ZN13WS2812_Strand4initEv+0x68>)
- 8006a76:	781b      	ldrb	r3, [r3, #0]
- 8006a78:	4619      	mov	r1, r3
- 8006a7a:	4a17      	ldr	r2, [pc, #92]	@ (8006ad8 <_ZN13WS2812_Strand4initEv+0x6c>)
- 8006a7c:	687b      	ldr	r3, [r7, #4]
- 8006a7e:	f842 3021 	str.w	r3, [r2, r1, lsl #2]
+ 8006a9c:	4b17      	ldr	r3, [pc, #92]	@ (8006afc <_ZN13WS2812_Strand4initEv+0x68>)
+ 8006a9e:	781b      	ldrb	r3, [r3, #0]
+ 8006aa0:	4619      	mov	r1, r3
+ 8006aa2:	4a17      	ldr	r2, [pc, #92]	@ (8006b00 <_ZN13WS2812_Strand4initEv+0x6c>)
+ 8006aa4:	687b      	ldr	r3, [r7, #4]
+ 8006aa6:	f842 3021 	str.w	r3, [r2, r1, lsl #2]
 	num_neopixel++;
- 8006a82:	4b14      	ldr	r3, [pc, #80]	@ (8006ad4 <_ZN13WS2812_Strand4initEv+0x68>)
- 8006a84:	781b      	ldrb	r3, [r3, #0]
- 8006a86:	3301      	adds	r3, #1
- 8006a88:	b2da      	uxtb	r2, r3
- 8006a8a:	4b12      	ldr	r3, [pc, #72]	@ (8006ad4 <_ZN13WS2812_Strand4initEv+0x68>)
- 8006a8c:	701a      	strb	r2, [r3, #0]
+ 8006aaa:	4b14      	ldr	r3, [pc, #80]	@ (8006afc <_ZN13WS2812_Strand4initEv+0x68>)
+ 8006aac:	781b      	ldrb	r3, [r3, #0]
+ 8006aae:	3301      	adds	r3, #1
+ 8006ab0:	b2da      	uxtb	r2, r3
+ 8006ab2:	4b12      	ldr	r3, [pc, #72]	@ (8006afc <_ZN13WS2812_Strand4initEv+0x68>)
+ 8006ab4:	701a      	strb	r2, [r3, #0]
 
 	for (int i = 0; i < this->num_led; i++) {
- 8006a8e:	2300      	movs	r3, #0
- 8006a90:	60fb      	str	r3, [r7, #12]
- 8006a92:	e00d      	b.n	8006ab0 <_ZN13WS2812_Strand4initEv+0x44>
+ 8006ab6:	2300      	movs	r3, #0
+ 8006ab8:	60fb      	str	r3, [r7, #12]
+ 8006aba:	e00d      	b.n	8006ad8 <_ZN13WS2812_Strand4initEv+0x44>
 		this->led[i].strand_position = i;
- 8006a94:	68fb      	ldr	r3, [r7, #12]
- 8006a96:	b2d8      	uxtb	r0, r3
- 8006a98:	6879      	ldr	r1, [r7, #4]
- 8006a9a:	68fa      	ldr	r2, [r7, #12]
- 8006a9c:	4613      	mov	r3, r2
- 8006a9e:	005b      	lsls	r3, r3, #1
- 8006aa0:	4413      	add	r3, r2
- 8006aa2:	00db      	lsls	r3, r3, #3
- 8006aa4:	440b      	add	r3, r1
- 8006aa6:	4602      	mov	r2, r0
- 8006aa8:	701a      	strb	r2, [r3, #0]
+ 8006abc:	68fb      	ldr	r3, [r7, #12]
+ 8006abe:	b2d8      	uxtb	r0, r3
+ 8006ac0:	6879      	ldr	r1, [r7, #4]
+ 8006ac2:	68fa      	ldr	r2, [r7, #12]
+ 8006ac4:	4613      	mov	r3, r2
+ 8006ac6:	005b      	lsls	r3, r3, #1
+ 8006ac8:	4413      	add	r3, r2
+ 8006aca:	00db      	lsls	r3, r3, #3
+ 8006acc:	440b      	add	r3, r1
+ 8006ace:	4602      	mov	r2, r0
+ 8006ad0:	701a      	strb	r2, [r3, #0]
 	for (int i = 0; i < this->num_led; i++) {
- 8006aaa:	68fb      	ldr	r3, [r7, #12]
- 8006aac:	3301      	adds	r3, #1
- 8006aae:	60fb      	str	r3, [r7, #12]
- 8006ab0:	687b      	ldr	r3, [r7, #4]
- 8006ab2:	f893 3189 	ldrb.w	r3, [r3, #393]	@ 0x189
- 8006ab6:	461a      	mov	r2, r3
- 8006ab8:	68fb      	ldr	r3, [r7, #12]
- 8006aba:	4293      	cmp	r3, r2
- 8006abc:	dbea      	blt.n	8006a94 <_ZN13WS2812_Strand4initEv+0x28>
+ 8006ad2:	68fb      	ldr	r3, [r7, #12]
+ 8006ad4:	3301      	adds	r3, #1
+ 8006ad6:	60fb      	str	r3, [r7, #12]
+ 8006ad8:	687b      	ldr	r3, [r7, #4]
+ 8006ada:	f893 3189 	ldrb.w	r3, [r3, #393]	@ 0x189
+ 8006ade:	461a      	mov	r2, r3
+ 8006ae0:	68fb      	ldr	r3, [r7, #12]
+ 8006ae2:	4293      	cmp	r3, r2
+ 8006ae4:	dbea      	blt.n	8006abc <_ZN13WS2812_Strand4initEv+0x28>
 	}
 
 	this->datasent = 0;
- 8006abe:	687b      	ldr	r3, [r7, #4]
- 8006ac0:	2200      	movs	r2, #0
- 8006ac2:	f883 2188 	strb.w	r2, [r3, #392]	@ 0x188
+ 8006ae6:	687b      	ldr	r3, [r7, #4]
+ 8006ae8:	2200      	movs	r2, #0
+ 8006aea:	f883 2188 	strb.w	r2, [r3, #392]	@ 0x188
 	this->reset();
- 8006ac6:	6878      	ldr	r0, [r7, #4]
- 8006ac8:	f000 f8c2 	bl	8006c50 <_ZN13WS2812_Strand5resetEv>
+ 8006aee:	6878      	ldr	r0, [r7, #4]
+ 8006af0:	f000 f8c2 	bl	8006c78 <_ZN13WS2812_Strand5resetEv>
 }
- 8006acc:	bf00      	nop
- 8006ace:	3710      	adds	r7, #16
- 8006ad0:	46bd      	mov	sp, r7
- 8006ad2:	bd80      	pop	{r7, pc}
- 8006ad4:	20000ad1 	.word	0x20000ad1
- 8006ad8:	20000ad4 	.word	0x20000ad4
+ 8006af4:	bf00      	nop
+ 8006af6:	3710      	adds	r7, #16
+ 8006af8:	46bd      	mov	sp, r7
+ 8006afa:	bd80      	pop	{r7, pc}
+ 8006afc:	20000ad1 	.word	0x20000ad1
+ 8006b00:	20000ad4 	.word	0x20000ad4
 
-08006adc <_ZN13WS2812_Strand6updateEv>:
+08006b04 <_ZN13WS2812_Strand6updateEv>:
 
 void WS2812_Strand::update() {
- 8006adc:	b580      	push	{r7, lr}
- 8006ade:	b088      	sub	sp, #32
- 8006ae0:	af00      	add	r7, sp, #0
- 8006ae2:	6078      	str	r0, [r7, #4]
+ 8006b04:	b580      	push	{r7, lr}
+ 8006b06:	b088      	sub	sp, #32
+ 8006b08:	af00      	add	r7, sp, #0
+ 8006b0a:	6078      	str	r0, [r7, #4]
 	this->data_index = 0;
- 8006ae4:	687b      	ldr	r3, [r7, #4]
- 8006ae6:	2200      	movs	r2, #0
- 8006ae8:	f8c3 237c 	str.w	r2, [r3, #892]	@ 0x37c
+ 8006b0c:	687b      	ldr	r3, [r7, #4]
+ 8006b0e:	2200      	movs	r2, #0
+ 8006b10:	f8c3 237c 	str.w	r2, [r3, #892]	@ 0x37c
 	uint32_t color;
 
 	for (int i = 0; i < this->num_led; i++) {
- 8006aec:	2300      	movs	r3, #0
- 8006aee:	61fb      	str	r3, [r7, #28]
- 8006af0:	e00c      	b.n	8006b0c <_ZN13WS2812_Strand6updateEv+0x30>
+ 8006b14:	2300      	movs	r3, #0
+ 8006b16:	61fb      	str	r3, [r7, #28]
+ 8006b18:	e00c      	b.n	8006b34 <_ZN13WS2812_Strand6updateEv+0x30>
 		this->led[i].update();
- 8006af2:	69fa      	ldr	r2, [r7, #28]
- 8006af4:	4613      	mov	r3, r2
- 8006af6:	005b      	lsls	r3, r3, #1
- 8006af8:	4413      	add	r3, r2
- 8006afa:	00db      	lsls	r3, r3, #3
- 8006afc:	687a      	ldr	r2, [r7, #4]
- 8006afe:	4413      	add	r3, r2
- 8006b00:	4618      	mov	r0, r3
- 8006b02:	f7ff ff09 	bl	8006918 <_ZN10WS2812_LED6updateEv>
+ 8006b1a:	69fa      	ldr	r2, [r7, #28]
+ 8006b1c:	4613      	mov	r3, r2
+ 8006b1e:	005b      	lsls	r3, r3, #1
+ 8006b20:	4413      	add	r3, r2
+ 8006b22:	00db      	lsls	r3, r3, #3
+ 8006b24:	687a      	ldr	r2, [r7, #4]
+ 8006b26:	4413      	add	r3, r2
+ 8006b28:	4618      	mov	r0, r3
+ 8006b2a:	f7ff ff09 	bl	8006940 <_ZN10WS2812_LED6updateEv>
 	for (int i = 0; i < this->num_led; i++) {
- 8006b06:	69fb      	ldr	r3, [r7, #28]
- 8006b08:	3301      	adds	r3, #1
- 8006b0a:	61fb      	str	r3, [r7, #28]
- 8006b0c:	687b      	ldr	r3, [r7, #4]
- 8006b0e:	f893 3189 	ldrb.w	r3, [r3, #393]	@ 0x189
- 8006b12:	461a      	mov	r2, r3
- 8006b14:	69fb      	ldr	r3, [r7, #28]
- 8006b16:	4293      	cmp	r3, r2
- 8006b18:	dbeb      	blt.n	8006af2 <_ZN13WS2812_Strand6updateEv+0x16>
+ 8006b2e:	69fb      	ldr	r3, [r7, #28]
+ 8006b30:	3301      	adds	r3, #1
+ 8006b32:	61fb      	str	r3, [r7, #28]
+ 8006b34:	687b      	ldr	r3, [r7, #4]
+ 8006b36:	f893 3189 	ldrb.w	r3, [r3, #393]	@ 0x189
+ 8006b3a:	461a      	mov	r2, r3
+ 8006b3c:	69fb      	ldr	r3, [r7, #28]
+ 8006b3e:	4293      	cmp	r3, r2
+ 8006b40:	dbeb      	blt.n	8006b1a <_ZN13WS2812_Strand6updateEv+0x16>
 	}
 
 	for (int i = 0; i < this->num_led; i++) {
- 8006b1a:	2300      	movs	r3, #0
- 8006b1c:	61bb      	str	r3, [r7, #24]
- 8006b1e:	e04c      	b.n	8006bba <_ZN13WS2812_Strand6updateEv+0xde>
+ 8006b42:	2300      	movs	r3, #0
+ 8006b44:	61bb      	str	r3, [r7, #24]
+ 8006b46:	e04c      	b.n	8006be2 <_ZN13WS2812_Strand6updateEv+0xde>
 		color = ((this->led[i].led_data[0] << 16)
- 8006b20:	6879      	ldr	r1, [r7, #4]
- 8006b22:	69ba      	ldr	r2, [r7, #24]
- 8006b24:	4613      	mov	r3, r2
- 8006b26:	005b      	lsls	r3, r3, #1
- 8006b28:	4413      	add	r3, r2
- 8006b2a:	00db      	lsls	r3, r3, #3
- 8006b2c:	440b      	add	r3, r1
- 8006b2e:	3310      	adds	r3, #16
- 8006b30:	781b      	ldrb	r3, [r3, #0]
- 8006b32:	0419      	lsls	r1, r3, #16
+ 8006b48:	6879      	ldr	r1, [r7, #4]
+ 8006b4a:	69ba      	ldr	r2, [r7, #24]
+ 8006b4c:	4613      	mov	r3, r2
+ 8006b4e:	005b      	lsls	r3, r3, #1
+ 8006b50:	4413      	add	r3, r2
+ 8006b52:	00db      	lsls	r3, r3, #3
+ 8006b54:	440b      	add	r3, r1
+ 8006b56:	3310      	adds	r3, #16
+ 8006b58:	781b      	ldrb	r3, [r3, #0]
+ 8006b5a:	0419      	lsls	r1, r3, #16
 				| (this->led[i].led_data[1] << 8) | (this->led[i].led_data[2]));
- 8006b34:	6878      	ldr	r0, [r7, #4]
- 8006b36:	69ba      	ldr	r2, [r7, #24]
- 8006b38:	4613      	mov	r3, r2
- 8006b3a:	005b      	lsls	r3, r3, #1
- 8006b3c:	4413      	add	r3, r2
- 8006b3e:	00db      	lsls	r3, r3, #3
- 8006b40:	4403      	add	r3, r0
- 8006b42:	3311      	adds	r3, #17
- 8006b44:	781b      	ldrb	r3, [r3, #0]
- 8006b46:	021b      	lsls	r3, r3, #8
- 8006b48:	4319      	orrs	r1, r3
- 8006b4a:	6878      	ldr	r0, [r7, #4]
- 8006b4c:	69ba      	ldr	r2, [r7, #24]
- 8006b4e:	4613      	mov	r3, r2
- 8006b50:	005b      	lsls	r3, r3, #1
- 8006b52:	4413      	add	r3, r2
- 8006b54:	00db      	lsls	r3, r3, #3
- 8006b56:	4403      	add	r3, r0
- 8006b58:	3312      	adds	r3, #18
- 8006b5a:	781b      	ldrb	r3, [r3, #0]
- 8006b5c:	430b      	orrs	r3, r1
+ 8006b5c:	6878      	ldr	r0, [r7, #4]
+ 8006b5e:	69ba      	ldr	r2, [r7, #24]
+ 8006b60:	4613      	mov	r3, r2
+ 8006b62:	005b      	lsls	r3, r3, #1
+ 8006b64:	4413      	add	r3, r2
+ 8006b66:	00db      	lsls	r3, r3, #3
+ 8006b68:	4403      	add	r3, r0
+ 8006b6a:	3311      	adds	r3, #17
+ 8006b6c:	781b      	ldrb	r3, [r3, #0]
+ 8006b6e:	021b      	lsls	r3, r3, #8
+ 8006b70:	4319      	orrs	r1, r3
+ 8006b72:	6878      	ldr	r0, [r7, #4]
+ 8006b74:	69ba      	ldr	r2, [r7, #24]
+ 8006b76:	4613      	mov	r3, r2
+ 8006b78:	005b      	lsls	r3, r3, #1
+ 8006b7a:	4413      	add	r3, r2
+ 8006b7c:	00db      	lsls	r3, r3, #3
+ 8006b7e:	4403      	add	r3, r0
+ 8006b80:	3312      	adds	r3, #18
+ 8006b82:	781b      	ldrb	r3, [r3, #0]
+ 8006b84:	430b      	orrs	r3, r1
 		color = ((this->led[i].led_data[0] << 16)
- 8006b5e:	60fb      	str	r3, [r7, #12]
+ 8006b86:	60fb      	str	r3, [r7, #12]
 
 		for (int i = 23; i >= 0; i--) {
- 8006b60:	2317      	movs	r3, #23
- 8006b62:	617b      	str	r3, [r7, #20]
- 8006b64:	e023      	b.n	8006bae <_ZN13WS2812_Strand6updateEv+0xd2>
+ 8006b88:	2317      	movs	r3, #23
+ 8006b8a:	617b      	str	r3, [r7, #20]
+ 8006b8c:	e023      	b.n	8006bd6 <_ZN13WS2812_Strand6updateEv+0xd2>
 			if (color & (1 << i)) {
- 8006b66:	2201      	movs	r2, #1
- 8006b68:	697b      	ldr	r3, [r7, #20]
- 8006b6a:	fa02 f303 	lsl.w	r3, r2, r3
- 8006b6e:	461a      	mov	r2, r3
- 8006b70:	68fb      	ldr	r3, [r7, #12]
- 8006b72:	4013      	ands	r3, r2
- 8006b74:	2b00      	cmp	r3, #0
- 8006b76:	d008      	beq.n	8006b8a <_ZN13WS2812_Strand6updateEv+0xae>
+ 8006b8e:	2201      	movs	r2, #1
+ 8006b90:	697b      	ldr	r3, [r7, #20]
+ 8006b92:	fa02 f303 	lsl.w	r3, r2, r3
+ 8006b96:	461a      	mov	r2, r3
+ 8006b98:	68fb      	ldr	r3, [r7, #12]
+ 8006b9a:	4013      	ands	r3, r2
+ 8006b9c:	2b00      	cmp	r3, #0
+ 8006b9e:	d008      	beq.n	8006bb2 <_ZN13WS2812_Strand6updateEv+0xae>
 				this->pwm_data[this->data_index] = WS2812_LONG_PULSE;
- 8006b78:	687b      	ldr	r3, [r7, #4]
- 8006b7a:	f8d3 337c 	ldr.w	r3, [r3, #892]	@ 0x37c
- 8006b7e:	687a      	ldr	r2, [r7, #4]
- 8006b80:	4413      	add	r3, r2
- 8006b82:	221c      	movs	r2, #28
- 8006b84:	f883 21ca 	strb.w	r2, [r3, #458]	@ 0x1ca
- 8006b88:	e007      	b.n	8006b9a <_ZN13WS2812_Strand6updateEv+0xbe>
+ 8006ba0:	687b      	ldr	r3, [r7, #4]
+ 8006ba2:	f8d3 337c 	ldr.w	r3, [r3, #892]	@ 0x37c
+ 8006ba6:	687a      	ldr	r2, [r7, #4]
+ 8006ba8:	4413      	add	r3, r2
+ 8006baa:	221c      	movs	r2, #28
+ 8006bac:	f883 21ca 	strb.w	r2, [r3, #458]	@ 0x1ca
+ 8006bb0:	e007      	b.n	8006bc2 <_ZN13WS2812_Strand6updateEv+0xbe>
 			}
 
 			else {
 				this->pwm_data[this->data_index] = WS2812_SHORT_PULSE;
- 8006b8a:	687b      	ldr	r3, [r7, #4]
- 8006b8c:	f8d3 337c 	ldr.w	r3, [r3, #892]	@ 0x37c
- 8006b90:	687a      	ldr	r2, [r7, #4]
- 8006b92:	4413      	add	r3, r2
- 8006b94:	220b      	movs	r2, #11
- 8006b96:	f883 21ca 	strb.w	r2, [r3, #458]	@ 0x1ca
+ 8006bb2:	687b      	ldr	r3, [r7, #4]
+ 8006bb4:	f8d3 337c 	ldr.w	r3, [r3, #892]	@ 0x37c
+ 8006bb8:	687a      	ldr	r2, [r7, #4]
+ 8006bba:	4413      	add	r3, r2
+ 8006bbc:	220b      	movs	r2, #11
+ 8006bbe:	f883 21ca 	strb.w	r2, [r3, #458]	@ 0x1ca
 			}
 
 			this->data_index++;
- 8006b9a:	687b      	ldr	r3, [r7, #4]
- 8006b9c:	f8d3 337c 	ldr.w	r3, [r3, #892]	@ 0x37c
- 8006ba0:	1c5a      	adds	r2, r3, #1
- 8006ba2:	687b      	ldr	r3, [r7, #4]
- 8006ba4:	f8c3 237c 	str.w	r2, [r3, #892]	@ 0x37c
+ 8006bc2:	687b      	ldr	r3, [r7, #4]
+ 8006bc4:	f8d3 337c 	ldr.w	r3, [r3, #892]	@ 0x37c
+ 8006bc8:	1c5a      	adds	r2, r3, #1
+ 8006bca:	687b      	ldr	r3, [r7, #4]
+ 8006bcc:	f8c3 237c 	str.w	r2, [r3, #892]	@ 0x37c
 		for (int i = 23; i >= 0; i--) {
- 8006ba8:	697b      	ldr	r3, [r7, #20]
- 8006baa:	3b01      	subs	r3, #1
- 8006bac:	617b      	str	r3, [r7, #20]
- 8006bae:	697b      	ldr	r3, [r7, #20]
- 8006bb0:	2b00      	cmp	r3, #0
- 8006bb2:	dad8      	bge.n	8006b66 <_ZN13WS2812_Strand6updateEv+0x8a>
+ 8006bd0:	697b      	ldr	r3, [r7, #20]
+ 8006bd2:	3b01      	subs	r3, #1
+ 8006bd4:	617b      	str	r3, [r7, #20]
+ 8006bd6:	697b      	ldr	r3, [r7, #20]
+ 8006bd8:	2b00      	cmp	r3, #0
+ 8006bda:	dad8      	bge.n	8006b8e <_ZN13WS2812_Strand6updateEv+0x8a>
 	for (int i = 0; i < this->num_led; i++) {
- 8006bb4:	69bb      	ldr	r3, [r7, #24]
- 8006bb6:	3301      	adds	r3, #1
- 8006bb8:	61bb      	str	r3, [r7, #24]
- 8006bba:	687b      	ldr	r3, [r7, #4]
- 8006bbc:	f893 3189 	ldrb.w	r3, [r3, #393]	@ 0x189
- 8006bc0:	461a      	mov	r2, r3
- 8006bc2:	69bb      	ldr	r3, [r7, #24]
- 8006bc4:	4293      	cmp	r3, r2
- 8006bc6:	dbab      	blt.n	8006b20 <_ZN13WS2812_Strand6updateEv+0x44>
+ 8006bdc:	69bb      	ldr	r3, [r7, #24]
+ 8006bde:	3301      	adds	r3, #1
+ 8006be0:	61bb      	str	r3, [r7, #24]
+ 8006be2:	687b      	ldr	r3, [r7, #4]
+ 8006be4:	f893 3189 	ldrb.w	r3, [r3, #393]	@ 0x189
+ 8006be8:	461a      	mov	r2, r3
+ 8006bea:	69bb      	ldr	r3, [r7, #24]
+ 8006bec:	4293      	cmp	r3, r2
+ 8006bee:	dbab      	blt.n	8006b48 <_ZN13WS2812_Strand6updateEv+0x44>
 		}
 	}
 
 	for (int i = 0; i < 10; i++) {
- 8006bc8:	2300      	movs	r3, #0
- 8006bca:	613b      	str	r3, [r7, #16]
- 8006bcc:	e011      	b.n	8006bf2 <_ZN13WS2812_Strand6updateEv+0x116>
+ 8006bf0:	2300      	movs	r3, #0
+ 8006bf2:	613b      	str	r3, [r7, #16]
+ 8006bf4:	e011      	b.n	8006c1a <_ZN13WS2812_Strand6updateEv+0x116>
 		this->pwm_data[this->data_index] = 0;
- 8006bce:	687b      	ldr	r3, [r7, #4]
- 8006bd0:	f8d3 337c 	ldr.w	r3, [r3, #892]	@ 0x37c
- 8006bd4:	687a      	ldr	r2, [r7, #4]
- 8006bd6:	4413      	add	r3, r2
- 8006bd8:	2200      	movs	r2, #0
- 8006bda:	f883 21ca 	strb.w	r2, [r3, #458]	@ 0x1ca
+ 8006bf6:	687b      	ldr	r3, [r7, #4]
+ 8006bf8:	f8d3 337c 	ldr.w	r3, [r3, #892]	@ 0x37c
+ 8006bfc:	687a      	ldr	r2, [r7, #4]
+ 8006bfe:	4413      	add	r3, r2
+ 8006c00:	2200      	movs	r2, #0
+ 8006c02:	f883 21ca 	strb.w	r2, [r3, #458]	@ 0x1ca
 		this->data_index++;
- 8006bde:	687b      	ldr	r3, [r7, #4]
- 8006be0:	f8d3 337c 	ldr.w	r3, [r3, #892]	@ 0x37c
- 8006be4:	1c5a      	adds	r2, r3, #1
- 8006be6:	687b      	ldr	r3, [r7, #4]
- 8006be8:	f8c3 237c 	str.w	r2, [r3, #892]	@ 0x37c
+ 8006c06:	687b      	ldr	r3, [r7, #4]
+ 8006c08:	f8d3 337c 	ldr.w	r3, [r3, #892]	@ 0x37c
+ 8006c0c:	1c5a      	adds	r2, r3, #1
+ 8006c0e:	687b      	ldr	r3, [r7, #4]
+ 8006c10:	f8c3 237c 	str.w	r2, [r3, #892]	@ 0x37c
 	for (int i = 0; i < 10; i++) {
- 8006bec:	693b      	ldr	r3, [r7, #16]
- 8006bee:	3301      	adds	r3, #1
- 8006bf0:	613b      	str	r3, [r7, #16]
- 8006bf2:	693b      	ldr	r3, [r7, #16]
- 8006bf4:	2b09      	cmp	r3, #9
- 8006bf6:	ddea      	ble.n	8006bce <_ZN13WS2812_Strand6updateEv+0xf2>
+ 8006c14:	693b      	ldr	r3, [r7, #16]
+ 8006c16:	3301      	adds	r3, #1
+ 8006c18:	613b      	str	r3, [r7, #16]
+ 8006c1a:	693b      	ldr	r3, [r7, #16]
+ 8006c1c:	2b09      	cmp	r3, #9
+ 8006c1e:	ddea      	ble.n	8006bf6 <_ZN13WS2812_Strand6updateEv+0xf2>
 	}
 }
- 8006bf8:	bf00      	nop
- 8006bfa:	bf00      	nop
- 8006bfc:	3720      	adds	r7, #32
- 8006bfe:	46bd      	mov	sp, r7
- 8006c00:	bd80      	pop	{r7, pc}
+ 8006c20:	bf00      	nop
+ 8006c22:	bf00      	nop
+ 8006c24:	3720      	adds	r7, #32
+ 8006c26:	46bd      	mov	sp, r7
+ 8006c28:	bd80      	pop	{r7, pc}
 
-08006c02 <_ZN13WS2812_Strand4sendEv>:
+08006c2a <_ZN13WS2812_Strand4sendEv>:
 
 void WS2812_Strand::send() {
- 8006c02:	b580      	push	{r7, lr}
- 8006c04:	b082      	sub	sp, #8
- 8006c06:	af00      	add	r7, sp, #0
- 8006c08:	6078      	str	r0, [r7, #4]
+ 8006c2a:	b580      	push	{r7, lr}
+ 8006c2c:	b082      	sub	sp, #8
+ 8006c2e:	af00      	add	r7, sp, #0
+ 8006c30:	6078      	str	r0, [r7, #4]
 
 	HAL_TIM_PWM_Start_DMA(this->tim, this->timer_channel,
- 8006c0a:	687b      	ldr	r3, [r7, #4]
- 8006c0c:	f8d3 0180 	ldr.w	r0, [r3, #384]	@ 0x180
- 8006c10:	687b      	ldr	r3, [r7, #4]
- 8006c12:	f8d3 1184 	ldr.w	r1, [r3, #388]	@ 0x184
+ 8006c32:	687b      	ldr	r3, [r7, #4]
+ 8006c34:	f8d3 0180 	ldr.w	r0, [r3, #384]	@ 0x180
+ 8006c38:	687b      	ldr	r3, [r7, #4]
+ 8006c3a:	f8d3 1184 	ldr.w	r1, [r3, #388]	@ 0x184
 			(uint32_t*) this->pwm_data, this->data_index);
- 8006c16:	687b      	ldr	r3, [r7, #4]
- 8006c18:	f503 72e5 	add.w	r2, r3, #458	@ 0x1ca
- 8006c1c:	687b      	ldr	r3, [r7, #4]
- 8006c1e:	f8d3 337c 	ldr.w	r3, [r3, #892]	@ 0x37c
+ 8006c3e:	687b      	ldr	r3, [r7, #4]
+ 8006c40:	f503 72e5 	add.w	r2, r3, #458	@ 0x1ca
+ 8006c44:	687b      	ldr	r3, [r7, #4]
+ 8006c46:	f8d3 337c 	ldr.w	r3, [r3, #892]	@ 0x37c
 	HAL_TIM_PWM_Start_DMA(this->tim, this->timer_channel,
- 8006c22:	b29b      	uxth	r3, r3
- 8006c24:	f7fd fe4a 	bl	80048bc <HAL_TIM_PWM_Start_DMA>
+ 8006c4a:	b29b      	uxth	r3, r3
+ 8006c4c:	f7fd fe36 	bl	80048bc <HAL_TIM_PWM_Start_DMA>
 	while (this->datasent == 0) {
- 8006c28:	bf00      	nop
- 8006c2a:	687b      	ldr	r3, [r7, #4]
- 8006c2c:	f893 3188 	ldrb.w	r3, [r3, #392]	@ 0x188
- 8006c30:	b2db      	uxtb	r3, r3
- 8006c32:	2b00      	cmp	r3, #0
- 8006c34:	bf0c      	ite	eq
- 8006c36:	2301      	moveq	r3, #1
- 8006c38:	2300      	movne	r3, #0
- 8006c3a:	b2db      	uxtb	r3, r3
- 8006c3c:	2b00      	cmp	r3, #0
- 8006c3e:	d1f4      	bne.n	8006c2a <_ZN13WS2812_Strand4sendEv+0x28>
+ 8006c50:	bf00      	nop
+ 8006c52:	687b      	ldr	r3, [r7, #4]
+ 8006c54:	f893 3188 	ldrb.w	r3, [r3, #392]	@ 0x188
+ 8006c58:	b2db      	uxtb	r3, r3
+ 8006c5a:	2b00      	cmp	r3, #0
+ 8006c5c:	bf0c      	ite	eq
+ 8006c5e:	2301      	moveq	r3, #1
+ 8006c60:	2300      	movne	r3, #0
+ 8006c62:	b2db      	uxtb	r3, r3
+ 8006c64:	2b00      	cmp	r3, #0
+ 8006c66:	d1f4      	bne.n	8006c52 <_ZN13WS2812_Strand4sendEv+0x28>
 
 	};
 	this->datasent = 0;
- 8006c40:	687b      	ldr	r3, [r7, #4]
- 8006c42:	2200      	movs	r2, #0
- 8006c44:	f883 2188 	strb.w	r2, [r3, #392]	@ 0x188
+ 8006c68:	687b      	ldr	r3, [r7, #4]
+ 8006c6a:	2200      	movs	r2, #0
+ 8006c6c:	f883 2188 	strb.w	r2, [r3, #392]	@ 0x188
 }
- 8006c48:	bf00      	nop
- 8006c4a:	3708      	adds	r7, #8
- 8006c4c:	46bd      	mov	sp, r7
- 8006c4e:	bd80      	pop	{r7, pc}
+ 8006c70:	bf00      	nop
+ 8006c72:	3708      	adds	r7, #8
+ 8006c74:	46bd      	mov	sp, r7
+ 8006c76:	bd80      	pop	{r7, pc}
 
-08006c50 <_ZN13WS2812_Strand5resetEv>:
+08006c78 <_ZN13WS2812_Strand5resetEv>:
 
 void WS2812_Strand::reset() {
- 8006c50:	b590      	push	{r4, r7, lr}
- 8006c52:	b089      	sub	sp, #36	@ 0x24
- 8006c54:	af00      	add	r7, sp, #0
- 8006c56:	6078      	str	r0, [r7, #4]
+ 8006c78:	b590      	push	{r4, r7, lr}
+ 8006c7a:	b089      	sub	sp, #36	@ 0x24
+ 8006c7c:	af00      	add	r7, sp, #0
+ 8006c7e:	6078      	str	r0, [r7, #4]
 	for (int i = 0; i < MAX_LED; i++) {
- 8006c58:	2300      	movs	r3, #0
- 8006c5a:	61fb      	str	r3, [r7, #28]
- 8006c5c:	e020      	b.n	8006ca0 <_ZN13WS2812_Strand5resetEv+0x50>
+ 8006c80:	2300      	movs	r3, #0
+ 8006c82:	61fb      	str	r3, [r7, #28]
+ 8006c84:	e020      	b.n	8006cc8 <_ZN13WS2812_Strand5resetEv+0x50>
 		this->led_data[i][0] = i;
- 8006c5e:	69fb      	ldr	r3, [r7, #28]
- 8006c60:	b2d9      	uxtb	r1, r3
- 8006c62:	687a      	ldr	r2, [r7, #4]
- 8006c64:	69fb      	ldr	r3, [r7, #28]
- 8006c66:	3362      	adds	r3, #98	@ 0x62
- 8006c68:	009b      	lsls	r3, r3, #2
- 8006c6a:	4413      	add	r3, r2
- 8006c6c:	460a      	mov	r2, r1
- 8006c6e:	709a      	strb	r2, [r3, #2]
-		this->led_data[i][1] = 0;
- 8006c70:	687a      	ldr	r2, [r7, #4]
- 8006c72:	69fb      	ldr	r3, [r7, #28]
- 8006c74:	009b      	lsls	r3, r3, #2
- 8006c76:	4413      	add	r3, r2
- 8006c78:	2200      	movs	r2, #0
- 8006c7a:	f883 218b 	strb.w	r2, [r3, #395]	@ 0x18b
-		this->led_data[i][2] = 0;
- 8006c7e:	687a      	ldr	r2, [r7, #4]
- 8006c80:	69fb      	ldr	r3, [r7, #28]
- 8006c82:	009b      	lsls	r3, r3, #2
- 8006c84:	4413      	add	r3, r2
- 8006c86:	2200      	movs	r2, #0
- 8006c88:	f883 218c 	strb.w	r2, [r3, #396]	@ 0x18c
-		this->led_data[i][3] = 0;
- 8006c8c:	687a      	ldr	r2, [r7, #4]
- 8006c8e:	69fb      	ldr	r3, [r7, #28]
+ 8006c86:	69fb      	ldr	r3, [r7, #28]
+ 8006c88:	b2d9      	uxtb	r1, r3
+ 8006c8a:	687a      	ldr	r2, [r7, #4]
+ 8006c8c:	69fb      	ldr	r3, [r7, #28]
+ 8006c8e:	3362      	adds	r3, #98	@ 0x62
  8006c90:	009b      	lsls	r3, r3, #2
  8006c92:	4413      	add	r3, r2
- 8006c94:	2200      	movs	r2, #0
- 8006c96:	f883 218d 	strb.w	r2, [r3, #397]	@ 0x18d
-	for (int i = 0; i < MAX_LED; i++) {
+ 8006c94:	460a      	mov	r2, r1
+ 8006c96:	709a      	strb	r2, [r3, #2]
+		this->led_data[i][1] = 0;
+ 8006c98:	687a      	ldr	r2, [r7, #4]
  8006c9a:	69fb      	ldr	r3, [r7, #28]
- 8006c9c:	3301      	adds	r3, #1
- 8006c9e:	61fb      	str	r3, [r7, #28]
- 8006ca0:	69fb      	ldr	r3, [r7, #28]
- 8006ca2:	2b0f      	cmp	r3, #15
- 8006ca4:	dddb      	ble.n	8006c5e <_ZN13WS2812_Strand5resetEv+0xe>
+ 8006c9c:	009b      	lsls	r3, r3, #2
+ 8006c9e:	4413      	add	r3, r2
+ 8006ca0:	2200      	movs	r2, #0
+ 8006ca2:	f883 218b 	strb.w	r2, [r3, #395]	@ 0x18b
+		this->led_data[i][2] = 0;
+ 8006ca6:	687a      	ldr	r2, [r7, #4]
+ 8006ca8:	69fb      	ldr	r3, [r7, #28]
+ 8006caa:	009b      	lsls	r3, r3, #2
+ 8006cac:	4413      	add	r3, r2
+ 8006cae:	2200      	movs	r2, #0
+ 8006cb0:	f883 218c 	strb.w	r2, [r3, #396]	@ 0x18c
+		this->led_data[i][3] = 0;
+ 8006cb4:	687a      	ldr	r2, [r7, #4]
+ 8006cb6:	69fb      	ldr	r3, [r7, #28]
+ 8006cb8:	009b      	lsls	r3, r3, #2
+ 8006cba:	4413      	add	r3, r2
+ 8006cbc:	2200      	movs	r2, #0
+ 8006cbe:	f883 218d 	strb.w	r2, [r3, #397]	@ 0x18d
+	for (int i = 0; i < MAX_LED; i++) {
+ 8006cc2:	69fb      	ldr	r3, [r7, #28]
+ 8006cc4:	3301      	adds	r3, #1
+ 8006cc6:	61fb      	str	r3, [r7, #28]
+ 8006cc8:	69fb      	ldr	r3, [r7, #28]
+ 8006cca:	2b0f      	cmp	r3, #15
+ 8006ccc:	dddb      	ble.n	8006c86 <_ZN13WS2812_Strand5resetEv+0xe>
 	}
 	uint32_t init_data[4] = { 50, 0, 50, 0 };
- 8006ca6:	4b0c      	ldr	r3, [pc, #48]	@ (8006cd8 <_ZN13WS2812_Strand5resetEv+0x88>)
- 8006ca8:	f107 040c 	add.w	r4, r7, #12
- 8006cac:	cb0f      	ldmia	r3, {r0, r1, r2, r3}
- 8006cae:	e884 000f 	stmia.w	r4, {r0, r1, r2, r3}
+ 8006cce:	4b0c      	ldr	r3, [pc, #48]	@ (8006d00 <_ZN13WS2812_Strand5resetEv+0x88>)
+ 8006cd0:	f107 040c 	add.w	r4, r7, #12
+ 8006cd4:	cb0f      	ldmia	r3, {r0, r1, r2, r3}
+ 8006cd6:	e884 000f 	stmia.w	r4, {r0, r1, r2, r3}
 	HAL_TIM_PWM_Start_DMA(this->tim, this->timer_channel, (uint32_t*) init_data,
- 8006cb2:	687b      	ldr	r3, [r7, #4]
- 8006cb4:	f8d3 0180 	ldr.w	r0, [r3, #384]	@ 0x180
- 8006cb8:	687b      	ldr	r3, [r7, #4]
- 8006cba:	f8d3 1184 	ldr.w	r1, [r3, #388]	@ 0x184
- 8006cbe:	f107 020c 	add.w	r2, r7, #12
- 8006cc2:	2304      	movs	r3, #4
- 8006cc4:	f7fd fdfa 	bl	80048bc <HAL_TIM_PWM_Start_DMA>
+ 8006cda:	687b      	ldr	r3, [r7, #4]
+ 8006cdc:	f8d3 0180 	ldr.w	r0, [r3, #384]	@ 0x180
+ 8006ce0:	687b      	ldr	r3, [r7, #4]
+ 8006ce2:	f8d3 1184 	ldr.w	r1, [r3, #388]	@ 0x184
+ 8006ce6:	f107 020c 	add.w	r2, r7, #12
+ 8006cea:	2304      	movs	r3, #4
+ 8006cec:	f7fd fde6 	bl	80048bc <HAL_TIM_PWM_Start_DMA>
 			4);
 	HAL_Delay(10);
- 8006cc8:	200a      	movs	r0, #10
- 8006cca:	f7fa f891 	bl	8000df0 <HAL_Delay>
+ 8006cf0:	200a      	movs	r0, #10
+ 8006cf2:	f7fa f87d 	bl	8000df0 <HAL_Delay>
 }
- 8006cce:	bf00      	nop
- 8006cd0:	3724      	adds	r7, #36	@ 0x24
- 8006cd2:	46bd      	mov	sp, r7
- 8006cd4:	bd90      	pop	{r4, r7, pc}
- 8006cd6:	bf00      	nop
- 8006cd8:	08006dd0 	.word	0x08006dd0
+ 8006cf6:	bf00      	nop
+ 8006cf8:	3724      	adds	r7, #36	@ 0x24
+ 8006cfa:	46bd      	mov	sp, r7
+ 8006cfc:	bd90      	pop	{r4, r7, pc}
+ 8006cfe:	bf00      	nop
+ 8006d00:	08006df8 	.word	0x08006df8
 
-08006cdc <HAL_TIM_PWM_PulseFinishedCallback>:
+08006d04 <HAL_TIM_PWM_PulseFinishedCallback>:
 
 void HAL_TIM_PWM_PulseFinishedCallback(TIM_HandleTypeDef *htim) {
- 8006cdc:	b580      	push	{r7, lr}
- 8006cde:	b084      	sub	sp, #16
- 8006ce0:	af00      	add	r7, sp, #0
- 8006ce2:	6078      	str	r0, [r7, #4]
+ 8006d04:	b580      	push	{r7, lr}
+ 8006d06:	b084      	sub	sp, #16
+ 8006d08:	af00      	add	r7, sp, #0
+ 8006d0a:	6078      	str	r0, [r7, #4]
 	for (int i = 0; i < num_neopixel; i++) {
- 8006ce4:	2300      	movs	r3, #0
- 8006ce6:	60fb      	str	r3, [r7, #12]
- 8006ce8:	e022      	b.n	8006d30 <HAL_TIM_PWM_PulseFinishedCallback+0x54>
+ 8006d0c:	2300      	movs	r3, #0
+ 8006d0e:	60fb      	str	r3, [r7, #12]
+ 8006d10:	e022      	b.n	8006d58 <HAL_TIM_PWM_PulseFinishedCallback+0x54>
 		if (htim == neopixel_handler[i]->tim) {
- 8006cea:	4a17      	ldr	r2, [pc, #92]	@ (8006d48 <HAL_TIM_PWM_PulseFinishedCallback+0x6c>)
- 8006cec:	68fb      	ldr	r3, [r7, #12]
- 8006cee:	f852 3023 	ldr.w	r3, [r2, r3, lsl #2]
- 8006cf2:	f8d3 3180 	ldr.w	r3, [r3, #384]	@ 0x180
- 8006cf6:	687a      	ldr	r2, [r7, #4]
- 8006cf8:	429a      	cmp	r2, r3
- 8006cfa:	d116      	bne.n	8006d2a <HAL_TIM_PWM_PulseFinishedCallback+0x4e>
+ 8006d12:	4a17      	ldr	r2, [pc, #92]	@ (8006d70 <HAL_TIM_PWM_PulseFinishedCallback+0x6c>)
+ 8006d14:	68fb      	ldr	r3, [r7, #12]
+ 8006d16:	f852 3023 	ldr.w	r3, [r2, r3, lsl #2]
+ 8006d1a:	f8d3 3180 	ldr.w	r3, [r3, #384]	@ 0x180
+ 8006d1e:	687a      	ldr	r2, [r7, #4]
+ 8006d20:	429a      	cmp	r2, r3
+ 8006d22:	d116      	bne.n	8006d52 <HAL_TIM_PWM_PulseFinishedCallback+0x4e>
 			HAL_TIM_PWM_Stop_DMA(neopixel_handler[i]->tim,
- 8006cfc:	4a12      	ldr	r2, [pc, #72]	@ (8006d48 <HAL_TIM_PWM_PulseFinishedCallback+0x6c>)
- 8006cfe:	68fb      	ldr	r3, [r7, #12]
- 8006d00:	f852 3023 	ldr.w	r3, [r2, r3, lsl #2]
- 8006d04:	f8d3 2180 	ldr.w	r2, [r3, #384]	@ 0x180
+ 8006d24:	4a12      	ldr	r2, [pc, #72]	@ (8006d70 <HAL_TIM_PWM_PulseFinishedCallback+0x6c>)
+ 8006d26:	68fb      	ldr	r3, [r7, #12]
+ 8006d28:	f852 3023 	ldr.w	r3, [r2, r3, lsl #2]
+ 8006d2c:	f8d3 2180 	ldr.w	r2, [r3, #384]	@ 0x180
 					neopixel_handler[i]->timer_channel);
- 8006d08:	490f      	ldr	r1, [pc, #60]	@ (8006d48 <HAL_TIM_PWM_PulseFinishedCallback+0x6c>)
- 8006d0a:	68fb      	ldr	r3, [r7, #12]
- 8006d0c:	f851 3023 	ldr.w	r3, [r1, r3, lsl #2]
+ 8006d30:	490f      	ldr	r1, [pc, #60]	@ (8006d70 <HAL_TIM_PWM_PulseFinishedCallback+0x6c>)
+ 8006d32:	68fb      	ldr	r3, [r7, #12]
+ 8006d34:	f851 3023 	ldr.w	r3, [r1, r3, lsl #2]
 			HAL_TIM_PWM_Stop_DMA(neopixel_handler[i]->tim,
- 8006d10:	f8d3 3184 	ldr.w	r3, [r3, #388]	@ 0x184
- 8006d14:	4619      	mov	r1, r3
- 8006d16:	4610      	mov	r0, r2
- 8006d18:	f7fd ffc8 	bl	8004cac <HAL_TIM_PWM_Stop_DMA>
+ 8006d38:	f8d3 3184 	ldr.w	r3, [r3, #388]	@ 0x184
+ 8006d3c:	4619      	mov	r1, r3
+ 8006d3e:	4610      	mov	r0, r2
+ 8006d40:	f7fd ffb4 	bl	8004cac <HAL_TIM_PWM_Stop_DMA>
 			neopixel_handler[i]->datasent = 1;
- 8006d1c:	4a0a      	ldr	r2, [pc, #40]	@ (8006d48 <HAL_TIM_PWM_PulseFinishedCallback+0x6c>)
- 8006d1e:	68fb      	ldr	r3, [r7, #12]
- 8006d20:	f852 3023 	ldr.w	r3, [r2, r3, lsl #2]
- 8006d24:	2201      	movs	r2, #1
- 8006d26:	f883 2188 	strb.w	r2, [r3, #392]	@ 0x188
+ 8006d44:	4a0a      	ldr	r2, [pc, #40]	@ (8006d70 <HAL_TIM_PWM_PulseFinishedCallback+0x6c>)
+ 8006d46:	68fb      	ldr	r3, [r7, #12]
+ 8006d48:	f852 3023 	ldr.w	r3, [r2, r3, lsl #2]
+ 8006d4c:	2201      	movs	r2, #1
+ 8006d4e:	f883 2188 	strb.w	r2, [r3, #392]	@ 0x188
 	for (int i = 0; i < num_neopixel; i++) {
- 8006d2a:	68fb      	ldr	r3, [r7, #12]
- 8006d2c:	3301      	adds	r3, #1
- 8006d2e:	60fb      	str	r3, [r7, #12]
- 8006d30:	4b06      	ldr	r3, [pc, #24]	@ (8006d4c <HAL_TIM_PWM_PulseFinishedCallback+0x70>)
- 8006d32:	781b      	ldrb	r3, [r3, #0]
- 8006d34:	461a      	mov	r2, r3
- 8006d36:	68fb      	ldr	r3, [r7, #12]
- 8006d38:	4293      	cmp	r3, r2
- 8006d3a:	dbd6      	blt.n	8006cea <HAL_TIM_PWM_PulseFinishedCallback+0xe>
+ 8006d52:	68fb      	ldr	r3, [r7, #12]
+ 8006d54:	3301      	adds	r3, #1
+ 8006d56:	60fb      	str	r3, [r7, #12]
+ 8006d58:	4b06      	ldr	r3, [pc, #24]	@ (8006d74 <HAL_TIM_PWM_PulseFinishedCallback+0x70>)
+ 8006d5a:	781b      	ldrb	r3, [r3, #0]
+ 8006d5c:	461a      	mov	r2, r3
+ 8006d5e:	68fb      	ldr	r3, [r7, #12]
+ 8006d60:	4293      	cmp	r3, r2
+ 8006d62:	dbd6      	blt.n	8006d12 <HAL_TIM_PWM_PulseFinishedCallback+0xe>
 		}
 	}
 
 }
- 8006d3c:	bf00      	nop
- 8006d3e:	bf00      	nop
- 8006d40:	3710      	adds	r7, #16
- 8006d42:	46bd      	mov	sp, r7
- 8006d44:	bd80      	pop	{r7, pc}
- 8006d46:	bf00      	nop
- 8006d48:	20000ad4 	.word	0x20000ad4
- 8006d4c:	20000ad1 	.word	0x20000ad1
+ 8006d64:	bf00      	nop
+ 8006d66:	bf00      	nop
+ 8006d68:	3710      	adds	r7, #16
+ 8006d6a:	46bd      	mov	sp, r7
+ 8006d6c:	bd80      	pop	{r7, pc}
+ 8006d6e:	bf00      	nop
+ 8006d70:	20000ad4 	.word	0x20000ad4
+ 8006d74:	20000ad1 	.word	0x20000ad1
 
-08006d50 <_Z6millisv>:
+08006d78 <_Z6millisv>:
  *      Author: Dustin Lehmann
  */
 
 #include "elapsedMillis.h"
 
 uint32_t millis() {
- 8006d50:	b580      	push	{r7, lr}
- 8006d52:	af00      	add	r7, sp, #0
+ 8006d78:	b580      	push	{r7, lr}
+ 8006d7a:	af00      	add	r7, sp, #0
 	return HAL_GetTick();
- 8006d54:	f7fa f840 	bl	8000dd8 <HAL_GetTick>
- 8006d58:	4603      	mov	r3, r0
+ 8006d7c:	f7fa f82c 	bl	8000dd8 <HAL_GetTick>
+ 8006d80:	4603      	mov	r3, r0
 }
- 8006d5a:	4618      	mov	r0, r3
- 8006d5c:	bd80      	pop	{r7, pc}
+ 8006d82:	4618      	mov	r0, r3
+ 8006d84:	bd80      	pop	{r7, pc}
 
-08006d5e <memset>:
- 8006d5e:	4402      	add	r2, r0
- 8006d60:	4603      	mov	r3, r0
- 8006d62:	4293      	cmp	r3, r2
- 8006d64:	d100      	bne.n	8006d68 <memset+0xa>
- 8006d66:	4770      	bx	lr
- 8006d68:	f803 1b01 	strb.w	r1, [r3], #1
- 8006d6c:	e7f9      	b.n	8006d62 <memset+0x4>
+08006d86 <memset>:
+ 8006d86:	4402      	add	r2, r0
+ 8006d88:	4603      	mov	r3, r0
+ 8006d8a:	4293      	cmp	r3, r2
+ 8006d8c:	d100      	bne.n	8006d90 <memset+0xa>
+ 8006d8e:	4770      	bx	lr
+ 8006d90:	f803 1b01 	strb.w	r1, [r3], #1
+ 8006d94:	e7f9      	b.n	8006d8a <memset+0x4>
 	...
 
-08006d70 <__libc_init_array>:
- 8006d70:	b570      	push	{r4, r5, r6, lr}
- 8006d72:	4d0d      	ldr	r5, [pc, #52]	@ (8006da8 <__libc_init_array+0x38>)
- 8006d74:	4c0d      	ldr	r4, [pc, #52]	@ (8006dac <__libc_init_array+0x3c>)
- 8006d76:	1b64      	subs	r4, r4, r5
- 8006d78:	10a4      	asrs	r4, r4, #2
- 8006d7a:	2600      	movs	r6, #0
- 8006d7c:	42a6      	cmp	r6, r4
- 8006d7e:	d109      	bne.n	8006d94 <__libc_init_array+0x24>
- 8006d80:	4d0b      	ldr	r5, [pc, #44]	@ (8006db0 <__libc_init_array+0x40>)
- 8006d82:	4c0c      	ldr	r4, [pc, #48]	@ (8006db4 <__libc_init_array+0x44>)
- 8006d84:	f000 f818 	bl	8006db8 <_init>
- 8006d88:	1b64      	subs	r4, r4, r5
- 8006d8a:	10a4      	asrs	r4, r4, #2
- 8006d8c:	2600      	movs	r6, #0
- 8006d8e:	42a6      	cmp	r6, r4
- 8006d90:	d105      	bne.n	8006d9e <__libc_init_array+0x2e>
- 8006d92:	bd70      	pop	{r4, r5, r6, pc}
- 8006d94:	f855 3b04 	ldr.w	r3, [r5], #4
- 8006d98:	4798      	blx	r3
- 8006d9a:	3601      	adds	r6, #1
- 8006d9c:	e7ee      	b.n	8006d7c <__libc_init_array+0xc>
- 8006d9e:	f855 3b04 	ldr.w	r3, [r5], #4
- 8006da2:	4798      	blx	r3
- 8006da4:	3601      	adds	r6, #1
- 8006da6:	e7f2      	b.n	8006d8e <__libc_init_array+0x1e>
- 8006da8:	08006e20 	.word	0x08006e20
- 8006dac:	08006e20 	.word	0x08006e20
- 8006db0:	08006e20 	.word	0x08006e20
- 8006db4:	08006e28 	.word	0x08006e28
+08006d98 <__libc_init_array>:
+ 8006d98:	b570      	push	{r4, r5, r6, lr}
+ 8006d9a:	4d0d      	ldr	r5, [pc, #52]	@ (8006dd0 <__libc_init_array+0x38>)
+ 8006d9c:	4c0d      	ldr	r4, [pc, #52]	@ (8006dd4 <__libc_init_array+0x3c>)
+ 8006d9e:	1b64      	subs	r4, r4, r5
+ 8006da0:	10a4      	asrs	r4, r4, #2
+ 8006da2:	2600      	movs	r6, #0
+ 8006da4:	42a6      	cmp	r6, r4
+ 8006da6:	d109      	bne.n	8006dbc <__libc_init_array+0x24>
+ 8006da8:	4d0b      	ldr	r5, [pc, #44]	@ (8006dd8 <__libc_init_array+0x40>)
+ 8006daa:	4c0c      	ldr	r4, [pc, #48]	@ (8006ddc <__libc_init_array+0x44>)
+ 8006dac:	f000 f818 	bl	8006de0 <_init>
+ 8006db0:	1b64      	subs	r4, r4, r5
+ 8006db2:	10a4      	asrs	r4, r4, #2
+ 8006db4:	2600      	movs	r6, #0
+ 8006db6:	42a6      	cmp	r6, r4
+ 8006db8:	d105      	bne.n	8006dc6 <__libc_init_array+0x2e>
+ 8006dba:	bd70      	pop	{r4, r5, r6, pc}
+ 8006dbc:	f855 3b04 	ldr.w	r3, [r5], #4
+ 8006dc0:	4798      	blx	r3
+ 8006dc2:	3601      	adds	r6, #1
+ 8006dc4:	e7ee      	b.n	8006da4 <__libc_init_array+0xc>
+ 8006dc6:	f855 3b04 	ldr.w	r3, [r5], #4
+ 8006dca:	4798      	blx	r3
+ 8006dcc:	3601      	adds	r6, #1
+ 8006dce:	e7f2      	b.n	8006db6 <__libc_init_array+0x1e>
+ 8006dd0:	08006e48 	.word	0x08006e48
+ 8006dd4:	08006e48 	.word	0x08006e48
+ 8006dd8:	08006e48 	.word	0x08006e48
+ 8006ddc:	08006e50 	.word	0x08006e50
 
-08006db8 <_init>:
- 8006db8:	b5f8      	push	{r3, r4, r5, r6, r7, lr}
- 8006dba:	bf00      	nop
- 8006dbc:	bcf8      	pop	{r3, r4, r5, r6, r7}
- 8006dbe:	bc08      	pop	{r3}
- 8006dc0:	469e      	mov	lr, r3
- 8006dc2:	4770      	bx	lr
+08006de0 <_init>:
+ 8006de0:	b5f8      	push	{r3, r4, r5, r6, r7, lr}
+ 8006de2:	bf00      	nop
+ 8006de4:	bcf8      	pop	{r3, r4, r5, r6, r7}
+ 8006de6:	bc08      	pop	{r3}
+ 8006de8:	469e      	mov	lr, r3
+ 8006dea:	4770      	bx	lr
 
-08006dc4 <_fini>:
- 8006dc4:	b5f8      	push	{r3, r4, r5, r6, r7, lr}
- 8006dc6:	bf00      	nop
- 8006dc8:	bcf8      	pop	{r3, r4, r5, r6, r7}
- 8006dca:	bc08      	pop	{r3}
- 8006dcc:	469e      	mov	lr, r3
- 8006dce:	4770      	bx	lr
+08006dec <_fini>:
+ 8006dec:	b5f8      	push	{r3, r4, r5, r6, r7, lr}
+ 8006dee:	bf00      	nop
+ 8006df0:	bcf8      	pop	{r3, r4, r5, r6, r7}
+ 8006df2:	bc08      	pop	{r3}
+ 8006df4:	469e      	mov	lr, r3
+ 8006df6:	4770      	bx	lr

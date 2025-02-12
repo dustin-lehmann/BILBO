@@ -42,6 +42,7 @@ void RobotControl_Buzzer::beep(float freq, uint16_t on_time, uint8_t repeats){
 }
 void RobotControl_Buzzer::beep(buzzer_beep_struct_t data){
 	this->setConfig(data.freq, data.on_time, data.repeats);
+	rc_status_led_2.toggle();
 	this->start();
 }
 
@@ -51,3 +52,19 @@ RobotControl_StatusLED::RobotControl_StatusLED() {
 void RobotControl_StatusLED::setState(int8_t state) {
 	extender.setStatusLED(state);
 }
+
+
+RobotControl_ExternalRGBStrip::RobotControl_ExternalRGBStrip() {
+
+}
+
+void RobotControl_ExternalRGBStrip::setColor(uint8_t red, uint8_t green, uint8_t blue){
+
+	rgb_color_struct_t color = {
+			.red = red,
+			.green = green,
+			.blue = blue
+	};
+	extender.rgbLEDStrip_extern_setColor(color);
+}
+

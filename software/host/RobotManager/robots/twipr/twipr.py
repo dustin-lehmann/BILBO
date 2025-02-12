@@ -1,10 +1,10 @@
 from core.device import Device
 from robots.twipr.utils.twipr_data import TWIPR_Data, twiprSampleFromDict
-from utils.logging import Logger
+from utils.logging_utils import Logger
 
 from robots.twipr.twipr_definitions import *
 
-logger = Logger("TWIPR")
+logger = Logger("BILBO")
 logger.setLevel("DEBUG")
 
 
@@ -21,7 +21,7 @@ class TWIPR:
         }
 
         self.data = TWIPR_Data()
-        self.device.registerCallback('stream', self._onStreamCallback)
+        self.device.callbacks.stream.register(self._onStreamCallback)
 
     # === CLASS METHODS =====================================================================
 
@@ -47,23 +47,23 @@ class TWIPR:
         ...
 
     def beep(self, frequency, time_ms, repeats):
-        self.device.command(command='beep', data={'frequency': 250, 'time_ms': 250, 'repeats': 1})
+        self.device.function(function='beep', data={'frequency': 250, 'time_ms': 250, 'repeats': 1})
 
     def stop(self):
         self.setControlMode(0)
 
     def setControlMode(self, mode: TWIPR_ControlMode):
         logger.debug(f"Robot {self.id}: Set Control Mode to {mode}")
-        self.device.command(command='setControlMode', data={'mode': mode})
+        self.device.function(function='setControlMode', data={'mode': mode})
 
     def setNormalizedBalancingInput(self, forward, turn, *args, **kwargs):
-        self.device.command('setNormalizedBalancingInput', data={'forward': forward, 'turn': turn})
+        self.device.function('setNormalizedBalancingInput', data={'forward': forward, 'turn': turn})
 
     def setSpeed(self, v, psi_dot, *args, **kwargs):
-        self.device.command('setSpeed', data={'v': v, 'psi_dot': psi_dot})
+        self.device.function('setSpeed', data={'v': v, 'psi_dot': psi_dot})
 
     def setTorque(self, torque, *args, **kwargs):
-        self.device.command('setControlInput', data={'input': torque})
+        self.device.function('setControlInput', data={'input': torque})
 
     def setLEDs(self, color):
         ...

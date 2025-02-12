@@ -31,7 +31,7 @@ extern "C" {
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "firmware_c.h"
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/
@@ -59,14 +59,10 @@ void Error_Handler(void);
 /* Private defines -----------------------------------------------------------*/
 #define ENABLE_MEAS_1_Pin GPIO_PIN_1
 #define ENABLE_MEAS_1_GPIO_Port GPIOA
-#define ADC_CELL_3_Pin GPIO_PIN_4
-#define ADC_CELL_3_GPIO_Port GPIOA
 #define ENABLE_MEAS_3_Pin GPIO_PIN_5
 #define ENABLE_MEAS_3_GPIO_Port GPIOA
 #define DETECT_CHG_Pin GPIO_PIN_6
 #define DETECT_CHG_GPIO_Port GPIOA
-#define ADC_CELL_4_Pin GPIO_PIN_0
-#define ADC_CELL_4_GPIO_Port GPIOB
 #define ENABLE_MEAS_4_Pin GPIO_PIN_1
 #define ENABLE_MEAS_4_GPIO_Port GPIOB
 #define LED_USER_Pin GPIO_PIN_11

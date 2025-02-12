@@ -38,7 +38,7 @@ def example_simple_server():
             msg.data = {
                 'x': 3
             }
-            msg.command = 'write'
+            msg.function = 'write'
 
             server.send(msg, device)
             time.sleep(1)

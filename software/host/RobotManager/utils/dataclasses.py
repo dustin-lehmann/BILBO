@@ -1,4 +1,11 @@
-from dataclasses import is_dataclass
+import copy
+import dataclasses
+from enum import IntEnum
+
+import graphviz
+# Cache for frozen dataclass definitions
+from dataclasses import fields, make_dataclass, is_dataclass, field
+from typing import Any, Dict, Tuple, Type
 from itertools import zip_longest
 from typing import TypeVar, Type, Optional, get_type_hints, Mapping, Any, Collection, MutableMapping
 
@@ -97,6 +104,11 @@ def _build_value(type_: Type, data: Any, config: Config) -> Any:
         data = _build_value_for_collection(collection=type_, data=data, config=config)
     elif cache(is_dataclass)(type_) and isinstance(data, Mapping):
         data = from_dict(data_class=type_, data=data, config=config)
+    elif issubclass(type_, IntEnum):  # Handle IntEnum explicitly
+        if isinstance(data, int):
+            return type_(data)  # Convert int to corresponding IntEnum value
+        else:
+            raise WrongTypeError(field_type=type_, value=data)
     for cast_type in config.cast:
         if is_subclass(type_, cast_type):
             if is_generic_collection(type_):
@@ -105,7 +117,6 @@ def _build_value(type_: Type, data: Any, config: Config) -> Any:
                 data = type_(data)
             break
     return data
-
 
 def _build_value_for_union(union: Type, data: Any, config: Config) -> Any:
     types = extract_generic(union)
@@ -154,6 +165,69 @@ def _build_value_for_collection(collection: Type, data: Any, config: Config) -> 
         return data_type(_build_value(type_=item_type, data=item, config=config) for item in data)
     return data
 
+
+_frozen_dataclass_cache: Dict[Tuple[type, Tuple[str, type]], type] = {}
+
+def freeze_dataclass_instance(instance: Any) -> Any:
+    """
+    Takes a dataclass instance and converts it and all its nested dataclasses into immutable frozen versions.
+    Cached frozen versions are used to optimize repeated conversions.
+
+    Args:
+        instance (Any): The dataclass instance to freeze.
+
+    Returns:
+        Any: A frozen copy of the dataclass instance.
+    """
+    if not is_dataclass(instance):
+        raise ValueError("The input must be an instance of a dataclass.")
+
+    def get_frozen_dataclass_type(cls: type) -> type:
+        """Retrieve or create a frozen version of the dataclass."""
+        # noinspection PyDataclass
+        cls_fields = tuple((f.name, f.type) for f in fields(cls))
+        cache_key = (cls, cls_fields)
+
+        if cache_key not in _frozen_dataclass_cache:
+            # noinspection PyArgumentList,PyDataclass
+            frozen_cls = make_dataclass(
+                cls.__name__ + "Frozen",
+                [
+                    (
+                        f.name,
+                        f.type,
+                        field(
+                            default=f.default
+                            if f.default is not dataclasses.MISSING
+                            else dataclasses.MISSING,
+                            default_factory=f.default_factory
+                            if f.default_factory is not dataclasses.MISSING
+                            else dataclasses.MISSING,
+                        ),
+                    )
+                    for f in fields(cls)
+                ],
+                frozen=True
+            )
+            _frozen_dataclass_cache[cache_key] = frozen_cls # type: ignore
+        return _frozen_dataclass_cache[cache_key] # type: ignore
+
+    def freeze_instance(dataclass_instance: Any) -> Any:
+        """Recursively convert a dataclass instance into its frozen version."""
+        cls = type(dataclass_instance)
+        frozen_cls = get_frozen_dataclass_type(cls)
+
+        frozen_kwargs = {}
+        for f in fields(cls):
+            value = getattr(dataclass_instance, f.name)
+            if is_dataclass(value):
+                frozen_kwargs[f.name] = freeze_instance(value)
+            else:
+                frozen_kwargs[f.name] = copy.deepcopy(value)
+
+        return frozen_cls(**frozen_kwargs)
+
+    return freeze_instance(instance)
 
 def analyze_dataclass(
         dataclass_type: Type[Any],

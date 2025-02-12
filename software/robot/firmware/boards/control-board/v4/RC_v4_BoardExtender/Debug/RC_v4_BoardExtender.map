@@ -3715,7 +3715,7 @@ LOAD C:/ST/STM32CubeIDE_1.13.2/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.ext
                 0x08000000                g_pfnVectors
                 0x0800018c                        . = ALIGN (0x4)
 
-.text           0x0800018c     0x6c44
+.text           0x0800018c     0x6c6c
                 0x0800018c                        . = ALIGN (0x4)
  *(.text)
  .text          0x0800018c       0x40 C:/ST/STM32CubeIDE_1.13.2/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.200.202406191623/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/thumb/v7e-m+fp/hard/crtbegin.o
@@ -4162,219 +4162,222 @@ LOAD C:/ST/STM32CubeIDE_1.13.2/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.ext
                 0x08006028       0x5c ./firmware/firmware.o
                 0x08006028                updateStatusLEDFromRegisters()
  .text._Z32updateInternRGBLEDsFromRegistersv
-                0x08006084      0x128 ./firmware/firmware.o
+                0x08006084       0xf0 ./firmware/firmware.o
                 0x08006084                updateInternRGBLEDsFromRegisters()
  .text._Z25updateBuzzerFromRegistersv
-                0x080061ac       0x84 ./firmware/firmware.o
-                0x080061ac                updateBuzzerFromRegisters()
+                0x08006174       0x84 ./firmware/firmware.o
+                0x08006174                updateBuzzerFromRegisters()
+ .text._Z20set_external_rgb_ledhhh
+                0x080061f8       0x60 ./firmware/firmware.o
+                0x080061f8                set_external_rgb_led(unsigned char, unsigned char, unsigned char)
  .text._Z16set_rgb_led_dataP10WS2812_LEDhhhhhh
-                0x08006230       0xac ./firmware/firmware.o
-                0x08006230                set_rgb_led_data(WS2812_LED*, unsigned char, unsigned char, unsigned char, unsigned char, unsigned char, unsigned char)
+                0x08006258       0xac ./firmware/firmware.o
+                0x08006258                set_rgb_led_data(WS2812_LED*, unsigned char, unsigned char, unsigned char, unsigned char, unsigned char, unsigned char)
  .text._Z41__static_initialization_and_destruction_0ii
-                0x080062dc       0xf4 ./firmware/firmware.o
+                0x08006304       0xf4 ./firmware/firmware.o
  .text._GLOBAL__sub_I_neopixel_intern
-                0x080063d0       0x10 ./firmware/firmware.o
- .text._Z3nopv  0x080063e0        0xe ./firmware/i2c/i2c_slave.o
-                0x080063e0                nop()
- *fill*         0x080063ee        0x2 
+                0x080063f8       0x10 ./firmware/firmware.o
+ .text._Z3nopv  0x08006408        0xe ./firmware/i2c/i2c_slave.o
+                0x08006408                nop()
+ *fill*         0x08006416        0x2 
  .text._Z13get_I2C_slaveP19__I2C_HandleTypeDef
-                0x080063f0       0x50 ./firmware/i2c/i2c_slave.o
-                0x080063f0                get_I2C_slave(__I2C_HandleTypeDef*)
+                0x08006418       0x50 ./firmware/i2c/i2c_slave.o
+                0x08006418                get_I2C_slave(__I2C_HandleTypeDef*)
  .text.HAL_I2C_ListenCpltCallback
-                0x08006440       0x24 ./firmware/i2c/i2c_slave.o
-                0x08006440                HAL_I2C_ListenCpltCallback
+                0x08006468       0x24 ./firmware/i2c/i2c_slave.o
+                0x08006468                HAL_I2C_ListenCpltCallback
  .text.HAL_I2C_AddrCallback
-                0x08006464       0x32 ./firmware/i2c/i2c_slave.o
-                0x08006464                HAL_I2C_AddrCallback
+                0x0800648c       0x32 ./firmware/i2c/i2c_slave.o
+                0x0800648c                HAL_I2C_AddrCallback
  .text.HAL_I2C_SlaveRxCpltCallback
-                0x08006496       0x24 ./firmware/i2c/i2c_slave.o
-                0x08006496                HAL_I2C_SlaveRxCpltCallback
+                0x080064be       0x24 ./firmware/i2c/i2c_slave.o
+                0x080064be                HAL_I2C_SlaveRxCpltCallback
  .text.HAL_I2C_SlaveTxCpltCallback
-                0x080064ba       0x24 ./firmware/i2c/i2c_slave.o
-                0x080064ba                HAL_I2C_SlaveTxCpltCallback
+                0x080064e2       0x24 ./firmware/i2c/i2c_slave.o
+                0x080064e2                HAL_I2C_SlaveTxCpltCallback
  .text.HAL_I2C_ErrorCallback
-                0x080064de       0x2c ./firmware/i2c/i2c_slave.o
-                0x080064de                HAL_I2C_ErrorCallback
+                0x08006506       0x2c ./firmware/i2c/i2c_slave.o
+                0x08006506                HAL_I2C_ErrorCallback
  .text.HAL_I2C_AbortCpltCallback
-                0x0800650a       0x24 ./firmware/i2c/i2c_slave.o
-                0x0800650a                HAL_I2C_AbortCpltCallback
+                0x08006532       0x24 ./firmware/i2c/i2c_slave.o
+                0x08006532                HAL_I2C_AbortCpltCallback
  .text._ZN19I2C_Slave_callbacksC2Ev
-                0x0800652e       0x1a ./firmware/i2c/i2c_slave.o
-                0x0800652e                I2C_Slave_callbacks::I2C_Slave_callbacks()
-                0x0800652e                I2C_Slave_callbacks::I2C_Slave_callbacks()
+                0x08006556       0x1a ./firmware/i2c/i2c_slave.o
+                0x08006556                I2C_Slave_callbacks::I2C_Slave_callbacks()
+                0x08006556                I2C_Slave_callbacks::I2C_Slave_callbacks()
  .text._ZN9I2C_SlaveC2EP19__I2C_HandleTypeDefhPhh
-                0x08006548       0x74 ./firmware/i2c/i2c_slave.o
-                0x08006548                I2C_Slave::I2C_Slave(__I2C_HandleTypeDef*, unsigned char, unsigned char*, unsigned char)
-                0x08006548                I2C_Slave::I2C_Slave(__I2C_HandleTypeDef*, unsigned char, unsigned char*, unsigned char)
+                0x08006570       0x74 ./firmware/i2c/i2c_slave.o
+                0x08006570                I2C_Slave::I2C_Slave(__I2C_HandleTypeDef*, unsigned char, unsigned char*, unsigned char)
+                0x08006570                I2C_Slave::I2C_Slave(__I2C_HandleTypeDef*, unsigned char, unsigned char*, unsigned char)
  .text._ZN9I2C_Slave4initEv
-                0x080065bc       0x14 ./firmware/i2c/i2c_slave.o
-                0x080065bc                I2C_Slave::init()
+                0x080065e4       0x14 ./firmware/i2c/i2c_slave.o
+                0x080065e4                I2C_Slave::init()
  .text._ZN9I2C_Slave5startEv
-                0x080065d0       0x1a ./firmware/i2c/i2c_slave.o
-                0x080065d0                I2C_Slave::start()
+                0x080065f8       0x1a ./firmware/i2c/i2c_slave.o
+                0x080065f8                I2C_Slave::start()
  .text._ZN9I2C_Slave16i2c_addrCallbackEht
-                0x080065ea       0x74 ./firmware/i2c/i2c_slave.o
-                0x080065ea                I2C_Slave::i2c_addrCallback(unsigned char, unsigned short)
+                0x08006612       0x74 ./firmware/i2c/i2c_slave.o
+                0x08006612                I2C_Slave::i2c_addrCallback(unsigned char, unsigned short)
  .text._ZN9I2C_Slave26i2c_listenCompleteCallbackEv
-                0x0800665e       0x38 ./firmware/i2c/i2c_slave.o
-                0x0800665e                I2C_Slave::i2c_listenCompleteCallback()
+                0x08006686       0x38 ./firmware/i2c/i2c_slave.o
+                0x08006686                I2C_Slave::i2c_listenCompleteCallback()
  .text._ZN9I2C_Slave22i2c_rxCompleteCallbackEv
-                0x08006696       0x48 ./firmware/i2c/i2c_slave.o
-                0x08006696                I2C_Slave::i2c_rxCompleteCallback()
+                0x080066be       0x48 ./firmware/i2c/i2c_slave.o
+                0x080066be                I2C_Slave::i2c_rxCompleteCallback()
  .text._ZN9I2C_Slave22i2c_txCompleteCallbackEv
-                0x080066de       0x40 ./firmware/i2c/i2c_slave.o
-                0x080066de                I2C_Slave::i2c_txCompleteCallback()
+                0x08006706       0x40 ./firmware/i2c/i2c_slave.o
+                0x08006706                I2C_Slave::i2c_txCompleteCallback()
  .text._ZN9I2C_Slave17i2c_errorCallbackEv
-                0x0800671e       0x1e ./firmware/i2c/i2c_slave.o
-                0x0800671e                I2C_Slave::i2c_errorCallback()
+                0x08006746       0x1e ./firmware/i2c/i2c_slave.o
+                0x08006746                I2C_Slave::i2c_errorCallback()
  .text._ZN9I2C_Slave25i2c_abortCompleteCallbackEv
-                0x0800673c       0x14 ./firmware/i2c/i2c_slave.o
-                0x0800673c                I2C_Slave::i2c_abortCompleteCallback()
+                0x08006764       0x14 ./firmware/i2c/i2c_slave.o
+                0x08006764                I2C_Slave::i2c_abortCompleteCallback()
  .text._ZN3LEDC2EP12GPIO_TypeDeft
-                0x08006750       0x28 ./firmware/led/led.o
-                0x08006750                LED::LED(GPIO_TypeDef*, unsigned short)
-                0x08006750                LED::LED(GPIO_TypeDef*, unsigned short)
+                0x08006778       0x28 ./firmware/led/led.o
+                0x08006778                LED::LED(GPIO_TypeDef*, unsigned short)
+                0x08006778                LED::LED(GPIO_TypeDef*, unsigned short)
  .text._ZN3LED2onEv
-                0x08006778       0x20 ./firmware/led/led.o
-                0x08006778                LED::on()
+                0x080067a0       0x20 ./firmware/led/led.o
+                0x080067a0                LED::on()
  .text._ZN3LED3offEv
-                0x08006798       0x20 ./firmware/led/led.o
-                0x08006798                LED::off()
+                0x080067c0       0x20 ./firmware/led/led.o
+                0x080067c0                LED::off()
  .text._ZN3LED6toggleEv
-                0x080067b8       0x20 ./firmware/led/led.o
-                0x080067b8                LED::toggle()
+                0x080067e0       0x20 ./firmware/led/led.o
+                0x080067e0                LED::toggle()
  .text._ZN3LED8getStateEv
-                0x080067d8       0x22 ./firmware/led/led.o
-                0x080067d8                LED::getState()
+                0x08006800       0x22 ./firmware/led/led.o
+                0x08006800                LED::getState()
  .text._ZN10WS2812_LEDC2Ev
-                0x080067fa       0x42 ./firmware/neopixel/ws2812.o
-                0x080067fa                WS2812_LED::WS2812_LED()
-                0x080067fa                WS2812_LED::WS2812_LED()
+                0x08006822       0x42 ./firmware/neopixel/ws2812.o
+                0x08006822                WS2812_LED::WS2812_LED()
+                0x08006822                WS2812_LED::WS2812_LED()
  .text._ZN10WS2812_LED8setColorEhhh
-                0x0800683c       0x38 ./firmware/neopixel/ws2812.o
-                0x0800683c                WS2812_LED::setColor(unsigned char, unsigned char, unsigned char)
+                0x08006864       0x38 ./firmware/neopixel/ws2812.o
+                0x08006864                WS2812_LED::setColor(unsigned char, unsigned char, unsigned char)
  .text._ZN10WS2812_LED7setModeE15WS2812_LED_Mode
-                0x08006874       0x2e ./firmware/neopixel/ws2812.o
-                0x08006874                WS2812_LED::setMode(WS2812_LED_Mode)
+                0x0800689c       0x2e ./firmware/neopixel/ws2812.o
+                0x0800689c                WS2812_LED::setMode(WS2812_LED_Mode)
  .text._ZN10WS2812_LED14setBlinkConfigEta
-                0x080068a2       0x28 ./firmware/neopixel/ws2812.o
-                0x080068a2                WS2812_LED::setBlinkConfig(unsigned short, signed char)
+                0x080068ca       0x28 ./firmware/neopixel/ws2812.o
+                0x080068ca                WS2812_LED::setBlinkConfig(unsigned short, signed char)
  .text._ZN10WS2812_LED5blinkEv
-                0x080068ca       0x4e ./firmware/neopixel/ws2812.o
-                0x080068ca                WS2812_LED::blink()
+                0x080068f2       0x4e ./firmware/neopixel/ws2812.o
+                0x080068f2                WS2812_LED::blink()
  .text._ZN10WS2812_LED6updateEv
-                0x08006918       0xfe ./firmware/neopixel/ws2812.o
-                0x08006918                WS2812_LED::update()
+                0x08006940       0xfe ./firmware/neopixel/ws2812.o
+                0x08006940                WS2812_LED::update()
  .text._ZN13WS2812_StrandC2EP17TIM_HandleTypeDefmh
-                0x08006a16       0x56 ./firmware/neopixel/ws2812.o
-                0x08006a16                WS2812_Strand::WS2812_Strand(TIM_HandleTypeDef*, unsigned long, unsigned char)
-                0x08006a16                WS2812_Strand::WS2812_Strand(TIM_HandleTypeDef*, unsigned long, unsigned char)
+                0x08006a3e       0x56 ./firmware/neopixel/ws2812.o
+                0x08006a3e                WS2812_Strand::WS2812_Strand(TIM_HandleTypeDef*, unsigned long, unsigned char)
+                0x08006a3e                WS2812_Strand::WS2812_Strand(TIM_HandleTypeDef*, unsigned long, unsigned char)
  .text._ZN13WS2812_Strand4initEv
-                0x08006a6c       0x70 ./firmware/neopixel/ws2812.o
-                0x08006a6c                WS2812_Strand::init()
+                0x08006a94       0x70 ./firmware/neopixel/ws2812.o
+                0x08006a94                WS2812_Strand::init()
  .text._ZN13WS2812_Strand6updateEv
-                0x08006adc      0x126 ./firmware/neopixel/ws2812.o
-                0x08006adc                WS2812_Strand::update()
+                0x08006b04      0x126 ./firmware/neopixel/ws2812.o
+                0x08006b04                WS2812_Strand::update()
  .text._ZN13WS2812_Strand4sendEv
-                0x08006c02       0x4e ./firmware/neopixel/ws2812.o
-                0x08006c02                WS2812_Strand::send()
+                0x08006c2a       0x4e ./firmware/neopixel/ws2812.o
+                0x08006c2a                WS2812_Strand::send()
  .text._ZN13WS2812_Strand5resetEv
-                0x08006c50       0x8c ./firmware/neopixel/ws2812.o
-                0x08006c50                WS2812_Strand::reset()
+                0x08006c78       0x8c ./firmware/neopixel/ws2812.o
+                0x08006c78                WS2812_Strand::reset()
  .text.HAL_TIM_PWM_PulseFinishedCallback
-                0x08006cdc       0x74 ./firmware/neopixel/ws2812.o
-                0x08006cdc                HAL_TIM_PWM_PulseFinishedCallback
+                0x08006d04       0x74 ./firmware/neopixel/ws2812.o
+                0x08006d04                HAL_TIM_PWM_PulseFinishedCallback
  .text._Z6millisv
-                0x08006d50        0xe ./firmware/utils/elapsedMillis.o
-                0x08006d50                millis()
- .text.memset   0x08006d5e       0x10 C:/ST/STM32CubeIDE_1.13.2/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.200.202406191623/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libc_nano.a(libc_a-memset.o)
-                0x08006d5e                memset
- *fill*         0x08006d6e        0x2 
+                0x08006d78        0xe ./firmware/utils/elapsedMillis.o
+                0x08006d78                millis()
+ .text.memset   0x08006d86       0x10 C:/ST/STM32CubeIDE_1.13.2/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.200.202406191623/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libc_nano.a(libc_a-memset.o)
+                0x08006d86                memset
+ *fill*         0x08006d96        0x2 
  .text.__libc_init_array
-                0x08006d70       0x48 C:/ST/STM32CubeIDE_1.13.2/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.200.202406191623/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libc_nano.a(libc_a-init.o)
-                0x08006d70                __libc_init_array
+                0x08006d98       0x48 C:/ST/STM32CubeIDE_1.13.2/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.200.202406191623/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libc_nano.a(libc_a-init.o)
+                0x08006d98                __libc_init_array
  *(.glue_7)
- .glue_7        0x08006db8        0x0 linker stubs
+ .glue_7        0x08006de0        0x0 linker stubs
  *(.glue_7t)
- .glue_7t       0x08006db8        0x0 linker stubs
+ .glue_7t       0x08006de0        0x0 linker stubs
  *(.eh_frame)
- .eh_frame      0x08006db8        0x0 C:/ST/STM32CubeIDE_1.13.2/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.200.202406191623/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/thumb/v7e-m+fp/hard/crtbegin.o
+ .eh_frame      0x08006de0        0x0 C:/ST/STM32CubeIDE_1.13.2/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.200.202406191623/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/thumb/v7e-m+fp/hard/crtbegin.o
  *(.init)
- .init          0x08006db8        0x4 C:/ST/STM32CubeIDE_1.13.2/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.200.202406191623/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/thumb/v7e-m+fp/hard/crti.o
-                0x08006db8                _init
- .init          0x08006dbc        0x8 C:/ST/STM32CubeIDE_1.13.2/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.200.202406191623/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/thumb/v7e-m+fp/hard/crtn.o
+ .init          0x08006de0        0x4 C:/ST/STM32CubeIDE_1.13.2/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.200.202406191623/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/thumb/v7e-m+fp/hard/crti.o
+                0x08006de0                _init
+ .init          0x08006de4        0x8 C:/ST/STM32CubeIDE_1.13.2/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.200.202406191623/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/thumb/v7e-m+fp/hard/crtn.o
  *(.fini)
- .fini          0x08006dc4        0x4 C:/ST/STM32CubeIDE_1.13.2/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.200.202406191623/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/thumb/v7e-m+fp/hard/crti.o
-                0x08006dc4                _fini
- .fini          0x08006dc8        0x8 C:/ST/STM32CubeIDE_1.13.2/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.200.202406191623/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/thumb/v7e-m+fp/hard/crtn.o
-                0x08006dd0                        . = ALIGN (0x4)
-                0x08006dd0                        _etext = .
+ .fini          0x08006dec        0x4 C:/ST/STM32CubeIDE_1.13.2/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.200.202406191623/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/thumb/v7e-m+fp/hard/crti.o
+                0x08006dec                _fini
+ .fini          0x08006df0        0x8 C:/ST/STM32CubeIDE_1.13.2/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.200.202406191623/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/thumb/v7e-m+fp/hard/crtn.o
+                0x08006df8                        . = ALIGN (0x4)
+                0x08006df8                        _etext = .
 
-.vfp11_veneer   0x08006dd0        0x0
- .vfp11_veneer  0x08006dd0        0x0 linker stubs
+.vfp11_veneer   0x08006df8        0x0
+ .vfp11_veneer  0x08006df8        0x0 linker stubs
 
-.v4_bx          0x08006dd0        0x0
- .v4_bx         0x08006dd0        0x0 linker stubs
+.v4_bx          0x08006df8        0x0
+ .v4_bx         0x08006df8        0x0 linker stubs
 
-.iplt           0x08006dd0        0x0
- .iplt          0x08006dd0        0x0 C:/ST/STM32CubeIDE_1.13.2/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.200.202406191623/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/thumb/v7e-m+fp/hard/crtbegin.o
+.iplt           0x08006df8        0x0
+ .iplt          0x08006df8        0x0 C:/ST/STM32CubeIDE_1.13.2/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.200.202406191623/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/thumb/v7e-m+fp/hard/crtbegin.o
 
-.rodata         0x08006dd0       0x50
-                0x08006dd0                        . = ALIGN (0x4)
+.rodata         0x08006df8       0x50
+                0x08006df8                        . = ALIGN (0x4)
  *(.rodata)
- .rodata        0x08006dd0       0x10 ./firmware/neopixel/ws2812.o
+ .rodata        0x08006df8       0x10 ./firmware/neopixel/ws2812.o
  *(.rodata*)
  .rodata.AHBPrescTable
-                0x08006de0       0x10 ./Core/Src/system_stm32l4xx.o
-                0x08006de0                AHBPrescTable
+                0x08006e08       0x10 ./Core/Src/system_stm32l4xx.o
+                0x08006e08                AHBPrescTable
  .rodata.MSIRangeTable
-                0x08006df0       0x30 ./Core/Src/system_stm32l4xx.o
-                0x08006df0                MSIRangeTable
-                0x08006e20                        . = ALIGN (0x4)
+                0x08006e18       0x30 ./Core/Src/system_stm32l4xx.o
+                0x08006e18                MSIRangeTable
+                0x08006e48                        . = ALIGN (0x4)
 
-.rel.dyn        0x08006e20        0x0
- .rel.iplt      0x08006e20        0x0 C:/ST/STM32CubeIDE_1.13.2/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.200.202406191623/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/thumb/v7e-m+fp/hard/crtbegin.o
+.rel.dyn        0x08006e48        0x0
+ .rel.iplt      0x08006e48        0x0 C:/ST/STM32CubeIDE_1.13.2/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.200.202406191623/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/thumb/v7e-m+fp/hard/crtbegin.o
 
-.ARM.extab      0x08006e20        0x0
-                0x08006e20                        . = ALIGN (0x4)
+.ARM.extab      0x08006e48        0x0
+                0x08006e48                        . = ALIGN (0x4)
  *(.ARM.extab* .gnu.linkonce.armextab.*)
-                0x08006e20                        . = ALIGN (0x4)
+                0x08006e48                        . = ALIGN (0x4)
 
-.ARM            0x08006e20        0x0
-                0x08006e20                        . = ALIGN (0x4)
-                0x08006e20                        __exidx_start = .
+.ARM            0x08006e48        0x0
+                0x08006e48                        . = ALIGN (0x4)
+                0x08006e48                        __exidx_start = .
  *(.ARM.exidx*)
-                0x08006e20                        __exidx_end = .
-                0x08006e20                        . = ALIGN (0x4)
+                0x08006e48                        __exidx_end = .
+                0x08006e48                        . = ALIGN (0x4)
 
-.preinit_array  0x08006e20        0x0
-                0x08006e20                        . = ALIGN (0x4)
-                0x08006e20                        PROVIDE (__preinit_array_start = .)
+.preinit_array  0x08006e48        0x0
+                0x08006e48                        . = ALIGN (0x4)
+                0x08006e48                        PROVIDE (__preinit_array_start = .)
  *(.preinit_array*)
-                0x08006e20                        PROVIDE (__preinit_array_end = .)
-                0x08006e20                        . = ALIGN (0x4)
+                0x08006e48                        PROVIDE (__preinit_array_end = .)
+                0x08006e48                        . = ALIGN (0x4)
 
-.init_array     0x08006e20        0x8
-                0x08006e20                        . = ALIGN (0x4)
-                0x08006e20                        PROVIDE (__init_array_start = .)
+.init_array     0x08006e48        0x8
+                0x08006e48                        . = ALIGN (0x4)
+                0x08006e48                        PROVIDE (__init_array_start = .)
  *(SORT_BY_NAME(.init_array.*))
  *(.init_array*)
- .init_array    0x08006e20        0x4 C:/ST/STM32CubeIDE_1.13.2/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.200.202406191623/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/thumb/v7e-m+fp/hard/crtbegin.o
- .init_array    0x08006e24        0x4 ./firmware/firmware.o
-                0x08006e28                        PROVIDE (__init_array_end = .)
-                0x08006e28                        . = ALIGN (0x4)
+ .init_array    0x08006e48        0x4 C:/ST/STM32CubeIDE_1.13.2/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.200.202406191623/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/thumb/v7e-m+fp/hard/crtbegin.o
+ .init_array    0x08006e4c        0x4 ./firmware/firmware.o
+                0x08006e50                        PROVIDE (__init_array_end = .)
+                0x08006e50                        . = ALIGN (0x4)
 
-.fini_array     0x08006e28        0x4
-                0x08006e28                        . = ALIGN (0x4)
+.fini_array     0x08006e50        0x4
+                0x08006e50                        . = ALIGN (0x4)
                 [!provide]                        PROVIDE (__fini_array_start = .)
  *(SORT_BY_NAME(.fini_array.*))
  *(.fini_array*)
- .fini_array    0x08006e28        0x4 C:/ST/STM32CubeIDE_1.13.2/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.200.202406191623/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/thumb/v7e-m+fp/hard/crtbegin.o
+ .fini_array    0x08006e50        0x4 C:/ST/STM32CubeIDE_1.13.2/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.200.202406191623/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/thumb/v7e-m+fp/hard/crtbegin.o
                 [!provide]                        PROVIDE (__fini_array_end = .)
-                0x08006e2c                        . = ALIGN (0x4)
-                0x08006e2c                        _sidata = LOADADDR (.data)
+                0x08006e54                        . = ALIGN (0x4)
+                0x08006e54                        _sidata = LOADADDR (.data)
 
-.data           0x20000000        0xc load address 0x08006e2c
+.data           0x20000000        0xc load address 0x08006e54
                 0x20000000                        . = ALIGN (0x4)
                 0x20000000                        _sdata = .
  *(.data)
@@ -4394,11 +4397,11 @@ LOAD C:/ST/STM32CubeIDE_1.13.2/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.ext
  *fill*         0x20000009        0x3 
                 0x2000000c                        _edata = .
 
-.igot.plt       0x2000000c        0x0 load address 0x08006e38
+.igot.plt       0x2000000c        0x0 load address 0x08006e60
  .igot.plt      0x2000000c        0x0 C:/ST/STM32CubeIDE_1.13.2/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.200.202406191623/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/thumb/v7e-m+fp/hard/crtbegin.o
                 0x2000000c                        . = ALIGN (0x4)
 
-.bss            0x2000000c      0xad0 load address 0x08006e38
+.bss            0x2000000c      0xad0 load address 0x08006e60
                 0x2000000c                        _sbss = .
                 0x2000000c                        __bss_start__ = _sbss
  *(.bss)
@@ -4481,7 +4484,7 @@ LOAD C:/ST/STM32CubeIDE_1.13.2/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.ext
                 0x20000adc                        __bss_end__ = _ebss
 
 ._user_heap_stack
-                0x20000adc      0x604 load address 0x08006e38
+                0x20000adc      0x604 load address 0x08006e60
                 0x20000ae0                        . = ALIGN (0x8)
  *fill*         0x20000adc        0x4 
                 [!provide]                        PROVIDE (end = .)
@@ -4564,7 +4567,7 @@ LOAD C:/ST/STM32CubeIDE_1.13.2/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.ext
 LOAD C:/ST/STM32CubeIDE_1.13.2/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.200.202406191623/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a
 LOAD C:/ST/STM32CubeIDE_1.13.2/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.200.202406191623/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/thumb/v7e-m+fp/hard\libgcc.a
 
-.debug_info     0x00000000    0x16fab
+.debug_info     0x00000000    0x16fe8
  .debug_info    0x00000000     0x1598 ./Core/Src/main.o
  .debug_info    0x00001598     0x131e ./Core/Src/stm32l4xx_hal_msp.o
  .debug_info    0x000028b6      0x743 ./Core/Src/stm32l4xx_it.o
@@ -4584,13 +4587,13 @@ LOAD C:/ST/STM32CubeIDE_1.13.2/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.ext
  .debug_info    0x0000ea8c      0xd7b ./firmware/buzzer/buzzer.o
  .debug_info    0x0000f807      0x211 ./firmware/callbacks/callback.o
  .debug_info    0x0000fa18      0x823 ./firmware/eeprom/eeprom.o
- .debug_info    0x0001023b     0x31c1 ./firmware/firmware.o
- .debug_info    0x000133fc      0xfa4 ./firmware/i2c/i2c_slave.o
- .debug_info    0x000143a0      0x3a5 ./firmware/led/led.o
- .debug_info    0x00014745     0x27aa ./firmware/neopixel/ws2812.o
- .debug_info    0x00016eef       0xbc ./firmware/utils/elapsedMillis.o
+ .debug_info    0x0001023b     0x31fe ./firmware/firmware.o
+ .debug_info    0x00013439      0xfa4 ./firmware/i2c/i2c_slave.o
+ .debug_info    0x000143dd      0x3a5 ./firmware/led/led.o
+ .debug_info    0x00014782     0x27aa ./firmware/neopixel/ws2812.o
+ .debug_info    0x00016f2c       0xbc ./firmware/utils/elapsedMillis.o
 
-.debug_abbrev   0x00000000     0x3896
+.debug_abbrev   0x00000000     0x3898
  .debug_abbrev  0x00000000      0x2cc ./Core/Src/main.o
  .debug_abbrev  0x000002cc      0x249 ./Core/Src/stm32l4xx_hal_msp.o
  .debug_abbrev  0x00000515      0x198 ./Core/Src/stm32l4xx_it.o
@@ -4610,13 +4613,13 @@ LOAD C:/ST/STM32CubeIDE_1.13.2/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.ext
  .debug_abbrev  0x00002187      0x31c ./firmware/buzzer/buzzer.o
  .debug_abbrev  0x000024a3      0x16f ./firmware/callbacks/callback.o
  .debug_abbrev  0x00002612      0x241 ./firmware/eeprom/eeprom.o
- .debug_abbrev  0x00002853      0x5c0 ./firmware/firmware.o
- .debug_abbrev  0x00002e13      0x33a ./firmware/i2c/i2c_slave.o
- .debug_abbrev  0x0000314d      0x20b ./firmware/led/led.o
- .debug_abbrev  0x00003358      0x4ce ./firmware/neopixel/ws2812.o
- .debug_abbrev  0x00003826       0x70 ./firmware/utils/elapsedMillis.o
+ .debug_abbrev  0x00002853      0x5c2 ./firmware/firmware.o
+ .debug_abbrev  0x00002e15      0x33a ./firmware/i2c/i2c_slave.o
+ .debug_abbrev  0x0000314f      0x20b ./firmware/led/led.o
+ .debug_abbrev  0x0000335a      0x4ce ./firmware/neopixel/ws2812.o
+ .debug_abbrev  0x00003828       0x70 ./firmware/utils/elapsedMillis.o
 
-.debug_aranges  0x00000000     0x12a0
+.debug_aranges  0x00000000     0x12a8
  .debug_aranges
                 0x00000000       0x68 ./Core/Src/main.o
  .debug_aranges
@@ -4656,18 +4659,18 @@ LOAD C:/ST/STM32CubeIDE_1.13.2/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.ext
  .debug_aranges
                 0x00001018       0x30 ./firmware/eeprom/eeprom.o
  .debug_aranges
-                0x00001048       0x90 ./firmware/firmware.o
+                0x00001048       0x98 ./firmware/firmware.o
  .debug_aranges
-                0x000010d8       0xb8 ./firmware/i2c/i2c_slave.o
+                0x000010e0       0xb8 ./firmware/i2c/i2c_slave.o
  .debug_aranges
-                0x00001190       0x40 ./firmware/led/led.o
+                0x00001198       0x40 ./firmware/led/led.o
  .debug_aranges
-                0x000011d0       0xb0 ./firmware/neopixel/ws2812.o
+                0x000011d8       0xb0 ./firmware/neopixel/ws2812.o
  .debug_aranges
-                0x00001280       0x20 ./firmware/utils/elapsedMillis.o
+                0x00001288       0x20 ./firmware/utils/elapsedMillis.o
 
 .debug_rnglists
-                0x00000000      0xe56
+                0x00000000      0xe5c
  .debug_rnglists
                 0x00000000       0x50 ./Core/Src/main.o
  .debug_rnglists
@@ -4707,15 +4710,15 @@ LOAD C:/ST/STM32CubeIDE_1.13.2/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.ext
  .debug_rnglists
                 0x00000c85       0x1f ./firmware/eeprom/eeprom.o
  .debug_rnglists
-                0x00000ca4       0x6d ./firmware/firmware.o
+                0x00000ca4       0x73 ./firmware/firmware.o
  .debug_rnglists
-                0x00000d11       0x85 ./firmware/i2c/i2c_slave.o
+                0x00000d17       0x85 ./firmware/i2c/i2c_slave.o
  .debug_rnglists
-                0x00000d96       0x2b ./firmware/led/led.o
+                0x00000d9c       0x2b ./firmware/led/led.o
  .debug_rnglists
-                0x00000dc1       0x82 ./firmware/neopixel/ws2812.o
+                0x00000dc7       0x82 ./firmware/neopixel/ws2812.o
  .debug_rnglists
-                0x00000e43       0x13 ./firmware/utils/elapsedMillis.o
+                0x00000e49       0x13 ./firmware/utils/elapsedMillis.o
 
 .debug_macro    0x00000000    0x24b80
  .debug_macro   0x00000000      0x1de ./Core/Src/main.o
@@ -4804,7 +4807,7 @@ LOAD C:/ST/STM32CubeIDE_1.13.2/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.ext
  .debug_macro   0x00024956       0x56 ./firmware/neopixel/ws2812.o
  .debug_macro   0x000249ac      0x1d4 ./firmware/utils/elapsedMillis.o
 
-.debug_line     0x00000000    0x17867
+.debug_line     0x00000000    0x1787e
  .debug_line    0x00000000      0xadc ./Core/Src/main.o
  .debug_line    0x00000adc      0x9c1 ./Core/Src/stm32l4xx_hal_msp.o
  .debug_line    0x0000149d      0x930 ./Core/Src/stm32l4xx_it.o
@@ -4824,13 +4827,13 @@ LOAD C:/ST/STM32CubeIDE_1.13.2/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.ext
  .debug_line    0x000120fd      0x9ec ./firmware/buzzer/buzzer.o
  .debug_line    0x00012ae9      0x466 ./firmware/callbacks/callback.o
  .debug_line    0x00012f4f      0x789 ./firmware/eeprom/eeprom.o
- .debug_line    0x000136d8     0x1537 ./firmware/firmware.o
- .debug_line    0x00014c0f      0xa94 ./firmware/i2c/i2c_slave.o
- .debug_line    0x000156a3      0x7a0 ./firmware/led/led.o
- .debug_line    0x00015e43     0x12cb ./firmware/neopixel/ws2812.o
- .debug_line    0x0001710e      0x759 ./firmware/utils/elapsedMillis.o
+ .debug_line    0x000136d8     0x154e ./firmware/firmware.o
+ .debug_line    0x00014c26      0xa94 ./firmware/i2c/i2c_slave.o
+ .debug_line    0x000156ba      0x7a0 ./firmware/led/led.o
+ .debug_line    0x00015e5a     0x12cb ./firmware/neopixel/ws2812.o
+ .debug_line    0x00017125      0x759 ./firmware/utils/elapsedMillis.o
 
-.debug_str      0x00000000    0xd1554
+.debug_str      0x00000000    0xd1585
  .debug_str     0x00000000    0xc448b ./Core/Src/main.o
                               0xc4a80 (size before relaxing)
  .debug_str     0x000c448b      0x299 ./Core/Src/stm32l4xx_hal_msp.o
@@ -4869,15 +4872,15 @@ LOAD C:/ST/STM32CubeIDE_1.13.2/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.ext
                                0x42fa (size before relaxing)
  .debug_str     0x000c90e3      0x126 ./firmware/eeprom/eeprom.o
                               0xc40ff (size before relaxing)
- .debug_str     0x000c9209     0x80e8 ./firmware/firmware.o
-                              0xcce8f (size before relaxing)
- .debug_str     0x000d12f1      0x13f ./firmware/i2c/i2c_slave.o
+ .debug_str     0x000c9209     0x8119 ./firmware/firmware.o
+                              0xccec0 (size before relaxing)
+ .debug_str     0x000d1322      0x13f ./firmware/i2c/i2c_slave.o
                               0xc4813 (size before relaxing)
- .debug_str     0x000d1430       0x33 ./firmware/led/led.o
+ .debug_str     0x000d1461       0x33 ./firmware/led/led.o
                               0xc3be5 (size before relaxing)
- .debug_str     0x000d1463       0xcd ./firmware/neopixel/ws2812.o
+ .debug_str     0x000d1494       0xcd ./firmware/neopixel/ws2812.o
                               0xcab44 (size before relaxing)
- .debug_str     0x000d1530       0x24 ./firmware/utils/elapsedMillis.o
+ .debug_str     0x000d1561       0x24 ./firmware/utils/elapsedMillis.o
                               0xc3a93 (size before relaxing)
 
 .comment        0x00000000       0x43
@@ -4906,7 +4909,7 @@ LOAD C:/ST/STM32CubeIDE_1.13.2/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.ext
  .comment       0x00000043       0x44 ./firmware/neopixel/ws2812.o
  .comment       0x00000043       0x44 ./firmware/utils/elapsedMillis.o
 
-.debug_frame    0x00000000     0x4c80
+.debug_frame    0x00000000     0x4ca0
  .debug_frame   0x00000000      0x154 ./Core/Src/main.o
  .debug_frame   0x00000154       0xf0 ./Core/Src/stm32l4xx_hal_msp.o
  .debug_frame   0x00000244      0x1ac ./Core/Src/stm32l4xx_it.o
@@ -4925,13 +4928,13 @@ LOAD C:/ST/STM32CubeIDE_1.13.2/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.ext
  .debug_frame   0x000040b8      0x1a8 ./firmware/buzzer/buzzer.o
  .debug_frame   0x00004260       0x84 ./firmware/callbacks/callback.o
  .debug_frame   0x000042e4       0x80 ./firmware/eeprom/eeprom.o
- .debug_frame   0x00004364      0x21c ./firmware/firmware.o
- .debug_frame   0x00004580      0x2e8 ./firmware/i2c/i2c_slave.o
- .debug_frame   0x00004868       0xc8 ./firmware/led/led.o
- .debug_frame   0x00004930      0x2d8 ./firmware/neopixel/ws2812.o
- .debug_frame   0x00004c08       0x2c ./firmware/utils/elapsedMillis.o
- .debug_frame   0x00004c34       0x20 C:/ST/STM32CubeIDE_1.13.2/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.200.202406191623/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libc_nano.a(libc_a-memset.o)
- .debug_frame   0x00004c54       0x2c C:/ST/STM32CubeIDE_1.13.2/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.200.202406191623/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libc_nano.a(libc_a-init.o)
+ .debug_frame   0x00004364      0x23c ./firmware/firmware.o
+ .debug_frame   0x000045a0      0x2e8 ./firmware/i2c/i2c_slave.o
+ .debug_frame   0x00004888       0xc8 ./firmware/led/led.o
+ .debug_frame   0x00004950      0x2d8 ./firmware/neopixel/ws2812.o
+ .debug_frame   0x00004c28       0x2c ./firmware/utils/elapsedMillis.o
+ .debug_frame   0x00004c54       0x20 C:/ST/STM32CubeIDE_1.13.2/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.200.202406191623/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libc_nano.a(libc_a-memset.o)
+ .debug_frame   0x00004c74       0x2c C:/ST/STM32CubeIDE_1.13.2/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.200.202406191623/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libc_nano.a(libc_a-init.o)
 
 .debug_line_str
                 0x00000000       0xa5

@@ -52,6 +52,7 @@ void firmware_init() {
 
 	HAL_GPIO_WritePin(ENABLE_CM4_GPIO_Port, ENABLE_CM4_Pin, GPIO_PIN_SET);
 
+
 //	neopixel_intern.led[1].continious_output = 1;
 //	neopixel_intern.led[1].setColor(0, 0, 100);
 //	neopixel_intern.led[1].blink_config.on_time_ms = 400;
@@ -62,11 +63,10 @@ void firmware_init() {
 	neopixel_intern.led[0].blink_config.on_time_ms = 400;
 	neopixel_intern.led[0].blink_config.counter = 10;
 
-	for (int i = 0;i<16; i++){
+	for (int i = 0; i < 16; i++) {
 		neopixel_extern.led[i].continious_output = 1;
 		neopixel_extern.led[i].setColor(0, 0, 0);
 	}
-
 
 	rc_buzzer.config.frequency = 440;
 	rc_buzzer.config.on_time_ms = 250;
@@ -74,7 +74,6 @@ void firmware_init() {
 
 	led_status.off();
 	rc_buzzer.start();
-
 
 }
 
@@ -124,23 +123,22 @@ void checkSD() {
 }
 
 /* ================================================================================= */
-void updateStatusLEDFromRegisters(){
+void updateStatusLEDFromRegisters() {
 	int8_t status = (int8_t) register_map[REG_ERROR_LED_CONFIG];
 
 	switch (status) {
-		case -1:
-			led_status.toggle();
-			register_map[REG_ERROR_LED_CONFIG] = (uint8_t) led_status.getState();
-			break;
-		case 0:
-			led_status.off();
-			break;
-		case 1:
-			led_status.on();
-			break;
+	case -1:
+		led_status.toggle();
+		register_map[REG_ERROR_LED_CONFIG] = (uint8_t) led_status.getState();
+		break;
+	case 0:
+		led_status.off();
+		break;
+	case 1:
+		led_status.on();
+		break;
 	}
 }
-
 
 /* ================================================================================= */
 
@@ -167,10 +165,9 @@ void updateInternRGBLEDsFromRegisters() {
 			register_map[REG_STATUS_RGB_LED_3_BLINK_TIME],
 			register_map[REG_STATUS_RGB_LED_3_BLINK_COUNTER]);
 
-	for (int i = 0;i<16; i++){
-		neopixel_extern.led[i].continious_output = 1;
-		neopixel_extern.led[i].setColor(register_map[REG_STATUS_RGB_LED_2_RED], register_map[REG_STATUS_RGB_LED_2_GREEN], register_map[REG_STATUS_RGB_LED_2_BLUE]);
-	}
+	set_external_rgb_led(register_map[REG_EXTERNAL_RGB_GLOBAL_RED],
+			register_map[REG_EXTERNAL_RGB_GLOBAL_GREEN],
+			register_map[REG_EXTERNAL_RGB_GLOBAL_BLUE]);
 
 	register_map[REG_STATUS_RGB_LED_1_BLINK_COUNTER] = 0;
 	register_map[REG_STATUS_RGB_LED_2_BLINK_COUNTER] = 0;
@@ -184,13 +181,21 @@ void updateBuzzerFromRegisters() {
 	uint8_t reg_blink_time = register_map[REG_BUZZER_BLINK_TIME];
 	uint8_t reg_blink_counter = register_map[REG_BUZZER_BLINK_COUNTER];
 
-	rc_buzzer.setConfig((float) (reg_freq * 10), (uint16_t)(reg_blink_time * 10), reg_blink_counter);
+	rc_buzzer.setConfig((float) (reg_freq * 10),
+			(uint16_t) (reg_blink_time * 10), reg_blink_counter);
 
-	if(reg_data == 1){
+	if (reg_data == 1) {
 		register_map[REG_BUZZER_DATA] = 0;
 		rc_buzzer.start();
 	}
 
+}
+
+void set_external_rgb_led(uint8_t red, uint8_t green, uint8_t blue) {
+	for (int i = 0; i < 16; i++) {
+		neopixel_extern.led[i].continious_output = 1;
+		neopixel_extern.led[i].setColor(red, green, blue);
+	}
 }
 
 void set_rgb_led_data(WS2812_LED *led, uint8_t reg_config, uint8_t reg_red,
@@ -218,19 +223,18 @@ void set_rgb_led_data(WS2812_LED *led, uint8_t reg_config, uint8_t reg_red,
 	// Set the Color based on the register entries
 	led->setColor(reg_red, reg_green, reg_blue);
 
+	if (led->mode == WS2812_LED_MODE_CONTINIOUS) {
+		led->continious_output = (reg_config >> 7);
 
-	if (led->mode == WS2812_LED_MODE_CONTINIOUS){
-		led->continious_output  = (reg_config >> 7);
-
-		if (mode == WS2812_LED_MODE_BLINK){
+		if (mode == WS2812_LED_MODE_BLINK) {
 			led->setBlinkConfig((uint16_t) reg_blink_time * 10, -1);
 			led->blink();
 		}
 
-	} else if(led->mode == WS2812_LED_MODE_BLINK) {
-		if (mode == WS2812_LED_MODE_CONTINIOUS){
+	} else if (led->mode == WS2812_LED_MODE_BLINK) {
+		if (mode == WS2812_LED_MODE_CONTINIOUS) {
 			led->setMode(mode);
-			led->continious_output  = (reg_config >> 7);
+			led->continious_output = (reg_config >> 7);
 		}
 	}
 

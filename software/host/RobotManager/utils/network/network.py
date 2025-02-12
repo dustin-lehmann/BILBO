@@ -9,7 +9,7 @@ import socket
 import os
 import sys
 import time
-from utils.logging import Logger
+from utils.logging_utils import Logger
 import platform
 import subprocess
 import re
@@ -85,15 +85,17 @@ def getLocalAndUsbIPs():
     """
     local_ips = []
     usb_ips = []
-
     try:
-        if os.name == 'nt' or os.name == 'posix':
+        if os.name == 'nt':
             hostname = socket.gethostname()
-            ip_addresses = socket.gethostbyname_ex(hostname)[2]
-
-            # Filter IPs
-            local_ips = [ip for ip in ip_addresses if ip.startswith("192.")]
-            usb_ips = [ip for ip in ip_addresses if ip.startswith("169.")]
+            ip_addresses = socket.gethostbyname_ex(f"{hostname}.local")[2]
+        elif os.name == 'posix':
+            hostname = socket.gethostname()
+        else:
+            raise NotImplementedError(f"Unsupported operating system: {os.name}")
+        ip_addresses = socket.gethostbyname_ex(f"{hostname}.local")[2]
+        local_ips = [ip for ip in ip_addresses if ip.startswith("192.")]
+        usb_ips = [ip for ip in ip_addresses if ip.startswith("169.")]
     except Exception as e:
         print(f"Error retrieving IPs: {e}")
         return {"local_ips": [], "usb_ips": []}

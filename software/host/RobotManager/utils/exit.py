@@ -4,7 +4,7 @@ import signal
 class ExitHandler:
     _signal_received = False
 
-    def __init__(self):
+    def __init__(self, callback=None, suppress_print=False):
         # Store the original handlers for the signals
         self._original_handlers = {
             signal.SIGINT: signal.getsignal(signal.SIGINT),
@@ -14,7 +14,12 @@ class ExitHandler:
         signal.signal(signal.SIGINT, self._handle_signal)
         signal.signal(signal.SIGTERM, self._handle_signal)
         # Maintain a list of registered callbacks
+
+        self.suppress_print = suppress_print
         self._callbacks = []
+
+        if callback is not None:
+            self.register(callback)
 
     def register(self, callback):
         """
@@ -31,7 +36,8 @@ class ExitHandler:
         then chain to the original handler.
         """
         if not ExitHandler._signal_received:
-            print("Exit")
+            if not self.suppress_print:
+                print("Exit Application")
             ExitHandler._signal_received = True
 
         # Call all registered callbacks

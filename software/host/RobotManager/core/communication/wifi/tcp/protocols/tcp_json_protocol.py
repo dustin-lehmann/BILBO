@@ -10,18 +10,18 @@ from .tcp_base_protocol import TCP_Base_Protocol
 # ======================================================================================================================
 @dataclasses.dataclass
 class TCP_JSON_Message(Message):
-    data: dict = dataclasses.field(default_factory=dict)
     address: (str, dict) = None
     source: str = None
     type: str = None
-    meta: dict = dataclasses.field(default_factory=dict)
-    event: str = None
+    time = time.time()
+    id: int = 0
+    request_id: int = 0
+    request_response: bool = False
+    data: dict = dataclasses.field(default_factory=dict)
 
-    def __init__(self):
-        self.meta = {
-            'time': time.time(),
-            'id': id(self)
-        }
+    def __post_init__(self):
+        self.id = id(self)
+        self.time = time.time()
 
 
 # ======================================================================================================================
@@ -29,7 +29,7 @@ class TCP_JSON_Protocol(Protocol):
     base = TCP_Base_Protocol
     Message = TCP_JSON_Message
     identifier = 0x02
-    allowed_types = ['write', 'read', 'answer', 'command', 'event', 'stream']
+    allowed_types = ['write', 'read', 'response', 'function', 'event', 'stream']
     meta_fields = ['time', 'id']
 
     # ------------------------------------------------------------------------------------------------------------------
@@ -47,8 +47,14 @@ class TCP_JSON_Protocol(Protocol):
             msg.source = msg_content['source']
         if 'type' in msg_content:
             msg.type = msg_content['type']
-        if 'event' in msg_content:
-            msg.event = msg_content['event']
+        if 'request_response' in msg_content:
+            msg.request_response = msg_content['request_response']
+        if 'id' in msg_content:
+            msg.id = msg_content['id']
+        if 'time' in msg_content:
+            msg.time = msg_content['time']
+        if 'request_id' in msg_content:
+            msg.request_id = msg_content['request_id']
         return msg
 
     # ------------------------------------------------------------------------------------------------------------------
@@ -63,12 +69,6 @@ class TCP_JSON_Protocol(Protocol):
             logging.error(f"Command not allowed!")
             return
 
-        # Check if the metadata is present
-        for f in cls.meta_fields:
-            if f not in msg.meta:
-                logging.error(f'Meta data {f} missing. Message not encoded.')
-                return
-
         # Check if it correctly set up for a command
         data = orjson.dumps(msg)
 
@@ -79,4 +79,4 @@ class TCP_JSON_Protocol(Protocol):
         return 1
 
 
-TCP_JSON_Message._protocol = TCP_JSON_Protocol
+TCP_JSON_Message._protocol = TCP_JSON_Protocol  # Type: Ignore

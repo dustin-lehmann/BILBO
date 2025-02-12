@@ -16,7 +16,7 @@ from utils.os_utils import getOS
 from utils.pygame_utils import pygame
 from utils.files import get_script_path, relativeToFullPath, makeDir, joinPaths, fileExists, deleteFile, listFilesInDir, \
     splitExtension
-from utils.logging import Logger
+from utils.logging_utils import Logger
 
 # Initialize logger
 logger = Logger('Sound')
@@ -453,13 +453,13 @@ if __name__ == "__main__":
     # Example usage
     # primary_engine = GTTSVoiceEngine()
     primary_engine = EdgeTTSVoiceEngine()
-    sound_system = SoundSystem(volume=0.5, primary_engine=primary_engine, add_robot_filter=True)
-    cleanTTS()
+    sound_system = SoundSystem(volume=0.5, primary_engine=primary_engine, add_robot_filter=False)
+    # cleanTTS()
     sound_system.start()
     try:
         playSound('warning')
-        speak("TWIPR 1 disconnected")
-        speak("Experiment with ID f-e-x-1-2-3-4 finished")
+        speak("BILBO 1 disconnected")
+        # speak("Experiment with ID f-e-x-1-2-3-4 finished")
         # playSound('startup')
         time.sleep(10)
     finally:

@@ -2,15 +2,15 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   width="66.240959mm"
-   height="23.499556mm"
-   viewBox="0 0 66.24096 23.499556"
+   width="68.154449mm"
+   height="22.950768mm"
+   viewBox="0 0 68.15445 22.950769"
    version="1.1"
    id="svg1"
-   inkscape:export-filename="bilbo.png"
+   inkscape:export-filename="../../../../../../../../Desktop/bilbo_logo_stick.png"
    inkscape:export-xdpi="500"
    inkscape:export-ydpi="500"
-   inkscape:version="1.3.1 (91b66b0783, 2023-11-16)"
+   inkscape:version="1.3.2 (091e20e, 2023-11-25)"
    sodipodi:docname="bilbo-logo_gh.svg"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
@@ -26,15 +26,15 @@
      inkscape:pagecheckerboard="1"
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
-     inkscape:export-bgcolor="#ffffffff"
-     inkscape:zoom="2.8265986"
-     inkscape:cx="105.60396"
-     inkscape:cy="82.254339"
-     inkscape:window-width="1920"
-     inkscape:window-height="1017"
-     inkscape:window-x="1912"
-     inkscape:window-y="-8"
-     inkscape:window-maximized="1"
+     inkscape:export-bgcolor="#ffffff00"
+     inkscape:zoom="1.4789441"
+     inkscape:cx="123.39885"
+     inkscape:cy="-28.398639"
+     inkscape:window-width="1512"
+     inkscape:window-height="945"
+     inkscape:window-x="0"
+     inkscape:window-y="37"
+     inkscape:window-maximized="0"
      inkscape:current-layer="layer1" />
   <defs
      id="defs1" />
@@ -42,27 +42,99 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(-36.077232,-54.662321)">
+     transform="translate(-39.741153,-241.52255)">
+    <rect
+       style="font-variation-settings:normal;vector-effect:none;fill:#666666;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000"
+       id="rect2-8-8"
+       width="9.8753147"
+       height="14.400051"
+       x="117.58167"
+       y="121.27142"
+       transform="rotate(10.269398)" />
     <text
        xml:space="preserve"
-       style="font-size:25.4px;fill:#f9f9f9;stroke:#000000;stroke-width:1"
-       x="36.09354"
-       y="77.411148"
+       style="font-size:25.4px;fill:#f2f2f2;stroke:#000000;stroke-width:1"
+       x="36.2383"
+       y="161.9097"
+       id="text1-9-5"><tspan
+         sodipodi:role="line"
+         id="tspan1-2-7"
+         style="font-style:italic;font-variant:normal;font-weight:500;font-stretch:normal;font-size:25.4px;font-family:Roboto;-inkscape-font-specification:'Roboto Medium Italic';fill:#f2f2f2;stroke:#000000;stroke-width:1"
+         x="36.2383"
+         y="161.9097">BILB</tspan></text>
+    <circle
+       style="fill:#f2f2f2;stroke:#000000;stroke-width:1;stroke-dasharray:none"
+       id="path1-6-4"
+       cx="95.821213"
+       cy="156.01869"
+       r="6.1417465" />
+    <circle
+       style="font-variation-settings:normal;vector-effect:none;fill:#666666;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000"
+       id="circle1-1-4"
+       cx="95.821213"
+       cy="156.01869"
+       r="3.3618243" />
+    <rect
+       style="font-variation-settings:normal;vector-effect:none;fill:#000000;fill-opacity:1;stroke:#ffffff;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000"
+       id="rect2-8-8-2"
+       width="9.8753147"
+       height="14.400051"
+       x="127.41652"
+       y="155.81401"
+       transform="rotate(10.269398)" />
+    <text
+       xml:space="preserve"
+       style="font-size:25.4px;fill:#000000;stroke:#ffffff;stroke-width:1"
+       x="39.757462"
+       y="197.65224"
+       id="text1-9-5-6"><tspan
+         sodipodi:role="line"
+         id="tspan1-2-7-0"
+         style="font-style:italic;font-variant:normal;font-weight:500;font-stretch:normal;font-size:25.4px;font-family:Roboto;-inkscape-font-specification:'Roboto Medium Italic';fill:#000000;stroke:#ffffff;stroke-width:1"
+         x="39.757462"
+         y="197.65224">BILB</tspan></text>
+    <circle
+       style="fill:#000000;stroke:#ffffff;stroke-width:1;stroke-dasharray:none"
+       id="path1-6-4-2"
+       cx="99.34037"
+       cy="191.76123"
+       r="6.1417465" />
+    <circle
+       style="font-variation-settings:normal;vector-effect:none;fill:#666666;fill-opacity:1;stroke:#ffffff;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000"
+       id="circle1-1-4-8"
+       cx="99.34037"
+       cy="191.76123"
+       r="3.3618243" />
+    <rect
+       style="font-variation-settings:normal;vector-effect:none;fill:#b3b3b3;fill-opacity:1;stroke:#ffffff;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000"
+       id="rect1"
+       width="9.8753147"
+       height="14.400051"
+       x="139.19533"
+       y="220.82594"
+       transform="rotate(10.269398)" />
+    <text
+       xml:space="preserve"
+       style="font-size:25.4px;fill:#000000;stroke:#ffffff;stroke-width:1"
+       x="39.757462"
+       y="263.7226"
        id="text1"><tspan
          sodipodi:role="line"
          id="tspan1"
-         style="font-style:italic;font-variant:normal;font-weight:500;font-stretch:normal;font-size:25.4px;font-family:Roboto;-inkscape-font-specification:'Roboto Medium Italic';fill:#f9f9f9;stroke:#000000;stroke-width:1"
-         x="36.09354"
-         y="77.411148">BILBo</tspan></text>
-    <path
-       id="rect3"
-       style="fill:#f2f2f2;stroke:#000000"
-       d="M 95.870535 47.046563 L 95.870462 58.332549 C 96.365341 57.50998 96.980562 56.825394 97.726755 56.291186 C 98.664143 55.620099 99.735573 55.24855 100.94104 55.176541 C 102.08741 55.09309 103.10244 55.311591 103.98612 55.832041 C 104.86981 56.352491 105.54604 57.110991 106.01479 58.107537 C 106.11208 58.310638 106.1923 58.523347 106.26952 58.737866 L 106.26951 47.04676 L 95.870535 47.046563 z "
-       transform="rotate(4.9878942)" />
-    <path
-       id="path6"
-       style="fill:#f2f2f2;stroke:#000000"
-       d="m 92.795603,64.391476 c 1.994919,-0.666062 4.334169,-0.473842 6.221213,0.484085 L 99.482422,58.035156 93.341797,57.5 Z"
-       sodipodi:nodetypes="ccccc" />
+         style="font-style:italic;font-variant:normal;font-weight:500;font-stretch:normal;font-size:25.4px;font-family:Roboto;-inkscape-font-specification:'Roboto Medium Italic';fill:#000000;stroke:#ffffff;stroke-width:1"
+         x="39.757462"
+         y="263.7226">BILB</tspan></text>
+    <circle
+       style="fill:#000000;stroke:#ffffff;stroke-width:1;stroke-dasharray:none"
+       id="circle1"
+       cx="99.34037"
+       cy="257.83157"
+       r="6.1417465" />
+    <circle
+       style="font-variation-settings:normal;vector-effect:none;fill:#000000;fill-opacity:1;stroke:#ffffff;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000"
+       id="circle2"
+       cx="99.34037"
+       cy="257.83157"
+       r="3.3618243" />
   </g>
 </svg>

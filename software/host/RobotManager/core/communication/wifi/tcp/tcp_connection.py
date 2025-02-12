@@ -3,31 +3,39 @@ import queue
 import time
 import logging
 
-from core.communication.connection import Connection
 from core.communication.wifi.tcp.protocols.tcp_base_protocol import TCP_Base_Protocol, TCP_Base_Message
 # from core.communication.wifi.tcp.protocols.tcp_handshake_protocol import TCP_Handshake_Protocol, \
 #     TCP_Handshake_Message
 from core.communication.wifi.tcp.protocols.tcp_json_protocol import TCP_JSON_Protocol, TCP_JSON_Message
 from core.communication.protocol import Message
-from core.communication.wifi.tcp.tcp_socket import TCP_Socket
-from utils.callbacks import Callback
+from core.communication.wifi.tcp.tcp_socket import TCP_Socket, TCPSocketCallbacks
+from utils.callbacks import callback_handler, CallbackContainer
 
 logger = logging.getLogger('tcp_c')
 logger.setLevel('INFO')
 
 
+@callback_handler
+class TCPConnectionCallback:
+    disconnected: CallbackContainer
+    handshake: CallbackContainer
+    rx: CallbackContainer
+
+
 ########################################################################################################################
-class TCP_Connection(Connection):
+class TCP_Connection:
     rx_queue: queue.Queue
     client: TCP_Socket
     config: dict
-
+    callbacks: TCPConnectionCallback
     base_protocol = TCP_Base_Protocol
     protocol = TCP_JSON_Protocol
 
-    _callbacks: dict[str, list]
     _events: dict[str, threading.Event]
     _thread: threading.Thread
+    sent: int
+    received: int
+    error_packets: int
 
     # === INIT =========================================================================================================
     def __init__(self, client: TCP_Socket = None, config: dict = None):
@@ -45,11 +53,11 @@ class TCP_Connection(Connection):
         self.client = client
         self.rx_queue = queue.Queue()
 
-        self.callbacks = {
-            'disconnected': [],
-            'handshake': [],
-            'rx': []
-        }
+        self.callbacks = TCPConnectionCallback()
+
+        self.sent = 0
+        self.received = 0
+        self.error_packets = 0
 
         self.events = {
             'handshake': threading.Event(),
@@ -66,9 +74,10 @@ class TCP_Connection(Connection):
         self._client = client
         if client is not None:
             self.connected = True
-            self.client.registerCallback('rx', self._clientRx_callback)
-            self.client.registerCallback('disconnected', self._clientDisconnect_callback)
+            self.client.callbacks.rx.register(self._clientRx_callback)
+            self.client.callbacks.disconnected.register(self._clientDisconnect_callback)
 
+    # ------------------------------------------------------------------------------------------------------------------
     @property
     def ip(self):
         return self.client.address
@@ -82,7 +91,6 @@ class TCP_Connection(Connection):
 
         # Encode the message
         data = self._encodeMessage(msg)
-
         self.client.send(data)
         self.sent += 1
 
@@ -95,21 +103,6 @@ class TCP_Connection(Connection):
         """
         self.client.send(buffer)
         self.sent += 1
-
-    # ------------------------------------------------------------------------------------------------------------------
-    def registerCallback(self, callback_id, function, parameters: dict = None, lambdas: dict = None):
-        """
-
-        :param callback_id:
-        :param function:
-        :param parameters:
-        :param lambdas:
-        """
-        callback = Callback(function, parameters, lambdas)
-        if callback_id in self.callbacks:
-            self.callbacks[callback_id].append(callback)
-        else:
-            raise Exception("Invalid Callback type")
 
     # === PRIVATE METHODS ==============================================================================================
     def _encodeMessage(self, msg: Message):
@@ -139,7 +132,7 @@ class TCP_Connection(Connection):
         self.address = message.data['address']
         self.name = message.data['name']
 
-        for callback in self.callbacks['handshake']:
+        for callback in self.callbacks.handshake:
             callback(self, message)
 
     # ------------------------------------------------------------------------------------------------------------------
@@ -149,12 +142,12 @@ class TCP_Connection(Connection):
         :param data:
         :return:
         """
+
         # Decode the data into a message
         base_msg: TCP_Base_Message = self.base_protocol.decode(data)
 
         if base_msg is None:
             # the received data package is not a valid TCP message
-            print("Base Message is None")
             self.error_packets += 1
             return None
 
@@ -164,14 +157,13 @@ class TCP_Connection(Connection):
 
         # Check if the protocol ID uses a protocol known to the device
         if base_msg.data_protocol_id is not self.protocol.identifier:
-            print("OH NO 2")
             return
 
         # Decode the message
-        message = self.protocol.decode(base_msg.data)
+        message = self.protocol.decode(base_msg.data)  # Type: Ignore
 
         # Check if the message is a handshake event
-        if message.type == 'event' and message.event == 'handshake':
+        if message.type == 'event' and message.data['event'] == 'handshake':
             self._processIncomingHandshake(message)
             return
 
@@ -181,7 +173,7 @@ class TCP_Connection(Connection):
         if self.config['rx_queue']:
             self.rx_queue.put_nowait(message)
 
-        for callback in self.callbacks['rx']:
+        for callback in self.callbacks.rx:
             callback(message)
 
         self.events['rx'].set()
@@ -204,5 +196,5 @@ class TCP_Connection(Connection):
     def _clientDisconnect_callback(self, client):
         self.connected = False
 
-        for callback in self.callbacks['disconnected']:
+        for callback in self.callbacks.disconnected:
             callback(self)

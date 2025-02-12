@@ -1,31 +1,41 @@
 from core.device_manager import DeviceManager
 from core.device import Device
-from utils.callbacks import Callback
+from utils.callbacks import callback_handler, CallbackContainer
 from robots.twipr.twipr import TWIPR
 from robots.twipr.twipr_definitions import TWIPR_ControlMode, TWIPR_IDS, TWIPR_PASSWORD, TWIPR_REMOTE_START_COMMAND, \
     TWIPR_USER_NAME, TWIPR_REMOTE_STOP_COMMAND
-from robots.twipr.utils.twipr_scanner import TWIPR_Scanner
+from robots.twipr.utils.robotscanner import RobotScanner
 from utils.time import delayed_execution
 from utils.exit import ExitHandler
-from utils.logging import Logger
+from utils.logging_utils import Logger
 from utils.network.ssh import executeCommandOverSSH
 
+# === GLOBAL VARIABLES =================================================================================================
 logger = Logger('Robots')
 logger.setLevel('INFO')
 
 
+# ======================================================================================================================
+@callback_handler
+class TWIPR_Manager_Callbacks:
+    new_robot: CallbackContainer
+    robot_disconnected: CallbackContainer
+    stream: CallbackContainer
+
+
+# ======================================================================================================================
 class TWIPR_Manager:
     """
-    Manages the connection and control of TWIPR robots using the DeviceManager.
+    Manages the connection and control of BILBO robots using the DeviceManager.
     Handles device events and provides methods to interact with connected robots.
     """
 
     deviceManager: DeviceManager
-    callbacks: dict
+    callbacks: TWIPR_Manager_Callbacks
     robots: dict[str, TWIPR]
 
     robot_auto_start: bool
-    network_scanner: TWIPR_Scanner = None
+    network_scanner: RobotScanner = None
 
     def __init__(self, robot_auto_start=True):
         """
@@ -33,25 +43,21 @@ class TWIPR_Manager:
         registering callbacks, and initializing internal dictionaries for robots and callbacks.
         """
         self.deviceManager = DeviceManager()
-        self.deviceManager.registerCallback('new_device', self._newDevice_callback)
-        self.deviceManager.registerCallback('device_disconnected', self._deviceDisconnected_callback)
-        self.deviceManager.registerCallback('stream', self._deviceStream_callback)
+        self.deviceManager.callbacks.new_device.register(self._newDevice_callback)
+        self.deviceManager.callbacks.device_disconnected.register(self._deviceDisconnected_callback)
+        self.deviceManager.callbacks.stream.register(self._deviceStream_callback)
 
         self.robots = {}
 
-        self.callbacks = {
-            'new_robot': [],
-            'robot_disconnected': [],
-            'stream': []
-        }
+        self.callbacks = TWIPR_Manager_Callbacks()
 
         self.scanner = None
         self.robot_auto_start = robot_auto_start
         if self.robot_auto_start:
-            self.scanner = TWIPR_Scanner(TWIPR_IDS)
+            self.scanner = RobotScanner(TWIPR_IDS)
 
-            self.scanner.registerCallback('robot_found', self._scannerRobotFound_callback)
-            self.scanner.registerCallback('robot_lost', self._scannerRobotLost_callback)
+            self.scanner.callbacks.found.register(self._scannerRobotFound_callback)
+            self.scanner.callbacks.lost.register(self._scannerRobotLost_callback)
 
         self.exit_handler = ExitHandler()
         self.exit_handler.register(self.close)
@@ -65,22 +71,6 @@ class TWIPR_Manager:
         return len(self.robots)
 
     # ------------------------------------------------------------------------------------------------------------------
-    def registerCallback(self, callback_id, function, parameters: dict = None, lambdas: dict = None):
-        """
-        Registers a callback function for a specified callback ID.
-
-        :param callback_id: ID of the callback to register
-        :param function: Callback function to be executed
-        :param parameters: Optional parameters for the callback
-        :param lambdas: Optional lambda functions for the callback
-        """
-        callback = Callback(function, parameters, lambdas)
-        if callback_id in self.callbacks:
-            self.callbacks[callback_id].append(callback)
-        else:
-            raise Exception("Invalid Callback type")
-
-    # ------------------------------------------------------------------------------------------------------------------
     def init(self):
         """
         Initializes the twipr manager.
@@ -90,7 +80,7 @@ class TWIPR_Manager:
     # ------------------------------------------------------------------------------------------------------------------
     def start(self):
         """
-        Starts the TWIPR Manager by initiating the device manager.
+        Starts the BILBO Manager by initiating the device manager.
         """
         logger.info('Starting Twipr Manager')
         self.deviceManager.start()
@@ -99,7 +89,7 @@ class TWIPR_Manager:
 
     # ------------------------------------------------------------------------------------------------------------------
     def close(self, *args, **kwargs):
-        logger.info("Close TWIPR Manager")
+        logger.info("Close BILBO Manager")
         if self.scanner is not None:
             active_robots = self.scanner.active_robots
             for name, address in active_robots.items():
@@ -111,7 +101,7 @@ class TWIPR_Manager:
         Retrieves a robot instance by its ID.
 
         :param robot_id: ID of the robot to retrieve
-        :return: TWIPR robot instance if found, None otherwise
+        :return: BILBO robot instance if found, None otherwise
         """
         if robot_id not in self.robots.keys():
             logger.warning(f"No robot with id {robot_id} is connected.")
@@ -159,8 +149,12 @@ class TWIPR_Manager:
         :param device: The newly connected device
         """
         # Check if the device has the correct class and type
-        if not (device.information.device_class == 'robot' and device.information.device_type == 'twipr'):
+        if not (device.information.device_class == 'robot' and device.information.device_type == 'bilbo'):
+
+            if device.information.device_class == 'robot':
+                logger.warning(f"Robot attempted to connect with type {device.information.device_type}")
             return
+
         robot = TWIPR(device)
 
         # Check if this robot ID is already used
@@ -170,7 +164,7 @@ class TWIPR_Manager:
         self.robots[robot.device.information.device_id] = robot
         logger.info(f"New Robot connected with ID: \"{robot.device.information.device_id}\"")
 
-        for callback in self.callbacks['new_robot']:
+        for callback in self.callbacks.new_robot:
             callback(robot, *args, **kwargs)
 
     # ------------------------------------------------------------------------------------------------------------------
@@ -189,7 +183,7 @@ class TWIPR_Manager:
         logger.info(f"Robot {device.information.device_id} disconnected")
 
         # Remove any joystick assignments
-        for callback in self.callbacks['robot_disconnected']:
+        for callback in self.callbacks.robot_disconnected:
             callback(robot, *args, **kwargs)
 
     # ------------------------------------------------------------------------------------------------------------------
@@ -201,7 +195,7 @@ class TWIPR_Manager:
         :param device: The device sending the stream
         """
         if device.information.device_id in self.robots.keys():
-            for callback in self.callbacks['stream']:
+            for callback in self.callbacks.stream:
                 callback(stream, self.robots[device.information.device_id], *args, **kwargs)
 
     # ------------------------------------------------------------------------------------------------------------------

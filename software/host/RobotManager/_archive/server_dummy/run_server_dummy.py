@@ -25,8 +25,8 @@ def main():
     twipr1 = TWIPR_Dummy()
     twipr1.information.device_id = 'twipr1'
     twipr1.information.device_class = 'robot'
-    twipr1.information.device_type = 'TWIPR'
-    twipr1.information.name = 'TWIPR 1'
+    twipr1.information.device_type = 'BILBO'
+    twipr1.information.name = 'BILBO 1'
     twipr1.information.address = ''
     twipr1.information.revision = 3
 
@@ -35,8 +35,8 @@ def main():
     twipr2 = TWIPR_Dummy()
     twipr2.information.device_id = 'twipr2'
     twipr2.information.device_class = 'robot'
-    twipr2.information.device_type = 'TWIPR'
-    twipr2.information.name = 'TWIPR 2'
+    twipr2.information.device_type = 'BILBO'
+    twipr2.information.name = 'BILBO 2'
     twipr2.information.address = ''
     twipr2.information.revision = 3
 

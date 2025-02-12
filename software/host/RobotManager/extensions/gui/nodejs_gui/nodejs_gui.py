@@ -7,11 +7,17 @@ import threading
 import time
 import webbrowser
 
-from utils.callbacks import Callback
+from utils.callbacks import callback_handler, CallbackContainer
 from utils.websockets.websockets import SyncWebsocketServer as WebsocketClass
 from utils.exit import ExitHandler
 
 frontend_dir = f"{os.path.dirname(__file__)}/frontend/"
+
+
+@callback_handler
+class NodeJSGui_Callbacks:
+    websocket_client_connected: CallbackContainer
+    rx_message: CallbackContainer
 
 
 def install():
@@ -26,7 +32,7 @@ class NodeJSGui:
     _frontend_thread: threading.Thread
     client_connected: bool
 
-    callbacks: dict
+    callbacks: NodeJSGui_Callbacks
 
     def __init__(self):
         self.websocket_stream = WebsocketClass('localhost', 8765)
@@ -40,10 +46,7 @@ class NodeJSGui:
 
         self.client_connected = False
 
-        self.callbacks = {
-            'websocket_client_connected': [],
-            'rx_message': [],
-        }
+        self.callbacks = NodeJSGui_Callbacks()
 
         self.exit_handler = ExitHandler()
         self.exit_handler.register(self.close)
@@ -66,21 +69,6 @@ class NodeJSGui:
             self.frontend_process.terminate()
         if self.browser_process is not None:
             self.browser_process.kill()
-
-    # ------------------------------------------------------------------------------------------------------------------
-    def registerCallback(self, callback_id, function, parameters: dict = None, lambdas: dict = None):
-        """
-
-        :param callback_id:
-        :param function:
-        :param parameters:
-        :param lambdas:
-        """
-        callback = Callback(function, parameters, lambdas)
-        if callback_id in self.callbacks:
-            self.callbacks[callback_id].append(callback)
-        else:
-            raise Exception("Invalid Callback type")
 
     # ------------------------------------------------------------------------------------------------------------------
     def sendMessage(self, message_type, data):
@@ -116,13 +104,13 @@ class NodeJSGui:
     # === PRIVATE METHODS ==============================================================================================
     def _rxMessage_callback(self, message, *args, **kwargs):
         message = json.loads(message)
-        for callback in self.callbacks['rx_message']:
+        for callback in self.callbacks.rx_message:
             callback(message, *args, **kwargs)
 
     # ------------------------------------------------------------------------------------------------------------------
     def _websocketClientConnected_callback(self, *args, **kwargs):
         self.client_connected = True
-        for callback in self.callbacks['websocket_client_connected']:
+        for callback in self.callbacks.websocket_client_connected:
             callback(*args, **kwargs)
 
     def _run_frontend(self):
@@ -162,9 +150,10 @@ class NodeJSGui:
             # Linux/Ubuntu
             chrome_path = shutil.which("google-chrome") or shutil.which("chrome") or shutil.which("chromium-browser")
 
-        # If Chrome path is found, open the URL using Chrome in a new window
-        if chrome_path is not None:
-            self.browser_process = subprocess.Popen([chrome_path, "--new-window", url])
-        else:
-            # Fallback: open URL in the default browser
-            webbrowser.open(url)
+        # # If Chrome path is found, open the URL using Chrome in a new window
+        # if chrome_path is not None:
+        #     self.browser_process = subprocess.Popen([chrome_path, "--new-window", url])
+        # else:
+        #     # Fallback: open URL in the default browser
+        #     webbrowser.open(url)
+        webbrowser.open(url)

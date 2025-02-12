@@ -11,11 +11,7 @@
 //core_hardware_LED rc_status_led_1(BOARD_LED_1_PORT, BOARD_LED_1_PIN);
 core_hardware_LED rc_status_led_2(BOARD_LED_2_PORT, BOARD_LED_2_PIN);
 
-core_hardware_LED rc_button_led_1(GPIOA, GPIO_PIN_0);
-core_hardware_LED rc_button_led_2(GPIOA, GPIO_PIN_1);
 
-core_hardware_Button side_button(GPIOC, GPIO_PIN_1);
-core_hardware_Button off_button(GPIOC, GPIO_PIN_0);
 
 core_hardware_LED rc_activity_led(BOARD_LED_ACT_PORT, BOARD_LED_ACT_PIN);
 RobotControl_StatusLED rc_error_led;
@@ -64,8 +60,14 @@ void robot_control_init(){
 // ------------------------------------------------------------------------------------------------------------
 void robot_control_start(){
 	rc_error_led.setState(0);
-	rc_button_led_1.on();
-	rc_button_led_2.on();
+
+    rgb_color_struct_t color = {
+    		.red = 0,
+			.green = 0,
+			.blue = 0,
+    };
+    extender.rgbLEDStrip_extern_setColor(color);
+
 //	debug_uart.start();
 //	osThreadNew(robot_control_task, NULL, &rc_task_attributes);
 }
@@ -78,8 +80,14 @@ void robot_control_task(void *argument){
 	rc_buzzer.setConfig(440, 250, 1);
 	rc_buzzer.start();
 
-	rc_button_led_1.on();
-	rc_button_led_2.on();
+
+//
+//    rgb_color_struct_t color = {
+//    		.red = 0,
+//			.green = 0,
+//			.blue = 0,
+//    };
+//    extender.rgbLEDStrip_extern_setColor(color);
 
 
 	uint32_t kernel_ticks = 0;

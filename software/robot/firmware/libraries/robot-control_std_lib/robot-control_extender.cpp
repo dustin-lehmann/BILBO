@@ -28,7 +28,6 @@ void RobotControl_Extender::setStatusLED(int8_t status) {
 	EXTENDER_ADDRESS, REG_ERROR_LED_CONFIG, 1, &data, 1, 100);
 }
 
-
 void RobotControl_Extender::rgbLED_intern_setState(uint8_t position,
 		uint8_t state) {
 
@@ -84,8 +83,32 @@ void RobotControl_Extender::rgbLED_intern_setColor(uint8_t position,
 	}
 }
 
-void RobotControl_Extender::rgbLED_intern_blink(uint8_t position, uint16_t on_time_ms){
-	uint8_t time = (uint8_t) (on_time_ms / 10);
+//void RobotControl_Extender::rgbLEDStrip_extern_setColor(uint8_t red,
+//		uint8_t green, uint8_t blue) {
+//
+//	HAL_I2C_Mem_Write(this->config.hi2c, EXTENDER_ADDRESS,
+//	REG_EXTERNAL_RGB_GLOBAL_RED, 1, &red, 1, 10);
+//	HAL_I2C_Mem_Write(this->config.hi2c, EXTENDER_ADDRESS,
+//	REG_EXTERNAL_RGB_GLOBAL_GREEN, 1, &green, 1, 10);
+//	HAL_I2C_Mem_Write(this->config.hi2c, EXTENDER_ADDRESS,
+//	REG_EXTERNAL_RGB_GLOBAL_BLUE, 1, &blue, 1, 10);
+//}
+
+
+void RobotControl_Extender::rgbLEDStrip_extern_setColor(rgb_color_struct_t color) {
+
+//	this->rgbLEDStrip_extern_setColor(color[0], color[1], color[2]);
+		HAL_I2C_Mem_Write(this->config.hi2c, EXTENDER_ADDRESS,
+		REG_EXTERNAL_RGB_GLOBAL_RED, 1, &color.red, 1, 10);
+		HAL_I2C_Mem_Write(this->config.hi2c, EXTENDER_ADDRESS,
+		REG_EXTERNAL_RGB_GLOBAL_GREEN, 1, &color.green, 1, 10);
+		HAL_I2C_Mem_Write(this->config.hi2c, EXTENDER_ADDRESS,
+		REG_EXTERNAL_RGB_GLOBAL_BLUE, 1, &color.blue, 1, 10);
+}
+
+void RobotControl_Extender::rgbLED_intern_blink(uint8_t position,
+		uint16_t on_time_ms) {
+	uint8_t time = (uint8_t)(on_time_ms / 10);
 	uint8_t mode = 1;
 
 	switch (position) {
@@ -117,28 +140,27 @@ void RobotControl_Extender::rgbLED_intern_blink(uint8_t position, uint16_t on_ti
 	}
 }
 
+void RobotControl_Extender::buzzer_setConfig(float frequency, uint16_t on_time,
+		uint8_t repeats) {
 
-void RobotControl_Extender::buzzer_setConfig(float frequency, uint16_t on_time, uint8_t repeats){
-
-	uint8_t freq = (uint8_t) (frequency / 10);
-	uint8_t time = (uint8_t) (on_time / 10);
-
-	HAL_I2C_Mem_Write(this->config.hi2c, EXTENDER_ADDRESS,
-			REG_BUZZER_FREQ, 1, &freq, 1, 10);
+	uint8_t freq = (uint8_t)(frequency / 10);
+	uint8_t time = (uint8_t)(on_time / 10);
 
 	HAL_I2C_Mem_Write(this->config.hi2c, EXTENDER_ADDRESS,
-			REG_BUZZER_BLINK_TIME, 1, &time, 1, 10);
+	REG_BUZZER_FREQ, 1, &freq, 1, 10);
 
 	HAL_I2C_Mem_Write(this->config.hi2c, EXTENDER_ADDRESS,
-			REG_BUZZER_BLINK_COUNTER, 1, &repeats, 1, 10);
+	REG_BUZZER_BLINK_TIME, 1, &time, 1, 10);
+
+	HAL_I2C_Mem_Write(this->config.hi2c, EXTENDER_ADDRESS,
+	REG_BUZZER_BLINK_COUNTER, 1, &repeats, 1, 10);
 
 }
-void RobotControl_Extender::buzzer_start(){
+void RobotControl_Extender::buzzer_start() {
 	uint8_t data = 1;
 	HAL_I2C_Mem_Write(this->config.hi2c, EXTENDER_ADDRESS,
-			REG_BUZZER_DATA, 1, &data, 1, 10);
+	REG_BUZZER_DATA, 1, &data, 1, 10);
 }
-
 
 //void RobotControl_Extender::setRGBLED_intern(uint8_t position, uint8_t red,
 //		uint8_t green, uint8_t blue, int8_t state) {

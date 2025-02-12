@@ -49,24 +49,24 @@ void firmware_init() {
 
 	HAL_GPIO_WritePin(ENABLE_CM4_GPIO_Port, ENABLE_CM4_Pin, GPIO_PIN_SET);
 
-	neopixel_intern.led[1].continious_output = 0;
+	neopixel_intern.led[1].continious_output = 1;
 	neopixel_intern.led[1].setColor(0, 0, 100);
 	neopixel_intern.led[1].blink_config.on_time_ms = 400;
 	neopixel_intern.led[1].blink_config.counter = 1;
 
-	neopixel_intern.led[2].continious_output = 0;
+	neopixel_intern.led[2].continious_output = 1;
 	neopixel_intern.led[2].setColor(0, 100, 0);
 	neopixel_intern.led[2].blink_config.on_time_ms = 400;
 	neopixel_intern.led[2].blink_config.counter = 1;
 
-	neopixel_intern.led[0].continious_output = 0;
+	neopixel_intern.led[0].continious_output = 1;
 	neopixel_intern.led[0].setColor(100, 0, 0);
 	neopixel_intern.led[0].blink_config.on_time_ms = 400;
 	neopixel_intern.led[0].blink_config.counter = 10;
 
 	rc_buzzer.config.frequency = 440;
-	rc_buzzer.config.on_time_ms = 100;
-	rc_buzzer.config.counter = 1;
+	rc_buzzer.config.on_time_ms = 500;
+	rc_buzzer.config.counter = 2;
 
 	led_status.on();
 	rc_buzzer.start();

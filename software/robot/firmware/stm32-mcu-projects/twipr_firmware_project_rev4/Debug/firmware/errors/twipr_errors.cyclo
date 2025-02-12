@@ -1,3 +1,0 @@
-J:/work_dir/work_dir/projects/testbed/robots/TWIPR/software/robot/firmware/libraries/stm32_core_cpp_lib/communication/uart_interface/../../utils/core_utils.h:28:13:void delay(uint32_t)	2
-J:/work_dir/work_dir/projects/testbed/robots/TWIPR/software/robot/firmware/robot/firmware_v1/errors/twipr_errors.cpp:11:6:void twipr_error_handler(uint32_t)	4
-J:/work_dir/work_dir/projects/testbed/robots/TWIPR/software/robot/firmware/robot/firmware_v1/errors/twipr_errors.cpp:41:6:void twipr_error_handler(uint32_t, uint8_t*, uint16_t)	1

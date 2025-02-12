@@ -77,8 +77,10 @@ extern SPI_HandleTypeDef hspi1;
 #define BOARD_SPI_CM4 &hspi1
 #endif
 
+#ifdef HAL_FDCAN_MODULE_ENABLED
 extern FDCAN_HandleTypeDef hfdcan1;
 #define BOARD_FDCAN &hfdcan1
+#endif
 
 #if CORE_CONFIG_USE_UART
 extern UART_HandleTypeDef huart2;

@@ -1,12 +1,13 @@
 import threading
 import time
 import socket
+import queue
+import dataclasses
 
 import cobs.cobs as cobs
-from utils.logging import Logger
-import dataclasses
-import queue
-import sys
+
+from utils.callbacks import callback_handler, CallbackContainer
+from utils.logging_utils import Logger
 
 logger = Logger('tcp')
 logger.setLevel('INFO')
@@ -15,15 +16,21 @@ PACKAGE_TIMEOUT_TIME = 5
 FAULTY_PACKAGES_MAX_NUMBER = 10
 
 
+time1 = 0
+
 @dataclasses.dataclass
 class FaultyPackage:
     timestamp: float
 
 
-########################################################################################################################
+@callback_handler
+class TCPSocketCallbacks:
+    rx: CallbackContainer
+    disconnected: CallbackContainer
+
+
 class TCP_Socket:
     address: str  # IP address of the client
-
     rx_queue: queue.Queue  # Queue of incoming messages from the client
     tx_queue: queue.Queue  # Queue of outgoing messages to the client
     config: dict
@@ -32,18 +39,14 @@ class TCP_Socket:
     rx_event: threading.Event
 
     _connection: socket.socket
-
     _rxThread: threading.Thread
-
     _faultyPackages: list
+    _rx_buffer: bytes  # Buffer for accumulating partial data
+    _last_faulty_cleanup: float
 
-    # === INIT =========================================================================================================
-    def __init__(self, connection: socket, address: str):
+    def __init__(self, connection: socket.socket, address: str):
         self._connection = connection
         self.address = address
-
-        # connect readyRead-Signal to _rxReady function
-        # socket.readyRead.connect(self._rxReady)
 
         self.config = {
             'delimiter': b'\x00',
@@ -55,274 +58,201 @@ class TCP_Socket:
 
         self._exit = False
 
-        self.callbacks = {
-            'rx': [],
-            'disconnected': []
-        }
+        self.callbacks = TCPSocketCallbacks()
 
         self.rx_event = threading.Event()
 
         self._faultyPackages = []
+        self._rx_buffer = b''
+        self._last_faulty_cleanup = time.time()
 
         self._rxThread = threading.Thread(target=self._rx_thread_fun, daemon=True)
         self._rxThread.start()
 
-    # === METHODS ======================================================================================================
-    def registerCallback(self, callback_id, callback):
-        if callback_id in self.callbacks.keys():
-            self.callbacks[callback_id].append(callback)
-        else:
-            raise Exception(f"Device: No callback with id {callback_id} is known.")
-
-    # ------------------------------------------------------------------------------------------------------------------
     def send(self, data):
-        """
-
-        :param data:
-        :return:
-        """
+        """Encode and send data immediately over the socket."""
+        global time1
         data = self._prepareTxData(data)
         self._write(data)
 
-    # ------------------------------------------------------------------------------------------------------------------
     def rxAvailable(self):
-        """
-
-        :return:
-        """
         return self.rx_queue.qsize()
 
-    # ------------------------------------------------------------------------------------------------------------------
     def close(self):
-        """
-
-        :return:
-        """
-        self._connection.close()
+        try:
+            self._connection.close()
+        except Exception:
+            pass
         self._exit = True
-        logger.info(f"TCP socket {self.address} closed")
-
-        for callback in self.callbacks['disconnected']:
+        logger.info("TCP socket %s closed", self.address)
+        for callback in self.callbacks.disconnected:
             callback(self)
 
-    # ------------------------------------------------------------------------------------------------------------------
     def setConfig(self, config):
-        """
-        Overrides the config with other values.
-        :param config: New values for the config
-        :return: None
-        """
+        """Merge new config parameters with existing config."""
         self.config = {**self.config, **config}
 
-    # === PRIVATE METHODS ==============================================================================================
     def _rx_thread_fun(self):
-
         while not self._exit:
             try:
                 data = self._connection.recv(8092)
-            except Exception:
-                logger.warning("Error in TCP connection. Close connection")
+            except Exception as e:
+                logger.warning("Error in TCP connection: %s. Closing connection.", e)
                 self.close()
                 return
 
-            if data == b'':
+            # If no data, the client closed the connection.
+            if not data:
                 self.close()
-            elif data is not None:
-                try:
-                    self._processRxData(data)
-                except Exception:
-                    ...  # TODO: Not good and hacky
+                break
 
-            else:  # data is empty -> Device has disconnected
-                self.close()
+            # print(f"time: {((time.perf_counter() - time1)*1000):.1f} ms")
+            self._processRxData(data)
 
-            # Remove the faulty packages older than PACKAGE_TIMEOUT_TIME
-            self._faultyPackages = [package for package in self._faultyPackages if
-                                    time.time() < (package.timestamp + PACKAGE_TIMEOUT_TIME)]
+            # Clean up old faulty packages approximately once per second.
+            now = time.time()
+            if int(now - self._last_faulty_cleanup) > 1:
+                self._faultyPackages = [
+                    p for p in self._faultyPackages if now < (p.timestamp + PACKAGE_TIMEOUT_TIME)
+                ]
+                if len(self._faultyPackages) > FAULTY_PACKAGES_MAX_NUMBER:
+                    logger.warning("Received %d faulty TCP packages in the last %d seconds",
+                                   FAULTY_PACKAGES_MAX_NUMBER, PACKAGE_TIMEOUT_TIME)
+                self._last_faulty_cleanup = now
 
-            # Send a warning if more than FAULTY_PACKAGES_MAX_NUMBER faulty packages have been received
-            # in the last PACKAGE_TIMEOUT_TIME seconds
-            if len(self._faultyPackages) > FAULTY_PACKAGES_MAX_NUMBER:
-                logger.warning(
-                    f"Received {FAULTY_PACKAGES_MAX_NUMBER} of faulty TCP packages in the last {PACKAGE_TIMEOUT_TIME} seconds")
-
-    # ------------------------------------------------------------------------------------------------------------------
     def _prepareTxData(self, data):
         if isinstance(data, list):
             data = bytes(data)
-
-        # Encode the data and add a delimiter of those options are set
-        if self.config['cobs']:
+        if self.config.get('cobs', False):
             data = cobs.encode(data)
-        if self.config['delimiter'] is not None:
-            data = data + self.config['delimiter']
-
+        if self.config.get('delimiter') is not None:
+            data += self.config['delimiter']
         return data
 
-    # ------------------------------------------------------------------------------------------------------------------
     def _write(self, data):
-        self._connection.sendall(data)
-
-    # ------------------------------------------------------------------------------------------------------------------
+        try:
+            self._connection.sendall(data)
+        except Exception as e:
+            logger.warning("Error sending data: %s", e)
+            self.close()
 
     def _processRxData(self, data):
         """
-        - This functions takes the received byte stream and chops it into data packets. This makes the assumption that
-        the separator is not used in the byte stream itself. This can be accomplished by only sending strings or
-        cobs-encoded data
-        cobs-encoded data
-        :param data:
-        :return:
+        Append new data to the internal buffer and extract complete packets.
+        Incomplete data remains in the buffer until more data arrives.
         """
-        data_packets = data.split(self.config['delimiter'])
-        if not data_packets[-1] == b'':
-            self._faultyPackages.append(FaultyPackage(timestamp=time.time()))
-            return
-
-        data_packets = data_packets[0:-1]
-
-        if self.config['cobs']:
-            for i, packet in enumerate(data_packets):
+        self._rx_buffer += data
+        delimiter = self.config.get('delimiter')
+        while True:
+            index = self._rx_buffer.find(delimiter)
+            if index == -1:
+                # No complete packet found yet.
+                break
+            # Extract one complete packet.
+            packet = self._rx_buffer[:index]
+            self._rx_buffer = self._rx_buffer[index + len(delimiter):]
+            if self.config.get('cobs', False):
                 try:
-                    data_packets[i] = cobs.decode(packet)
+                    packet = cobs.decode(packet)
                 except Exception:
                     self._faultyPackages.append(FaultyPackage(timestamp=time.time()))
-                    return
-                    # logger.warning("Received incompatible message which cannot be COBS decoded")
+                    continue  # Skip this packet if it fails to decode.
+            self.rx_queue.put(packet)
 
-        for packet in data_packets:
-            self.rx_queue.put_nowait(packet)
+        # If any packets were added, signal and call rx callbacks.
+        if not self.rx_queue.empty():
+            self.rx_event.set()
+            for callback in self.callbacks.rx:
+                callback(self)
 
-        self.rx_event.set()
 
-        for callback in self.callbacks['rx']:
-            callback(self)
+@callback_handler
+class TCPSocketsHandlerCallbacks:
+    client_connected: CallbackContainer
+    client_disconnected: CallbackContainer
+    server_error: CallbackContainer
 
 
 class TCP_SocketsHandler:
     address: str
     port: int
-    sockets: list[TCP_Socket]  # List of the connected clients
-
+    sockets: list  # List of the connected clients
     _thread: threading.Thread
-
     _server: socket.socket
     config: dict
-    callbacks: dict
-
+    callbacks: TCPSocketsHandlerCallbacks
     _exit: bool
 
-    # ------------------------------------------------------------------------------------------------------------------
     def __init__(self, address, hostname: bool = False, config: dict = None):
-        """
-
-        :param address:
-        :param hostname:
-        """
-        super().__init__()
-
         default_config = {
             'max_clients': 100,
             'port': 6666,
         }
-
         if config is None:
             config = {}
-
         self.config = {**default_config, **config}
 
         self.sockets = []
         self.address = address
-
-        # if address is None and hostname is True:
-        #     self.address = getAllIPAdresses()['hostname']
-        # elif address is not None:
-        #     self.address = address
-        # else:
-        #     logger.error("No valid IP Address provided. Connect to a private network (192.168. ...)")
-        #     exit()
-
         self.port = self.config['port']
-
-        self.callbacks = {
-            'client_connected': [],
-            'client_disconnected': [],
-            'server_error': []
-        }
-
+        self.callbacks = TCPSocketsHandlerCallbacks()
         self._exit = False
 
         self._server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self._server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
-    # ------------------------------------------------------------------------------------------------------------------
     def init(self):
-        ...
+        # Placeholder for any additional initialization.
+        pass
 
-    # ------------------------------------------------------------------------------------------------------------------
     def start(self):
         self._thread = threading.Thread(target=self._threadFunction, daemon=True)
         self._thread.start()
 
-    # ------------------------------------------------------------------------------------------------------------------
     def close(self):
-        logger.info(f"TCP host closed on {self.address}:{self.port}")
+        logger.info("TCP host closed on %s:%d", self.address, self.port)
         self._exit = True
-        self._thread.join()
+        try:
+            self._server.close()
+        except Exception:
+            pass
+        if self._thread.is_alive():
+            self._thread.join()
 
-    # ------------------------------------------------------------------------------------------------------------------
     def send(self):
+        # Placeholder: Implement sending to all or a particular client if needed.
         pass
 
-    # ------------------------------------------------------------------------------------------------------------------
-    def registerCallback(self, type, callback):
-        if type in self.callbacks.keys():
-            self.callbacks[type].append(callback)
-        else:
-            raise Exception("Callback not in list of valid callbacks.")
-
-    # ------------------------------------------------------------------------------------------------------------------
     def _threadFunction(self):
         server_address = (self.address, self.port)
         try:
             self._server.bind(server_address)
-        except OSError:
-            print("Address already in use. Please wait until the address is released")
-            exit()
+        except OSError as e:
+            raise Exception("Address already in use. Please wait until the address is released") from e
 
         self._server.listen(self.config['max_clients'])
-        logger.info(f"Starting TCP host on {self.address}:{self.port}")
+        logger.info("Starting TCP host on %s:%d", self.address, self.port)
 
         while not self._exit:
-            connection, client_address = self._server.accept()
-            self._acceptNewClient(connection, client_address)
+            try:
+                connection, client_address = self._server.accept()
+                self._acceptNewClient(connection, client_address)
+            except Exception as e:
+                if not self._exit:
+                    logger.warning("Error accepting new client: %s", e)
+                    for callback in self.callbacks.server_error:
+                        callback(e)
 
-    # ------------------------------------------------------------------------------------------------------------------
     def _acceptNewClient(self, connection, address):
-        """
-         -handling of accepting a new client
-         -create a new client object with the socket of the newly accepted client
-         :return: nothing
-         """
         client = TCP_Socket(connection, address)
-
         self.sockets.append(client)
-
-        logger.info(f"New client connected: {client.address}")
-        # emit new connection signal with peer address and peer port to the interface
-
-        client.registerCallback('disconnected', self._clientClosed_callback)
-
-        for callback in self.callbacks['client_connected']:
+        logger.info("New client connected: %s", client.address)
+        client.callbacks.disconnected.register(self._clientClosed_callback)
+        for callback in self.callbacks.client_connected:
             callback(client)
 
-    # ------------------------------------------------------------------------------------------------------------------
     def _clientClosed_callback(self, client: TCP_Socket):
-        """
-        close a socket once the client has disconnected
-        :param client:
-        :return: nothing
-        """
-        # remove client from list
-        self.sockets.remove(client)
-        for cb in self.callbacks['client_disconnected']:
+        if client in self.sockets:
+            self.sockets.remove(client)
+        for cb in self.callbacks.client_disconnected:
             cb(client)

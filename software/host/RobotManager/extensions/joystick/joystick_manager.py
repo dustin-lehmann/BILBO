@@ -4,7 +4,7 @@ import queue
 import signal
 import threading
 import time
-from utils.callbacks import Callback
+from utils.callbacks import callback_handler, CallbackContainer, Callback
 from os import environ
 
 from utils.exit import ExitHandler
@@ -14,7 +14,7 @@ environ["SDL_JOYSTICK_ALLOW_BACKGROUND_EVENTS"] = "1"
 
 import pygame
 
-from utils.logging import Logger
+from utils.logging_utils import Logger
 
 logger = Logger(name='Joysticks')
 
@@ -37,10 +37,10 @@ class _JoystickManagerProcess:
         self.joystick_dict = joystick_dict
         self._thread = threading.Thread(target=self.threadFunction)
         self._exit = False
-        signal.signal(signal.SIGINT, self.exit)
+        self.exit = ExitHandler(suppress_print=True)
+        self.exit.register(self.close)
 
     def init(self):
-
         pygame.init()
         pygame.joystick.init()
 
@@ -48,8 +48,9 @@ class _JoystickManagerProcess:
         self._thread.start()
         self.eventLoop()
 
-    def exit(self, *args, **kwargs):
+    def close(self, *args, **kwargs):
         self._exit = True
+        self._thread.join()
 
     def registerJoystick(self, joystick: pygame.joystick.Joystick):
         self.pygame_joysticks.append(joystick)
@@ -149,10 +150,16 @@ def joystick_event_process(event_queue: multiprocessing.Queue, rx_queue: multipr
     jm.start()
 
 
+@callback_handler
+class JoystickManager_Callbacks:
+    new_joystick: CallbackContainer
+    joystick_disconnected: CallbackContainer
+
+
 # ======================================================================================================================
 class JoystickManager:
     joysticks: dict
-    callbacks: dict
+    callbacks: JoystickManager_Callbacks
 
     _event_thread: threading.Thread
     _process: multiprocessing.Process
@@ -167,14 +174,11 @@ class JoystickManager:
 
         self.joysticks = {}
 
-        self.callbacks = {
-            'new_joystick': [],
-            'joystick_disconnected': []
-        }
+        self.callbacks = JoystickManager_Callbacks()
 
         self._exit = False
-        self._event_thread = threading.Thread(target=self._eventThreadFunction)
-        self._joystick_thread = threading.Thread(target=self._joystickThreadFunction)
+        self._event_thread = threading.Thread(target=self._eventThreadFunction, daemon=True)
+        self._joystick_thread = threading.Thread(target=self._joystickThreadFunction, daemon=True)
 
         self._event_rx_queue = multiprocessing.Queue()
         self._tx_queue = multiprocessing.Queue()
@@ -187,22 +191,6 @@ class JoystickManager:
         self.exit_handler = ExitHandler()
         self.exit_handler.register(self.exit)
 
-    # ----------------------------------------------------------------------------------------------------------------------
-    def registerCallback(self, callback_id, function: callable, parameters: dict = None, lambdas: dict = None):
-        callback = Callback(function, parameters, lambdas)
-
-        if callback_id in self.callbacks:
-            self.callbacks[callback_id].append(callback)
-        else:
-            raise Exception("Invalid Callback type")
-
-        return callback
-
-    # ------------------------------------------------------------------------------------------------------------------
-    def removeCallback(self, callback_id, callback):
-        if callback in self.callbacks[callback_id]:
-            self.callbacks[callback_id].remove(callback)
-
     # ------------------------------------------------------------------------------------------------------------------
     def init(self):
         ...
@@ -212,13 +200,15 @@ class JoystickManager:
         logger.info("Joystick manager started")
         self._event_thread.start()
         self._joystick_thread.start()
+
         if self._process is not None:
             self._process.start()
 
     # ------------------------------------------------------------------------------------------------------------------
     def exit(self, *args, **kwargs):
         self._exit = True
-
+        self._mp_manager.shutdown()
+        time.sleep(0.5)
         if self._event_thread.is_alive():
             self._event_thread.join()
 
@@ -227,9 +217,10 @@ class JoystickManager:
 
         if self._process is not None:
             if self._process.is_alive():
-                self._process.terminate()
+                # self._process.terminate()
                 self._process.join()
-        logger.info("exit")
+
+        logger.info("Close joystick manager")
 
     # ------------------------------------------------------------------------------------------------------------------
     def rumbleJoystick(self, device_id, strength, duration):
@@ -262,12 +253,12 @@ class JoystickManager:
             nonlocal joystick
             joystick = new_joystick
 
-        callback_obj = self.registerCallback('new_joystick', callback)
+        callback_obj = self.callbacks.new_joystick.register(callback)
         t = time.time()
         while joystick is None and (timeout is not None and time.time() - t < timeout):
             time.sleep(0.1)
 
-        self.removeCallback('new_joystick', callback_obj)
+        self.callbacks.new_joystick.remove(callback_obj)
 
         if joystick is None:
             logger.warning(f"Wait for joystick timeout ({timeout} s). No joystick connected")
@@ -283,7 +274,7 @@ class JoystickManager:
         self.joysticks[joystick.id] = joystick
         logger.info(f"New Joystick connected. Type: {joystick.name}. ID: {joystick.id}")
 
-        for callback in self.callbacks['new_joystick']:
+        for callback in self.callbacks.new_joystick:
             callback(joystick)
 
     # ------------------------------------------------------------------------------------------------------------------
@@ -291,11 +282,12 @@ class JoystickManager:
         joystick = self.joysticks[str(data['device_id'])]
         self.joysticks.pop(joystick.id)
         logger.info(f"Joystick disconnected. Type: {joystick.name}. ID: {joystick.id}")
-        for callback in self.callbacks['joystick_disconnected']:
+        for callback in self.callbacks.joystick_disconnected:
             callback(joystick)
 
     # ------------------------------------------------------------------------------------------------------------------
     def _handleButtonEvent(self, data, event_type):
+
         # Get the Joystick for the event
         joystick = self.joysticks[str(data['device_id'])]
         button = data['button']
@@ -376,8 +368,6 @@ class Joystick:
     # === INIT =========================================================================================================
     def __init__(self, manager: JoystickManager) -> None:
         """
-
-        :param Ts:
         """
         self.connected = False
         self.axis = []
@@ -407,6 +397,7 @@ class Joystick:
     # ------------------------------------------------------------------------------------------------------------------
     def setButtonCallback(self, button, function: callable, event: str = 'down', parameters: dict = None,
                           lambdas: dict = None):
+
         if isinstance(button, list):
             for _button in button:
                 self.button_callbacks.append(JoystickButtonCallback(_button, event, function, parameters, lambdas))
@@ -442,7 +433,7 @@ class Joystick:
         logger.debug(f"Joystick: {self.id}, Event: Button {button} down")
 
         for callback in callbacks:
-            callback()
+            callback(joystick=self, button=button, event='down')
 
     # ------------------------------------------------------------------------------------------------------------------
     def _buttonUp(self, button):
@@ -450,7 +441,7 @@ class Joystick:
                      callback.button == button and callback.event == 'up']
 
         for callback in callbacks:
-            callback()
+            callback(joystick=self, button=button, event='up')
 
     # ------------------------------------------------------------------------------------------------------------------
     def _joyhatEvent(self, direction):

@@ -1,10 +1,7 @@
-import os
-import sys
 import time
 
 # sys.path.append("/Users/lehmann/work_dir/work_dir/projects/testbed/software/host/scioi_robot_manager")
-sys.path.append("J:/work_dir/work_dir/projects/testbed/software/host/scioi_robot_manager")
-from extensions.cli.cli import CommandArgument, Command, CLI, CommandSet
+from extensions.cli.src.cli import CommandArgument, Command, CLI, CommandSet
 
 
 def testfunction(input_a, input_b, input_string="HALLO"):
@@ -23,6 +20,7 @@ def example_arguments():
                                    short_name='b',
                                    type=int,
                                    mapped_name='input_b'),
+
         'input_string': CommandArgument(name='input_string',
                                         short_name='s',
                                         type=str),

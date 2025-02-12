@@ -9,9 +9,9 @@ def main():
     babylon.init()
     babylon.start()
 
-    babylon.addObject('twipr1', 'TWIPR', {'color': [0, 1, 0]})
-    babylon.addObject('twipr2', 'TWIPR', {'color': [1, 0, 0]})
-    babylon.addObject('twipr3', 'TWIPR', {'color': [0, 0, 1]})
+    babylon.addObject('twipr1', 'BILBO', {'color': [0, 1, 0]})
+    babylon.addObject('twipr2', 'BILBO', {'color': [1, 0, 0]})
+    babylon.addObject('twipr3', 'BILBO', {'color': [0, 0, 1]})
     time.sleep(5)
     babylon.updateObject('twipr1', {'position': {'x': 1, 'y': 0}})
     babylon.updateObject('twipr2', {'position': {'x': 1, 'y': 0.5}})

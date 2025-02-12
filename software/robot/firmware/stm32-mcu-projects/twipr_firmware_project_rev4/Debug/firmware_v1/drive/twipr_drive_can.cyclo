@@ -1,0 +1,44 @@
+/Users/lehmann/work_dir/work_dir/projects/testbed/robots/BILBO/software/robot/firmware/libraries/stm32_core_cpp_lib/communication/uart_interface/../../utils/elapsedMillis.h:19:7:void elapsedMillis::reset()	1
+/Users/lehmann/work_dir/work_dir/projects/testbed/robots/BILBO/software/robot/firmware/libraries/stm32_core_cpp_lib/communication/uart_interface/../../utils/elapsedMillis.h:25:2:elapsedMillis::elapsedMillis(long unsigned int)	1
+/Users/lehmann/work_dir/work_dir/projects/testbed/robots/BILBO/software/robot/firmware/libraries/stm32_core_cpp_lib/communication/uart_interface/../../utils/elapsedMillis.h:31:2:elapsedMillis::operator long unsigned int() const	1
+/Users/lehmann/work_dir/work_dir/projects/testbed/robots/BILBO/software/robot/firmware/libraries/stm32_core_cpp_lib/communication/uart_interface/../../utils/core_utils.h:24:13:void nop()	1
+/Users/lehmann/work_dir/work_dir/projects/testbed/robots/BILBO/software/robot/firmware/robot/firmware_v1/drive/twipr_drive_can.cpp:17:1:SimplexMotion_CAN::SimplexMotion_CAN()	1
+/Users/lehmann/work_dir/work_dir/projects/testbed/robots/BILBO/software/robot/firmware/robot/firmware_v1/drive/twipr_drive_can.cpp:22:19:HAL_StatusTypeDef SimplexMotion_CAN::init(simplexmotion_can_config_t)	4
+/Users/lehmann/work_dir/work_dir/projects/testbed/robots/BILBO/software/robot/firmware/robot/firmware_v1/drive/twipr_drive_can.cpp:55:19:HAL_StatusTypeDef SimplexMotion_CAN::start(simplexmotion_can_mode_t)	3
+/Users/lehmann/work_dir/work_dir/projects/testbed/robots/BILBO/software/robot/firmware/robot/firmware_v1/drive/twipr_drive_can.cpp:75:19:HAL_StatusTypeDef SimplexMotion_CAN::write(uint16_t, uint8_t*, uint8_t)	1
+/Users/lehmann/work_dir/work_dir/projects/testbed/robots/BILBO/software/robot/firmware/robot/firmware_v1/drive/twipr_drive_can.cpp:80:19:HAL_StatusTypeDef SimplexMotion_CAN::write(uint16_t, float)	1
+/Users/lehmann/work_dir/work_dir/projects/testbed/robots/BILBO/software/robot/firmware/robot/firmware_v1/drive/twipr_drive_can.cpp:86:19:HAL_StatusTypeDef SimplexMotion_CAN::write(uint16_t, uint16_t)	1
+/Users/lehmann/work_dir/work_dir/projects/testbed/robots/BILBO/software/robot/firmware/robot/firmware_v1/drive/twipr_drive_can.cpp:92:19:HAL_StatusTypeDef SimplexMotion_CAN::write(uint16_t, uint32_t)	1
+/Users/lehmann/work_dir/work_dir/projects/testbed/robots/BILBO/software/robot/firmware/robot/firmware_v1/drive/twipr_drive_can.cpp:98:19:HAL_StatusTypeDef SimplexMotion_CAN::write(uint16_t, int16_t)	1
+/Users/lehmann/work_dir/work_dir/projects/testbed/robots/BILBO/software/robot/firmware/robot/firmware_v1/drive/twipr_drive_can.cpp:104:19:HAL_StatusTypeDef SimplexMotion_CAN::write(uint16_t, int32_t)	1
+/Users/lehmann/work_dir/work_dir/projects/testbed/robots/BILBO/software/robot/firmware/robot/firmware_v1/drive/twipr_drive_can.cpp:111:12:CAN_Status SimplexMotion_CAN::read(uint16_t, uint8_t*, uint8_t, uint8_t&)	1
+/Users/lehmann/work_dir/work_dir/projects/testbed/robots/BILBO/software/robot/firmware/robot/firmware_v1/drive/twipr_drive_can.cpp:118:19:HAL_StatusTypeDef SimplexMotion_CAN::read(uint16_t, float&)	3
+/Users/lehmann/work_dir/work_dir/projects/testbed/robots/BILBO/software/robot/firmware/robot/firmware_v1/drive/twipr_drive_can.cpp:133:19:HAL_StatusTypeDef SimplexMotion_CAN::read(uint16_t, uint16_t&)	3
+/Users/lehmann/work_dir/work_dir/projects/testbed/robots/BILBO/software/robot/firmware/robot/firmware_v1/drive/twipr_drive_can.cpp:148:19:HAL_StatusTypeDef SimplexMotion_CAN::read(uint16_t, int16_t&)	3
+/Users/lehmann/work_dir/work_dir/projects/testbed/robots/BILBO/software/robot/firmware/robot/firmware_v1/drive/twipr_drive_can.cpp:163:19:HAL_StatusTypeDef SimplexMotion_CAN::read(uint16_t, uint32_t&)	3
+/Users/lehmann/work_dir/work_dir/projects/testbed/robots/BILBO/software/robot/firmware/robot/firmware_v1/drive/twipr_drive_can.cpp:178:19:HAL_StatusTypeDef SimplexMotion_CAN::read(uint16_t, int32_t&)	3
+/Users/lehmann/work_dir/work_dir/projects/testbed/robots/BILBO/software/robot/firmware/robot/firmware_v1/drive/twipr_drive_can.cpp:193:19:HAL_StatusTypeDef SimplexMotion_CAN::checkCommunication()	1
+/Users/lehmann/work_dir/work_dir/projects/testbed/robots/BILBO/software/robot/firmware/robot/firmware_v1/drive/twipr_drive_can.cpp:201:19:HAL_StatusTypeDef SimplexMotion_CAN::checkMotor()	4
+/Users/lehmann/work_dir/work_dir/projects/testbed/robots/BILBO/software/robot/firmware/robot/firmware_v1/drive/twipr_drive_can.cpp:225:19:HAL_StatusTypeDef SimplexMotion_CAN::setTorque(float)	2
+/Users/lehmann/work_dir/work_dir/projects/testbed/robots/BILBO/software/robot/firmware/robot/firmware_v1/drive/twipr_drive_can.cpp:237:19:HAL_StatusTypeDef SimplexMotion_CAN::readSpeed(float&)	2
+/Users/lehmann/work_dir/work_dir/projects/testbed/robots/BILBO/software/robot/firmware/robot/firmware_v1/drive/twipr_drive_can.cpp:253:19:HAL_StatusTypeDef SimplexMotion_CAN::readHardwareRev()	1
+/Users/lehmann/work_dir/work_dir/projects/testbed/robots/BILBO/software/robot/firmware/robot/firmware_v1/drive/twipr_drive_can.cpp:257:19:HAL_StatusTypeDef SimplexMotion_CAN::readSoftwareRev(uint16_t&)	1
+/Users/lehmann/work_dir/work_dir/projects/testbed/robots/BILBO/software/robot/firmware/robot/firmware_v1/drive/twipr_drive_can.cpp:261:19:HAL_StatusTypeDef SimplexMotion_CAN::readName()	1
+/Users/lehmann/work_dir/work_dir/projects/testbed/robots/BILBO/software/robot/firmware/robot/firmware_v1/drive/twipr_drive_can.cpp:265:19:HAL_StatusTypeDef SimplexMotion_CAN::setMode(simplexmotion_can_mode_t)	4
+/Users/lehmann/work_dir/work_dir/projects/testbed/robots/BILBO/software/robot/firmware/robot/firmware_v1/drive/twipr_drive_can.cpp:295:19:HAL_StatusTypeDef SimplexMotion_CAN::readMode(simplexmotion_can_mode_t&)	2
+/Users/lehmann/work_dir/work_dir/projects/testbed/robots/BILBO/software/robot/firmware/robot/firmware_v1/drive/twipr_drive_can.cpp:311:19:HAL_StatusTypeDef SimplexMotion_CAN::setTarget(int32_t)	1
+/Users/lehmann/work_dir/work_dir/projects/testbed/robots/BILBO/software/robot/firmware/robot/firmware_v1/drive/twipr_drive_can.cpp:315:19:HAL_StatusTypeDef SimplexMotion_CAN::stop()	2
+/Users/lehmann/work_dir/work_dir/projects/testbed/robots/BILBO/software/robot/firmware/robot/firmware_v1/drive/twipr_drive_can.cpp:328:19:HAL_StatusTypeDef SimplexMotion_CAN::beep(uint16_t)	3
+/Users/lehmann/work_dir/work_dir/projects/testbed/robots/BILBO/software/robot/firmware/robot/firmware_v1/drive/twipr_drive_can.cpp:344:19:HAL_StatusTypeDef SimplexMotion_CAN::setTorqueLimit(float)	3
+/Users/lehmann/work_dir/work_dir/projects/testbed/robots/BILBO/software/robot/firmware/robot/firmware_v1/drive/twipr_drive_can.cpp:365:19:HAL_StatusTypeDef SimplexMotion_CAN::getTemperature(float&)	1
+/Users/lehmann/work_dir/work_dir/projects/testbed/robots/BILBO/software/robot/firmware/robot/firmware_v1/drive/twipr_drive_can.cpp:370:19:HAL_StatusTypeDef SimplexMotion_CAN::getVoltage(float&)	2
+/Users/lehmann/work_dir/work_dir/projects/testbed/robots/BILBO/software/robot/firmware/robot/firmware_v1/drive/twipr_drive_can.cpp:385:10:uint32_t SimplexMotion_CAN::_getCANHeader(uint16_t)	1
+/Users/lehmann/work_dir/work_dir/projects/testbed/robots/BILBO/software/robot/firmware/robot/firmware_v1/drive/twipr_drive_can.cpp:392:1:TWIPR_Drive_CAN::TWIPR_Drive_CAN()	1
+/Users/lehmann/work_dir/work_dir/projects/testbed/robots/BILBO/software/robot/firmware/robot/firmware_v1/drive/twipr_drive_can.cpp:396:19:HAL_StatusTypeDef TWIPR_Drive_CAN::init(twipr_drive_can_config_t)	3
+/Users/lehmann/work_dir/work_dir/projects/testbed/robots/BILBO/software/robot/firmware/robot/firmware_v1/drive/twipr_drive_can.cpp:426:19:HAL_StatusTypeDef TWIPR_Drive_CAN::start()	3
+/Users/lehmann/work_dir/work_dir/projects/testbed/robots/BILBO/software/robot/firmware/robot/firmware_v1/drive/twipr_drive_can.cpp:451:6:void TWIPR_Drive_CAN::task()	7
+/Users/lehmann/work_dir/work_dir/projects/testbed/robots/BILBO/software/robot/firmware/robot/firmware_v1/drive/twipr_drive_can.cpp:527:19:HAL_StatusTypeDef TWIPR_Drive_CAN::stop()	1
+/Users/lehmann/work_dir/work_dir/projects/testbed/robots/BILBO/software/robot/firmware/robot/firmware_v1/drive/twipr_drive_can.cpp:538:25:twipr_drive_can_speed_t TWIPR_Drive_CAN::getSpeed()	1
+/Users/lehmann/work_dir/work_dir/projects/testbed/robots/BILBO/software/robot/firmware/robot/firmware_v1/drive/twipr_drive_can.cpp:548:7:float TWIPR_Drive_CAN::getVoltage()	1
+/Users/lehmann/work_dir/work_dir/projects/testbed/robots/BILBO/software/robot/firmware/robot/firmware_v1/drive/twipr_drive_can.cpp:557:19:HAL_StatusTypeDef TWIPR_Drive_CAN::setTorque(twipr_drive_can_input_t)	2
+/Users/lehmann/work_dir/work_dir/projects/testbed/robots/BILBO/software/robot/firmware/robot/firmware_v1/drive/twipr_drive_can.cpp:568:6:void startCANDriveTask(void*)	1

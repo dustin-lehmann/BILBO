@@ -11,6 +11,14 @@
 #include <core.h>
 #include "robot-control_extender.h"
 
+extern core_hardware_LED rc_status_led_2;
+
+
+class RobotControl_ExternalRGBStrip {
+public:
+	RobotControl_ExternalRGBStrip();
+	void setColor(uint8_t red, uint8_t green, uint8_t blue);
+};
 
 
 class RobotControl_RGBLED{

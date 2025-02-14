@@ -20,11 +20,6 @@ class TCPServerCallbacks:
     connected: CallbackContainer
     disconnected: CallbackContainer
 
-
-def test(*args, **kwargs):
-    print("This is in tcp_server.py")
-
-
 # ======================================================================================================================
 class TCP_Server:
     connections: list[TCP_Connection]
@@ -47,7 +42,6 @@ class TCP_Server:
         self._tcp = TCP_SocketsHandler(address=self.address)
         self._udp = UDP(address=self.address, port=settings.UDP_PORT_ADDRESS_STREAM)
 
-        self._udp.callbacks.rx.register(function=test)
         self.connections = []
         self._unregistered_connections = []
 

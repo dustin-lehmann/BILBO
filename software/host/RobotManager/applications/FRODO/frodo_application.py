@@ -1,4 +1,5 @@
 import math
+import random
 import threading
 import time
 
@@ -13,12 +14,14 @@ from robots.frodo.frodo_manager import FrodoManager
 from robots.frodo.utils.frodo_cli import FRODO_CommandSet
 from robots.frodo.utils.frodo_manager_cli import FrodoManager_Commands
 from utils.exit import ExitHandler
-from utils.orientation.plot_2d.dynamic.dynamic_2d_plotter import Dynamic2DPlotter, Group
+from utils.orientation.plot_2d.dynamic.FRODO_Web_Interface import FRODO_Web_Interface, Group
 from utils.sound.sound import playSound, SoundSystem
 from utils.sound.sound import speak
 from utils.logging_utils import Logger, setLoggerLevel
 import robots.frodo.frodo_definitions as frodo_definitions
-import utils.orientation.plot_2d.dynamic.dynamic_2d_plotter as plotter
+# import utils.orientation.plot_2d.dynamic.dynamic_2d_plotter as plotter
+import utils.orientation.plot_2d.dynamic.FRODO_Web_Interface as plotter
+from utils.teleplot import sendValue
 from utils.time import PrecisionTimer
 
 setLoggerLevel('Sound', 'INFO')
@@ -35,7 +38,7 @@ class FRODO_Application:
 
     experiment_handler: FRODO_ExperimentHandler
 
-    plotter: (Dynamic2DPlotter, None)
+    plotter: (FRODO_Web_Interface, None)
     logger: Logger
 
     _exit: bool = False
@@ -49,7 +52,6 @@ class FRODO_Application:
 
         self.agents = {}
 
-
         self.experiment_handler = FRODO_ExperimentHandler()
 
         if enable_tracking:
@@ -61,7 +63,7 @@ class FRODO_Application:
             self.tracker.callbacks.new_sample.register(self._tracker_new_sample)
             self.tracker.callbacks.description_received.register(self._tracker_description_received)
 
-        self.cli_gui = CLI_GUI_Server(address='localhost', port=8080)
+        self.cli_gui = CLI_GUI_Server(address='localhost', port=8090)
 
         # -- IO --
         self.logger = Logger('APP')
@@ -70,7 +72,7 @@ class FRODO_Application:
         self.soundsystem.start()
 
         if plot_2d:
-            self.plotter = Dynamic2DPlotter()
+            self.plotter = FRODO_Web_Interface()
         else:
             self.plotter = None
 
@@ -109,6 +111,8 @@ class FRODO_Application:
     def close(self, *args, **kwargs):
         speak("Closing Frodo Application")
         self._exit = True
+        if self.plotter:
+            self.plotter.close()
         time.sleep(2)
 
     # === METHODS ======================================================================================================
@@ -200,23 +204,24 @@ class FRODO_Application:
 
     # ------------------------------------------------------------------------------------------------------------------
     def _tracker_description_received(self, assets):
-        self.logger.info(f"Received Tracker Description: {assets}")
 
-        optitrack_group: Group = self.plotter.get_element_by_id('optitrack')
-        for id, asset in assets.items():
-            if isinstance(asset, TrackedVisionRobot):
+        if self.plotter is not None:
+            optitrack_group: Group = self.plotter.get_element_by_id('optitrack')
+            for id, asset in assets.items():
 
-                if id in frodo_definitions.frodo_colors:
-                    color = frodo_definitions.frodo_colors[id]
-                else:
-                    color = [0.5, 0.5, 0.5]
+                if isinstance(asset, TrackedVisionRobot):
 
-                optitrack_group.add_vision_agent(id=id,
-                                                 position=[0, 0],
-                                                 psi=0,
-                                                 vision_radius=1.5,
-                                                 vision_fov=math.radians(120),
-                                                 color=color)
+                    if id in frodo_definitions.frodo_colors:
+                        color = frodo_definitions.frodo_colors[id]
+                    else:
+                        color = [0.5, 0.5, 0.5]
+
+                    optitrack_group.add_vision_agent(id=id,
+                                                     position=[0, 0],
+                                                     psi=0,
+                                                     vision_radius=1.5,
+                                                     vision_fov=math.radians(120),
+                                                     color=color)
 
     # ------------------------------------------------------------------------------------------------------------------
     def _prepare_plotting(self):
@@ -225,6 +230,11 @@ class FRODO_Application:
         self.plotter.add_group(id='optitrack')
         self.plotter.add_group(id='algorithm')
         self.plotter.add_group(id='agents')
+
+        self.plotter.add_video("FRODO 1", "frodo1", 5000, placeholder=False)
+        self.plotter.add_video("FRODO 2", "frodo2", 5000, placeholder=False)
+        self.plotter.add_video("FRODO 3", "frodo3", 5000, placeholder=False)
+        self.plotter.add_video("FRODO 4", "frodo4", 5000, placeholder=False)
 
     # ------------------------------------------------------------------------------------------------------------------
     def _update_plot(self):
@@ -238,9 +248,8 @@ def start_frodo_application():
     app = FRODO_Application(enable_tracking=True, plot_2d=True)
     app.init()
     app.start()
-
     while True:
-        time.sleep(2)
+        time.sleep(100)
 
 
 # ======================================================================================================================

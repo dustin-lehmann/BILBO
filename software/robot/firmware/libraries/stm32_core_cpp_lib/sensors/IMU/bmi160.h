@@ -15,6 +15,7 @@
 
 #define BMI160_REG_CHIP_ID	0x00
 
+
 typedef struct bmi160_gyr_raw {
 	int16_t x;
 	int16_t y;

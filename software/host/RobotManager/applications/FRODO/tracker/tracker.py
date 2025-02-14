@@ -45,9 +45,7 @@ class Tracker:
 
         self.assets = assets
 
-        self.optitrack = OptiTrack(server_address="127.0.0.1",
-                                   local_address="127.0.0.1",
-                                   multicast_address="239.255.42.99")
+        self.optitrack = OptiTrack(server_address="192.168.8.247")
 
         self.event_listener_sample = EventListener(self.optitrack.events.sample, callback=self._optitrack_new_sample_callback)
 
@@ -82,7 +80,6 @@ class Tracker:
 
     # === PRIVATE METHODS ==============================================================================================
     def _optitrack_new_sample_callback(self, sample: dict[str, RigidBodySample], *args, **kwargs):
-
         for name, asset in self.assets.items():
 
             # Extract the asset data

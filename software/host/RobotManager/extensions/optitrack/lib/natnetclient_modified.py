@@ -35,7 +35,7 @@ class NatNetClient:
     rigid_body_callback: callable
     description_message_callback: callable
 
-    def __init__(self, server_address, local_address, multicast_address):
+    def __init__(self, server_address, multicast_address="239.255.42.99"):
         # Change this value to the IP address of the NatNet server.
         # self.serverIPAddress = "127.0.0.1"
         # self.serverIPAddress = "130.149.244.105"
@@ -48,7 +48,8 @@ class NatNetClient:
         # self.localIPAddress = "127.0.0.1"
         # self.localIPAddress = "130.149.244.182"
         # self.localIPAddress = "192.168.0.100"
-        self.localIPAddress = local_address
+        # self.localIPAddress = '0.0.0.0'
+        self.localIPAddress = server_address
 
         # This should match the multicast address listed in Motive's streaming settings.
         # self.multicastIPAddress = "239.255.42.99"
@@ -619,4 +620,5 @@ class NatNetClient:
         self.sendCommand(self.NAT_REQUEST_MODELDEF, "", self.commandSocket, (self.serverIPAddress, self.commandPort))
 
     def readModelDef(self):
+        ...
         self.sendCommand(self.NAT_REQUEST_MODELDEF, "", self.commandSocket, (self.serverIPAddress, self.commandPort))

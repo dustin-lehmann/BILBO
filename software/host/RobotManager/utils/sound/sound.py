@@ -454,7 +454,7 @@ if __name__ == "__main__":
     # primary_engine = GTTSVoiceEngine()
     primary_engine = EdgeTTSVoiceEngine()
     sound_system = SoundSystem(volume=0.5, primary_engine=primary_engine, add_robot_filter=False)
-    # cleanTTS()
+    cleanTTS()
     sound_system.start()
     try:
         playSound('warning')

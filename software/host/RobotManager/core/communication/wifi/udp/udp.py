@@ -130,7 +130,7 @@ class UDP:
         message = self._decodeMessage(data, *args, **kwargs)
 
         if message is not None:
-            for callback in self.callbacks['rx']:
+            for callback in self.callbacks.rx:
                 callback(message, address, port, *args, **kwargs)
 
     # ------------------------------------------------------------------------------------------------------------------

@@ -109,7 +109,7 @@ class UDP_Socket:
                     if address[0] == self.address and self.config['filterBroadcastEcho']:
                         ...
                     else:
-                        for callback in self.callbacks[UDPSocketCallbacks.rx]:
+                        for callback in self.callbacks.rx:
                             callback(data, address, self.port)
 
             except BlockingIOError:

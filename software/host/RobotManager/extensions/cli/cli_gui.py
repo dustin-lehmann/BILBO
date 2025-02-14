@@ -37,7 +37,7 @@ class CLI_GUI_Server:
     callbacks: CLI_GUI_Server_Callbacks
     clients: list
 
-    def __init__(self, address='localhost', port=8080, buffer_logs: bool = True):
+    def __init__(self, address='localhost', port=8090, buffer_logs: bool = True):
         self.server = SyncWebsocketServer(host=address, port=port)
         self.callbacks = CLI_GUI_Server_Callbacks()
         self.buffer_logs = buffer_logs
@@ -104,7 +104,7 @@ class CLI_GUI_Server:
             'type': 'log',
             'data': {
                 'text': message,
-            },
+                'color': '#A0A0A0'}
         }
         self._send_log_data(data)
 
@@ -140,6 +140,7 @@ class CLI_GUI_Server:
 
     # === PRIVATE METHODS ==============================================================================================
     def _gui_message_callback(self, client, message, *args, **kwargs):
+
         if message['type'] == 'command':
             if 'data' in message:
                 try:
@@ -173,20 +174,20 @@ class CLI_GUI_Server:
                 raw_name = raw_name[:max_name_length]
 
             # Build the visible header (without ANSI codes) to compute the needed padding.
-            visible_header = f"\[{raw_name.upper()}]:"
+            visible_header = f"[{raw_name.upper()}]:"
             # Calculate the number of spaces needed after the colon.
             padding = " " * (header_width - len(visible_header))
 
-            # Only the logger name is colored, while the brackets and colon remain default.
-            if logger.color is None:
-                format_string = f"[rgb(150,150,150)]"
-            else:
-                format_string = f"[rgb({logger.color[0]},{logger.color[1]},{logger.color[2]})]"
-
-            colored_header = f"{format_string}{visible_header}[/]"
+            # # Only the logger name is colored, while the brackets and colon remain default.
+            # if logger.color is None:
+            #     format_string = f"[rgb(150,150,150)]"
+            # else:
+            #     format_string = f"[rgb({logger.color[0]},{logger.color[1]},{logger.color[2]})]"
+            #
+            # colored_header = f"{format_string}{visible_header}[/]"
 
             # Combine the colored header and the computed padding.
-            final_header = f"{colored_header}{padding}"
+            final_header = f"{visible_header}{padding}"
 
             # Create the final string: header followed by the log message.
             string = f"{final_header}{unformatted_entry}"

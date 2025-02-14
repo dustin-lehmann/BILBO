@@ -74,8 +74,8 @@ class OptiTrack:
     running: bool
 
     # ------------------------------------------------------------------------------------------------------------------
-    def __init__(self, server_address, local_address, multicast_address):
-        self.natnetclient = NatNetClient(server_address, local_address, multicast_address)
+    def __init__(self, server_address):
+        self.natnetclient = NatNetClient(server_address)
         self.natnetclient.mocap_data_callback = self._natnet_mocap_data_callback
         self.natnetclient.description_message_callback = self._natnet_description_callback
 
@@ -101,7 +101,6 @@ class OptiTrack:
 
     # === PRIVATE METHODS ==============================================================================================
     def _natnet_description_callback(self, data):
-
         # Rigid Bodies
         for name, rigid_body_data in data["rigid_bodies"].items():
             rigid_body_id = rigid_body_data["id"]
@@ -154,7 +153,6 @@ class OptiTrack:
 
     # ------------------------------------------------------------------------------------------------------------------
     def _natnet_mocap_data_callback(self, data):
-
         if not self.description_received:
             return
 
@@ -232,7 +230,9 @@ class OptiTrack:
 
                     if len(sizes) == 0:
                         logger.error(f"No markers of rigid body {rigid_body_id} are visible")
-                    marker_description.size = sum(sizes) / len(sizes)
+                        marker_description.size = 0
+                    else:
+                        marker_description.size = sum(sizes) / len(sizes)
 
     # ------------------------------------------------------------------------------------------------------------------
     @staticmethod

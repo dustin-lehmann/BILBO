@@ -49,7 +49,7 @@ class NatNetClient:
         # self.localIPAddress = "130.149.244.182"
         # self.localIPAddress = "192.168.0.100"
         # self.localIPAddress = '0.0.0.0'
-        self.localIPAddress = server_address
+        self.localIPAddress = '0.0.0.0'
 
         # This should match the multicast address listed in Motive's streaming settings.
         # self.multicastIPAddress = "239.255.42.99"

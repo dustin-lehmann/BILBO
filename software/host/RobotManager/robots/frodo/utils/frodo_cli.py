@@ -49,13 +49,37 @@ class FRODO_CommandSet(CommandSet):
         read_data_command = Command(name='read',
                                     callback=self.read_data,
                                     arguments=[])
+        
+        add_movement = Command(name='addMov',
+                                callback=self.frodo.addMovement,
+                                arguments=[
+                                    CommandArgument(name='dphi',
+                                                    short_name='p',
+                                                    type=float),
+                                    CommandArgument(name='radius',
+                                                    short_name='r',
+                                                    type=int),
+                                    CommandArgument(name='time',
+                                                    short_name='t',
+                                                    type=float)
+                                ])
+        
+        set_control_mode = Command(name='setMod',
+                                callback=self.frodo.setControlMode,
+                                arguments=[
+                                    CommandArgument(name='mode',
+                                                    short_name='m',
+                                                    type=int)
+                                ])
 
         super(FRODO_CommandSet, self).__init__(name=frodo.id,
                                                commands=[beep_command,
                                                          stop_command,
                                                          speed_command,
                                                          turn_command,
-                                                         read_data_command])
+                                                         read_data_command,
+                                                         add_movement,
+                                                         set_control_mode])
 
     # ------------------------------------------------------------------------------------------------------------------
     def turn_command(self, speed: float, direction: int):

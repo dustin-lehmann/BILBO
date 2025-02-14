@@ -102,7 +102,7 @@ class NatNetClient:
     def __createCommandSocket(self):
         result = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         result.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        result.bind(('', 0))
+        result.bind(('', 1510))
         result.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
 
         return result

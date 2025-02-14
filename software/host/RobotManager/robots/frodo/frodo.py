@@ -50,8 +50,13 @@ class Frodo:
         return data
 
     # ------------------------------------------------------------------------------------------------------------------
-    def addMotion(self, motion):
-        ...
+    def addMovement(self, dphi, radius, time):
+        self.device.function(function='addNavigationMovement', data={'dphi': dphi, 'radius': radius, 
+                                                                        'vtime': time})
+
+    # ------------------------------------------------------------------------------------------------------------------
+    def setControlMode(self, mode):
+        self.device.function(function='setControlMode', data={'mode': mode})
 
     # ------------------------------------------------------------------------------------------------------------------
     def setExternalLEDs(self, color):

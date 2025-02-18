@@ -52,8 +52,6 @@ class FRODO_Application:
 
         self.agents = {}
 
-        self.experiment_handler = FRODO_ExperimentHandler()
-
         if enable_tracking:
             self.tracker = Tracker()
         else:
@@ -62,6 +60,8 @@ class FRODO_Application:
         if self.tracker:
             self.tracker.callbacks.new_sample.register(self._tracker_new_sample)
             self.tracker.callbacks.description_received.register(self._tracker_description_received)
+
+        self.experiment_handler = FRODO_ExperimentHandler(self.manager, self.tracker)
 
         self.cli_gui = CLI_GUI_Server(address='localhost', port=8090)
 

@@ -50,7 +50,7 @@ class FRODO_CommandSet(CommandSet):
                                     callback=self.read_data,
                                     arguments=[])
         
-        add_movement = Command(name='addMov',
+        add_nav_movement = Command(name='addMov',
                                 callback=self.frodo.addMovement,
                                 arguments=[
                                     CommandArgument(name='dphi',
@@ -64,13 +64,20 @@ class FRODO_CommandSet(CommandSet):
                                                     type=float)
                                 ])
         
+        start_nav_movement = Command(name='startNavMov',
+                                        callback=self.frodo.startNavigationMovement)
+        
+        stop_nav_movement = Command(name='stopNavMov',
+                                        callback=self.frodo.stopNavigationMovement)
+        
         set_control_mode = Command(name='setMod',
                                 callback=self.frodo.setControlMode,
                                 arguments=[
                                     CommandArgument(name='mode',
                                                     short_name='m',
-                                                    type=int)
-                                ])
+                                                    type=int)],
+                                allow_positionals=True
+                                )
 
         super(FRODO_CommandSet, self).__init__(name=frodo.id,
                                                commands=[beep_command,
@@ -78,7 +85,9 @@ class FRODO_CommandSet(CommandSet):
                                                          speed_command,
                                                          turn_command,
                                                          read_data_command,
-                                                         add_movement,
+                                                         add_nav_movement,
+                                                         start_nav_movement,
+                                                         stop_nav_movement,
                                                          set_control_mode])
 
     # ------------------------------------------------------------------------------------------------------------------

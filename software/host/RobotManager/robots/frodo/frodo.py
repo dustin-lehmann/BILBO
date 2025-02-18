@@ -55,6 +55,14 @@ class Frodo:
                                                                         'vtime': time})
 
     # ------------------------------------------------------------------------------------------------------------------
+    def startNavigationMovement(self):
+        self.device.function(function='startNavigationMovement', data={})
+
+    # ------------------------------------------------------------------------------------------------------------------
+    def stopNavigationMovement(self):
+        self.device.function(function='stopNavigationMovement', data={})
+
+    # ------------------------------------------------------------------------------------------------------------------
     def setControlMode(self, mode):
         self.device.function(function='setControlMode', data={'mode': mode})
 

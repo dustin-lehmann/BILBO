@@ -1,6 +1,8 @@
-
 from utils.callbacks import Callback
 from utils.logging_utils import Logger
+import dataclasses
+import inspect
+
 logger = Logger("DATALINK")
 # ======================================================================================================================
 
@@ -20,8 +22,7 @@ class DataLink:
     # === INIT =========================================================================================================
     def __init__(self, identifier, description, datatype, limits: list = None, limits_mode: str = 'range',
                  write_function: (Callback, callable) = None, read_function: (Callback, callable) = None,
-                 obj: object = None, name: str = None, writable: bool = True, index: int = None,
-                 ):
+                 obj: object = None, name: str = None, writable: bool = True, index: int = None):
         self.identifier = identifier
         self.description = description
         self.datatype = datatype
@@ -96,41 +97,113 @@ class DataLink:
 
 
 # ======================================================================================================================
+@dataclasses.dataclass
+class CommandArgument:
+    name: str
+    description: str
+    type: type
+    optional: bool = False
+    default: any = None
+
+
+# ----------------------------------------------------------------------------------------------------------------------
 class Command:
     identifier: str
     callback: (callable, Callback)
-    arguments: list[str]
+    arguments: dict  # dict of CommandArgument objects with the key being the argument name
     description: str
 
-    def __init__(self, identifier: str, callback: (callable, Callback), arguments: list, description: str):
+    def __init__(self, identifier: str, callback: (callable, Callback), arguments, description: str):
         self.identifier = identifier
         self.callback = callback
-        self.arguments = arguments
         self.description = description
 
-    def execute(self, arguments: dict = None):
+        # If 'arguments' is provided as a dict, use it directly.
+        # If it's a list, convert it into a dict.
+        if isinstance(arguments, dict):
+            self.arguments = arguments
+        elif isinstance(arguments, list):
+            arg_dict = {}
+            for item in arguments:
+                if isinstance(item, str):
+                    # Create a CommandArgument with the given name.
+                    # datatype=object makes every type check pass, and optional is False.
+                    arg_dict[item] = CommandArgument(name=item, description=item, type=object, optional=False)
+                elif isinstance(item, CommandArgument):
+                    arg_dict[item.name] = item
+                else:
+                    logger.error(f"Unsupported argument type in initialization: {item}")
+            self.arguments = arg_dict
+        else:
+            logger.error("Unsupported type for arguments in Command initialization. Expected dict or list.")
+            self.arguments = {}
 
+    # ------------------------------------------------------------------------------------------------------------------
+    def execute(self, arguments=None):
         if arguments is None:
             arguments = {}
 
-        # Check if all arguments are accounted for
-        if self.arguments is not None:
-            for arg in self.arguments:
-                if arg not in arguments:
-                    logger.error(f"Missing argument {arg} for command {self.identifier}")
+        # If arguments is provided as a list, convert it into a dict using the order of self.arguments keys.
+        if not isinstance(arguments, dict):
+            if isinstance(arguments, list):
+                new_args = {}
+                keys = list(self.arguments.keys())
+                for i, value in enumerate(arguments):
+                    if i < len(keys):
+                        new_args[keys[i]] = value
+                arguments = new_args
+            else:
+                logger.error("Arguments provided to execute must be a dict or list.")
+                arguments = {}
+
+        final_args = {}
+
+        # Check if all expected arguments are provided, and use default values where needed.
+        for arg_name, command_arg in self.arguments.items():
+            if arg_name in arguments:
+                final_args[arg_name] = arguments[arg_name]
+            else:
+                if command_arg.optional:
+                    if command_arg.default is not None:
+                        final_args[arg_name] = command_arg.default
+                    else:
+                        # Attempt to retrieve default from the callback's signature
+                        func = self.callback.function if isinstance(self.callback, Callback) else self.callback
+                        try:
+                            sig = inspect.signature(func)
+                            param = sig.parameters.get(arg_name)
+                            if param and param.default is not inspect.Parameter.empty:
+                                final_args[arg_name] = param.default
+                            else:
+                                final_args[arg_name] = None
+                        except Exception as e:
+                            logger.error(f"Could not inspect callback for command {self.identifier}: {e}")
+                            final_args[arg_name] = None
+                else:
+                    logger.error(f"Missing required argument '{arg_name}' for command {self.identifier}")
                     return
 
-        # Execute the command
-        return self.callback(**arguments)
+        # Execute the command with the collected arguments.
+        if isinstance(self.callback, Callback):
+            return self.callback(**final_args)
+        else:
+            return self.callback(**final_args)
 
     # ------------------------------------------------------------------------------------------------------------------
     def generateDescription(self):
         out = {
             'identifier': self.identifier,
             'description': self.description,
-            'arguments': self.arguments
+            'arguments': {arg_name: self._serialize_command_argument(arg) for arg_name, arg in self.arguments.items()}
         }
         return out
+
+    # Helper method to convert the type in CommandArgument to a string
+    def _serialize_command_argument(self, arg: CommandArgument) -> dict:
+        arg_dict = dataclasses.asdict(arg)
+        if 'type' in arg_dict:
+            arg_dict['type'] = arg_dict['type'].__name__ if hasattr(arg_dict['type'], '__name__') else str(arg_dict['type'])
+        return arg_dict
 
 
 # ======================================================================================================================
@@ -141,7 +214,6 @@ def generateDataDict(data: dict[str, DataLink]):
             out[name] = value.generateDescription()
         elif isinstance(value, dict):
             out[name] = generateDataDict(value)
-
     return out
 
 

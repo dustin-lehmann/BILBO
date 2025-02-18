@@ -1,12 +1,12 @@
 import time
 
 from applications.BILBO.general.JoystickControl import SimpleTwiprJoystickControl
-from robots.twipr.twipr import TWIPR
+from robots.bilbo.twipr import BILBO
 
-bilbo1: TWIPR = None
+bilbo1: BILBO = None
 
 
-def robot_callback(robot: TWIPR, event: str):
+def robot_callback(robot: BILBO, event: str):
     global bilbo1
     if event == 'disconnect':
         print("Robot Disconnected")

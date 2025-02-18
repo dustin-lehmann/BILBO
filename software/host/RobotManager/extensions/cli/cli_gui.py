@@ -8,6 +8,7 @@ current_dir = os.path.dirname(os.path.abspath(__file__))
 # Go up four levels (adjust the number of ".." if your structure changes)
 top_level_dir = os.path.abspath(os.path.join(current_dir, "../../"))
 
+# ======================================================================================================================
 # Insert the top-level directory into sys.path so that Python can find top_level_module.py
 if top_level_dir not in sys.path:
     sys.path.insert(0, top_level_dir)
@@ -38,6 +39,7 @@ class CLI_GUI_Server:
     clients: list
 
     def __init__(self, address='localhost', port=8090, buffer_logs: bool = True):
+
         self.server = SyncWebsocketServer(host=address, port=port)
         self.callbacks = CLI_GUI_Server_Callbacks()
         self.buffer_logs = buffer_logs
@@ -48,7 +50,9 @@ class CLI_GUI_Server:
 
         self.cli = CLI()
 
-        logging_utils.enable_redirection(self._log_redirect)
+        self.cli.callbacks.update.register(self.sendCLIDescription)
+
+        logging_utils.enable_redirection(self._log_redirect, redirect_all=False)
 
         # Redirect CLI text output through sendLog (which now handles buffering)
         self.cli.text_output_function = self.sendLog
@@ -64,23 +68,12 @@ class CLI_GUI_Server:
             root_set = self.cli.root_set
 
         self.cli.setRootSet(root_set)
-
-        commands_dict = self.cli.getCommandSetDescription()
-        self.setCLICommands(commands_dict)
+        self.sendCLIDescription()
 
     # ------------------------------------------------------------------------------------------------------------------
     @property
     def connected(self):
         return len(self.clients) > 0
-
-    # ------------------------------------------------------------------------------------------------------------------
-    def setRobotData(self, robot_data):
-        data = {
-            'type': 'robot_data',
-            'data': robot_data
-        }
-
-        self.server.send(data)
 
     # ------------------------------------------------------------------------------------------------------------------
     def _send_log_data(self, data):
@@ -131,7 +124,8 @@ class CLI_GUI_Server:
         self._send_log_data(data)
 
     # ------------------------------------------------------------------------------------------------------------------
-    def setCLICommands(self, commands: dict):
+    def sendCLIDescription(self):
+        commands = self.cli.getCommandSetDescription()
         data = {
             'type': 'commands',
             'data': commands
@@ -150,8 +144,9 @@ class CLI_GUI_Server:
                 except Exception as e:
                     print(f"Something went wrong when executing command in cli from cli_gui_server: {e}")
 
+    # ------------------------------------------------------------------------------------------------------------------
     def _new_client_callback(self, client, *args, **kwargs):
-        self.updateCLI(self.cli.root_set)
+        self.sendCLIDescription()
         self.clients.append(client)
         # As soon as a new client connects, flush any buffered logs.
         if self.buffer_logs and hasattr(self, 'log_queue') and self.log_queue:
@@ -159,39 +154,47 @@ class CLI_GUI_Server:
                 self.server.send(queued_data)
             self.log_queue.clear()
 
+    # ------------------------------------------------------------------------------------------------------------------
     def _log_redirect(self, log_entry, unformatted_entry, logger: Logger, level, *args, **kwargs):
+        # Total visible width for the header (including the brackets and colon)
+        if logger.name == 'tcp':
+            pass
+        header_width = 25
+
+        # The visible header will be of the form: "[" + logger_name + "]:"
+        # That means there are 3 extra characters (the opening bracket, closing bracket, and colon).
+        max_name_length = header_width - 3
+
+        # Get the raw logger name and optionally truncate if too long.
+        raw_name = logger.name
+        if len(raw_name) > max_name_length:
+            raw_name = raw_name[:max_name_length]
+
+        # Build the visible header (without ANSI codes) to compute the needed padding.
+        visible_header = f"[{raw_name.upper()}]:"
+        # Calculate the number of spaces needed after the colon.
+        padding = " " * (header_width - len(visible_header))
+
+        # # Only the logger name is colored, while the brackets and colon remain default.
+        # if logger.color is None:
+        #     format_string = f"[rgb(150,150,150)]"
+        # else:
+        #     format_string = f"[rgb({logger.color[0]},{logger.color[1]},{logger.color[2]})]"
+        #
+        # colored_header = f"{format_string}{visible_header}[/]"
+
+        # Combine the colored header and the computed padding.
+        final_header = f"{visible_header}{padding}"
+
+        # Create the final string: header followed by the log message.
+        string = f"{final_header}{unformatted_entry}"
+
         if level == logging.INFO:
-            # Total visible width for the header (including the brackets and colon)
-            header_width = 25
-
-            # The visible header will be of the form: "[" + logger_name + "]:"
-            # That means there are 3 extra characters (the opening bracket, closing bracket, and colon).
-            max_name_length = header_width - 3
-
-            # Get the raw logger name and optionally truncate if too long.
-            raw_name = logger.name
-            if len(raw_name) > max_name_length:
-                raw_name = raw_name[:max_name_length]
-
-            # Build the visible header (without ANSI codes) to compute the needed padding.
-            visible_header = f"[{raw_name.upper()}]:"
-            # Calculate the number of spaces needed after the colon.
-            padding = " " * (header_width - len(visible_header))
-
-            # # Only the logger name is colored, while the brackets and colon remain default.
-            # if logger.color is None:
-            #     format_string = f"[rgb(150,150,150)]"
-            # else:
-            #     format_string = f"[rgb({logger.color[0]},{logger.color[1]},{logger.color[2]})]"
-            #
-            # colored_header = f"{format_string}{visible_header}[/]"
-
-            # Combine the colored header and the computed padding.
-            final_header = f"{visible_header}{padding}"
-
-            # Create the final string: header followed by the log message.
-            string = f"{final_header}{unformatted_entry}"
             self.sendLog(string)
+        elif level == logging.WARNING:
+            self.sendWarning(string)
+        elif level == logging.ERROR:
+            self.sendError(string)
 
 
 # ======================================================================================================================
@@ -204,7 +207,7 @@ class CLI_GUI_Client:
     _exit: bool = False
     exit: ExitHandler
 
-    def __init__(self, address, port=8080):
+    def __init__(self, address, port=8090):
         self.websocket = SyncWebsocketClient(address, port, debug=False)
         self.websocket.callbacks.connected.register(self._websocket_connected_callback)
         self.websocket.callbacks.message.register(self._websocket_message_callback)

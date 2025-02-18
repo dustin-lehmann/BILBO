@@ -7,4 +7,5 @@ config_path = os.path.expanduser('~/robot/config/')
 experiments_path = os.path.expanduser('~/robot/experiments/')
 logs_path = os.path.expanduser('~/robot/logs/')
 control_config_path = os.path.expanduser('~/robot/control/')
+calibrations_path = os.path.expanduser('~/robot/calibration/')
 # ======================================================================================================================

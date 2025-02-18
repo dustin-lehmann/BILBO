@@ -92,6 +92,16 @@ class BILBO_Control:
                                    arguments=['v', 'psi_dot'],
                                    description='Sets the Speed')
 
+        self._comm.wifi.addCommand(identifier='setPIDForward',
+                                   callback=self.setVelocityControlPID_Forward,
+                                   arguments=['P', 'I', 'D'],
+                                   description='Sets the PID Control Values for the Forward Velocity')
+
+        self._comm.wifi.addCommand(identifier='setPIDTurn',
+                                   callback=self.setVelocityControlPID_Turn,
+                                   arguments=['P', 'I', 'D'],
+                                   description='Sets the PID Control Values for the Turn Velocity')
+
         # self._thread = threading.Thread(target=self._threadFunction)
 
         self._lastStm32Sample = None  # Type: Ignore
@@ -127,7 +137,7 @@ class BILBO_Control:
 
     # ------------------------------------------------------------------------------------------------------------------
     def loadConfig(self, name):
-        logger.info(f"Load control config \"{name}\"...")
+        logger.debug(f"Load control config \"{name}\"...")
         config = control_config.load_config(name)
         if config is None:
             logger.warning(f"Control config \"{name}\" not found")

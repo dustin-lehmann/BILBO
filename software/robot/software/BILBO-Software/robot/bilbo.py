@@ -25,7 +25,7 @@ from utils.revisions import get_versions, is_ll_version_compatible
 from robot.utilities.buzzer import beep
 
 # === GLOBAL VARIABLES =================================================================================================
-logger = Logger("BILBO")
+
 setLoggerLevel('wifi', 'ERROR')
 
 
@@ -72,8 +72,11 @@ class BILBO:
         self.lock = SingletonLock(lock_file="/tmp/twipr.lock", timeout=10)
         self.lock.__enter__()
 
+
+        self.logger = Logger("BILBO")
+
         if reset_stm32:
-            logger.info(f"Reset STM32. This takes ~2 Seconds")
+            self.logger.info(f"Reset STM32. This takes ~2 Seconds")
             resetSTM32()
             time.sleep(3)
 
@@ -103,16 +106,6 @@ class BILBO:
                                      sensors=self.sensors,
                                      general_sample_collect_function=self._getSample)
 
-        self.communication.wifi.addCommand(identifier='beep',
-                                           callback=beep,
-                                           arguments=['frequency', 'time_ms', 'repeats'],
-                                           description='Beeps')
-
-        self.communication.wifi.addCommand(identifier='testfunction',
-                                           callback=self.testfunction,
-                                           arguments=['input1', 'input2'],
-                                           description='Testfunction. Input1: float, Input2: string')
-
         self.events = BILBO_Events()
         self.callbacks = BILBO_Callbacks()
         self._eventListener = EventListener(event=self.communication.events.rx_stm32_sample, callback=self.update)
@@ -120,14 +113,6 @@ class BILBO:
         self.exit.register(self._shutdown)
 
     # === METHODS ======================================================================================================
-    def testfunction(self, input1: float, input2: str, *args, **kwargs):
-        print(f"Testfunction called with inputs {input1} and {input2}")
-        return {
-            "output1": input1,
-            "output2": input2,
-        }
-    # ------------------------------------------------------------------------------------------------------------------
-
     def init(self):
         self.board.init()
         self.communication.init()
@@ -148,13 +133,13 @@ class BILBO:
         success = self.control.start()
 
         if not success:
-            logger.error("Cannot write control configuration. Exit program")
+            self.logger.error("Cannot write control configuration. Exit program")
             exit()
 
         self.supervisor.start()
         self.sensors.start()
         self.logging.start()
-        logger.info("Start BILBO")
+        self.logger.debug("Start BILBO")
         beep(frequency='middle', repeats=1)
         self._eventListener.start()
         self.board.setRGBLEDExtern([0, 0, 0])
@@ -188,7 +173,7 @@ class BILBO:
     def _shutdown(self, *args, **kwargs):
         # Beep for audio reference
         beep(frequency='low', time_ms=200, repeats=2)
-        logger.info("Shutdown BILBO")
+        self.logger.info("Shutdown BILBO")
         self.control.setMode(BILBO_Control_Mode.OFF)
         self._eventListener.stop()
         self.lock.__exit__(None, None, None)
@@ -210,12 +195,12 @@ class BILBO:
                                                                           revision_data['stm32_firmware']['major'],
                                                                           revision_data['stm32_firmware'][
                                                                               'minor'])):
-            logger.error(
+            self.logger.error(
                 f"STM32 Firmware not compatible. Current Version: {revision_stm32['major']}.{revision_stm32['minor']}."
                 f" Required > {revision_data['stm32_firmware']['major']}.{revision_data['stm32_firmware']['minor']}")
             return False
 
-        logger.info(
+        self.logger.info(
             f"Software Version {revision_data['software']['major']}.{revision_data['software']['minor']}"
             f" (STM32: {revision_stm32['major']}.{revision_stm32['minor']})")
         return True
@@ -242,8 +227,8 @@ class BILBO:
 
     # ------------------------------------------------------------------------------------------------------------------
     def _sendFirstSampleMessage(self):
-        logger.info(f"BILBO is running")
-        logger.info(f"Battery Voltage: {self.logging.sample.sensors.power.bat_voltage:.2f} V")
+        self.logger.info(f"BILBO is running")
+        self.logger.info(f"Battery Voltage: {self.logging.sample.sensors.power.bat_voltage:.2f} V")
 
         self._first_sample_user_message_sent = True
 

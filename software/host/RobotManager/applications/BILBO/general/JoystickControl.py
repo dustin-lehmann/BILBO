@@ -2,9 +2,9 @@ import time
 
 from extensions.cli.src.cli import CommandSet, CLI
 # === OWN PACKAGES =====================================================================================================
-from robots.twipr.twipr_manager import TWIPR_Manager
-from robots.twipr.utils.twipr_gui import TWIPR_GUI
-from robots.twipr.utils.twipr_joystick_control import TWIPR_JoystickControl
+from robots.bilbo.bilbo_manager import BILBO_Manager
+from robots.bilbo.utils.twipr_gui import TWIPR_GUI
+from robots.bilbo.utils.twipr_joystick_control import TWIPR_JoystickControl
 from utils.exit import ExitHandler
 from utils.logging_utils import setLoggerLevel
 from utils.sound.sound import playSound, SoundSystem
@@ -29,7 +29,7 @@ class SimpleTwiprJoystickControl:
     # - `robot_manager`: instance of the TWIPR_Manager
     # - `joystick_control`: instance of the TWIPR_JoystickControl
     # - `gui`: instance of the TWIPR_GUI
-    robot_manager: TWIPR_Manager
+    robot_manager: BILBO_Manager
     joystick_control: TWIPR_JoystickControl
     gui: TWIPR_GUI
 
@@ -41,7 +41,7 @@ class SimpleTwiprJoystickControl:
         Initialize the BILBO manager, BILBO joystick control and GUI instances.
         Register callback methods for the manager, joystick control and GUI
         """
-        self.robot_manager = TWIPR_Manager(robot_auto_start=False)
+        self.robot_manager = BILBO_Manager(robot_auto_start=False)
         self.joystick_control = TWIPR_JoystickControl(twipr_manager=self.robot_manager, thread=True)
         self.gui = TWIPR_GUI()
 

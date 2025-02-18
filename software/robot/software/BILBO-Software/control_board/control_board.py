@@ -6,7 +6,7 @@ from control_board.shields.bilbo_shield_rev2 import BILBO_Shield_Rev2
 from core.communication.i2c.i2c import I2C_Interface
 from core.communication.spi.spi import SPI_Interface
 from core.communication.wifi.wifi_interface import WIFI_Interface
-from core.communication.wifi.data_link import Command
+from core.communication.wifi.data_link import Command, CommandArgument
 from utils.debug import debug_print
 # from core.hardware.sx1508 import SX1508, SX1508_GPIO_MODE
 from core.communication.serial.serial_interface import Serial_Interface
@@ -68,6 +68,27 @@ class RobotControl_Board:
         self.wifi_interface.addCommand(identifier='rgbled', callback=self.io_extension.rgb_led_intern[0].setColor,
                                        arguments=['red', 'green', 'blue'], description='')
 
+        self.wifi_interface.addCommand(identifier='beep',
+                                        callback=self.beep,
+                                        description='',
+                                           arguments = [
+                                               CommandArgument(name='frequency',
+                                                               type=str,
+                                                               optional=True,
+                                                               default='medium',
+                                                               description='Frequency of the beep. Can be "low", "medium", "high" or a number in Hz'),
+                                               CommandArgument(name='time_ms',
+                                                               type=int,
+                                                               optional=True,
+                                                               default=500,
+                                                               description='Duration of the beep in ms'),
+                                               CommandArgument(name='repeats',
+                                                               type=int,
+                                                               optional=True,
+                                                               default=1,
+                                                               description='Number of repeats')
+                                           ])
+
         # This too
 
         self.status_led = GPIO_Output(pin_type=self.board_config['pins']['status_led']['type'],
@@ -92,7 +113,7 @@ class RobotControl_Board:
 
     # === METHODS ======================================================================================================
     def init(self):
-        logger.info("Reset UART")
+        logger.debug("Reset UART")
         self.resetUart()
         self.shield = self.checkForShield()
 

@@ -9,23 +9,28 @@ from robot.communication.wifi.twipr_comm_wifi import BILBO_WIFI_Interface
 from utils.callbacks import callback_handler, CallbackContainer
 from utils.dataclass_utils import freeze_dataclass_instance
 from utils.events import ConditionEvent, event_handler
-from utils.logging_utils import Logger
+from utils.exit import ExitHandler
+from utils.logging_utils import Logger, enable_redirection, setLoggerLevel, disable_redirection
 
 # ======================================================================================================================
 handler = None
 
 logger = Logger("COMMUNICATION")
 logger.setLevel("WARNING")
+
+
 # ======================================================================================================================
 @callback_handler
 class BILBO_Communication_Callbacks:
     rx_stm32_sample: CallbackContainer
+
 
 # ======================================================================================================================
 @event_handler
 class BILBO_Communication_Events:
     rx_stm32_sample: ConditionEvent
     stm32_tick: ConditionEvent
+
 
 # ======================================================================================================================
 class BILBO_Communication:
@@ -53,6 +58,14 @@ class BILBO_Communication:
         # Configure the SPI Interface
         self.spi.callbacks.rx_samples.register(self._stm32_rx_sample_callback)
 
+        setLoggerLevel('tcp', 'WARNING')
+        # self.wifi.callbacks.connected.register()
+
+        self.exit = ExitHandler()
+        self.exit.register(self.close)
+        # Configure Logging Redirect
+        enable_redirection(self._log_redirection)
+
     # === METHODS ======================================================================================================
     def init(self):
         self.spi.init()
@@ -67,8 +80,9 @@ class BILBO_Communication:
         handler = self
 
     # ------------------------------------------------------------------------------------------------------------------
-    def close(self):
-        logger.warning("Closing BILBO Communication")
+    def close(self, *args, **kwargs):
+        disable_redirection(self._log_redirection)
+        logger.info("Closing BILBO Communication")
         self.spi.close()
 
     # === PRIVATE METHODS ==============================================================================================
@@ -82,3 +96,12 @@ class BILBO_Communication:
         # Set the events
         self.events.rx_stm32_sample.set(samples)
         self.events.stm32_tick.set(sample.general.tick)
+
+    # ------------------------------------------------------------------------------------------------------------------
+    def _log_redirection(self, log_entry, log, logger: Logger, level):
+        self.wifi.sendEvent(event='log',
+                            data={
+                                'level': level,
+                                'message': log,
+                                'logger': logger.name
+                            })

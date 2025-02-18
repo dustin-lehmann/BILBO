@@ -167,8 +167,8 @@ class TCP_Connection:
             self._processIncomingHandshake(message)
             return
 
-        logger.debug(
-            f" (TCP RX) Device: \"{self.name}\", Protocol: {base_msg.data_protocol_id}, data: {base_msg.data}")
+        # logger.debug(
+        #     f" (TCP RX) Device: \"{self.name}\", Protocol: {base_msg.data_protocol_id}, data: {base_msg.data}")
 
         if self.config['rx_queue']:
             self.rx_queue.put_nowait(message)

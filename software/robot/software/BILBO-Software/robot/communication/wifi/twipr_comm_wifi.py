@@ -44,6 +44,11 @@ class BILBO_WIFI_Interface:
             self.interface.sendStreamMessage(data)
 
     # ------------------------------------------------------------------------------------------------------------------
+    def sendEvent(self, event, data=None):
+        if self.interface.connected:
+            self.interface.sendEventMessage(event, data)
+
+    # ------------------------------------------------------------------------------------------------------------------
     def getTime(self):
         return time.time() + self._time_sync_offset
 

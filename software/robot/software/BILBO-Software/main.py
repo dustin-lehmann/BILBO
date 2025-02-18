@@ -15,12 +15,9 @@ def main():
     bilbo.init()
     bilbo.start()
 
-    time.sleep(2)
-    bilbo.control.setMode(BILBO_Control_Mode.BALANCING)
-    time.sleep(3)
-    bilbo.control.setMode(BILBO_Control_Mode.OFF)
-
     while True:
+
+        bilbo.logger.info("HALLO")
         time.sleep(1)
 
 

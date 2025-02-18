@@ -1,6 +1,6 @@
 import dataclasses
 import logging
-import time
+import time as t
 import orjson
 
 from core.communication.protocol import Protocol, Message
@@ -13,7 +13,7 @@ class TCP_JSON_Message(Message):
     address: (str, dict) = None
     source: str = None
     type: str = None
-    time = time.time()
+    time = t.time()
     id: int = 0
     request_id: int = 0
     request_response: bool = False
@@ -21,7 +21,7 @@ class TCP_JSON_Message(Message):
 
     def __post_init__(self):
         self.id = id(self)
-        self.time = time.time()
+        self.time = t.time()
 
 
 # ======================================================================================================================

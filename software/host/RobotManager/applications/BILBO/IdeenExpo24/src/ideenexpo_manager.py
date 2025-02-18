@@ -4,7 +4,7 @@ import time
 
 from applications.BILBO.IdeenExpo24.src import ideenexpo_settings
 from applications.BILBO.IdeenExpo24.src.ideenexpo_gui import IdeenExpoGUI
-from robots.twipr.twipr_manager import TWIPR_Manager
+from robots.bilbo.twipr_manager import BILBO_Manager
 from utils.misc import clipValue
 from extensions.joystick.joystick_manager import Joystick, JoystickManager
 
@@ -13,7 +13,7 @@ logger.setLevel('INFO')
 
 
 class IdeenExpoManager:
-    robotManager: TWIPR_Manager
+    robotManager: BILBO_Manager
     gui: IdeenExpoGUI
     # simulation: BackgroundSimulation
 
@@ -29,7 +29,7 @@ class IdeenExpoManager:
 
     def __init__(self):
 
-        self.robotManager = TWIPR_Manager()
+        self.robotManager = BILBO_Manager()
         self.joystick_manager = JoystickManager()
 
         self.joystick_manager.registerCallback('new_joystick', self._joystickConnected_callback)

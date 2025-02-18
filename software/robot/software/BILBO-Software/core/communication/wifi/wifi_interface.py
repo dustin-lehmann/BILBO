@@ -1,7 +1,7 @@
 from core.communication.protocol import Protocol
 from core.communication.wifi.tcp.protocols.tcp_json_protocol import TCP_JSON_Protocol, TCP_JSON_Message
 from core.communication.wifi.wifi_connection import WIFI_Connection
-from core.communication.wifi.data_link import DataLink, Command, generateDataDict, generateCommandDict
+from core.communication.wifi.data_link import DataLink, Command, generateDataDict, generateCommandDict, CommandArgument
 from utils.callbacks import Callback, callback_handler, CallbackContainer
 from utils.events import event_handler
 from utils.logging_utils import Logger
@@ -43,7 +43,7 @@ class WIFI_Interface:
 
     connection: WIFI_Connection
 
-    streams: list[Stream]  # TODO: Could be removed. Not used
+    # streams: list[Stream]  # TODO: Could be removed. Not used
 
     connected: bool
 
@@ -65,12 +65,7 @@ class WIFI_Interface:
         self.connected = False
 
         self.callbacks = WIFI_Interface_Callbacks()
-        # --- WIFI ---
-        # Add the WI-FI connection with the pre-configured address and name
-        if interface_type == 'wifi':
-            self.connection = WIFI_Connection(id=device_id)
-        else:
-            raise Exception("Not implemented yet")
+        self.connection = WIFI_Connection(id=device_id)
 
         # Configure the WI-FI connection
         self.connection.callbacks.connected.register(self._connected_callback)
@@ -78,15 +73,17 @@ class WIFI_Interface:
         self.connection.callbacks.rx.register(self._rx_callback)
 
         # --- PARAMETERS ---
-        # Set up the parameters
-        self.data = {}  # TODO: Where to get the parameters from? Import them from a certain python file for this board?
+        # Set up the parameters (should be filled with DataLink objects or groups of DataLink objects)
+        self.data = {}  # TODO: Populate parameters for this board
 
         # --- COMMANDS ---
         self.commands = {}
+        # Register the getCommands command to return all registered commands with their descriptions.
+        self.addCommand("getCommands", self.getCommands, [], "Return the description of all registered commands and their arguments.")
 
-    # === METHODS ======================================================================================================
+    # === PUBLIC METHODS ================================================================================================
     def start(self):
-        logger.info("start WIFI Interface")
+        logger.debug("Start WIFI Interface")
         self.connection.start()
 
     # ------------------------------------------------------------------------------------------------------------------
@@ -94,11 +91,21 @@ class WIFI_Interface:
         self.connection.close()
 
     # ------------------------------------------------------------------------------------------------------------------
-    def sendEventMessage(self):
-        ...
+    def sendEventMessage(self, event: str, data: dict = None, request_id: int = None):
+        """
+        Helper function to send event messages back to the remote.
+        """
+        msg = TCP_JSON_Message()
+        msg.source = self.id
+        msg.address = ''
+        msg.type = 'event'
+        msg.data = {'event': event}
+        msg.data.update(data)
+        if request_id is not None:
+            msg.request_id = request_id
+        self._wifi_send(msg)
 
     # ------------------------------------------------------------------------------------------------------------------
-
     def sendStreamMessage(self, data):
         msg = TCP_JSON_Message()
         msg.source = self.id
@@ -122,11 +129,18 @@ class WIFI_Interface:
                 self.commands[command_identifier] = command
 
     # ------------------------------------------------------------------------------------------------------------------
-    def addCommand(self, identifier: str, callback: (callable, Callback), arguments: list[str], description: str):
+    def addCommand(self, identifier: str, callback: (callable, Callback), arguments: list[(str, CommandArgument)], description: str):
         self.commands[identifier] = Command(identifier=identifier, callback=callback, arguments=arguments,
                                             description=description)
 
-    # === PRIVATE METHODS ==============================================================================================
+    # ------------------------------------------------------------------------------------------------------------------
+    def getCommands(self):
+        """
+        Returns a dictionary description of all registered commands.
+        """
+        return generateCommandDict(self.commands)
+
+    # === PRIVATE METHODS =============================================================================================
     def _wifi_send(self, message):
         self.connection.send(message)
 
@@ -145,18 +159,12 @@ class WIFI_Interface:
 
     # ------------------------------------------------------------------------------------------------------------------
     def _rx_callback(self, message, *args, **kwargs):
-
         # Handle the message
         self._handleRxMessage(message)
 
     # ------------------------------------------------------------------------------------------------------------------
     def _handleRxMessage(self, message: TCP_JSON_Message):
-        # Make sure the message is of the correct type. If this is not the case, the communication channels are not
-        # configured correctly
-        # assert (isinstance(message, self.protocol.Message))
-        # # Check if the message has the correct command
-        # assert (message.type in self.protocol.allowed_types)
-        # Handle the message based on the issued command
+        # Handle the message based on its type
         if message.type == 'write':
             self._handler_writeMessage(message)
         elif message.type == 'read':
@@ -168,60 +176,182 @@ class WIFI_Interface:
 
     # ------------------------------------------------------------------------------------------------------------------
     def _handler_writeMessage(self, message: TCP_JSON_Message):
-        # Go over the entries in the data dictionary
+        """
+        Processes write messages by setting parameters. If errors occur (invalid parameter name,
+        value out of bounds, etc.) an event message or response is sent back.
+        """
+        errors = {}
 
-        raise NotImplementedError("Writing is not finished yet. Response is missing")
+        for entry, value in message.data.items():
+            if entry not in self.data:
+                logger.warning(f"Received parameter {entry}, which is not a valid entry.")
+                errors[entry] = "Invalid parameter"
+                continue
 
+            param = self.data[entry]
+            # Handle single parameter
+            if isinstance(param, DataLink):
+                try:
+                    if not param.set(value):
+                        errors[entry] = f"Failed to set parameter {entry}"
+                        logger.warning(f"Failed to set parameter {entry} to value {value}.")
+                    else:
+                        logger.debug(f"Set parameter {entry} to value {value}.")
+                except Exception as e:
+                    errors[entry] = str(e)
+                    logger.error(f"Exception setting parameter {entry}: {e}")
+            # Handle group of parameters (only one level supported)
+            elif isinstance(param, dict) and isinstance(value, dict):
+                for sub_entry, sub_value in value.items():
+                    if sub_entry not in param:
+                        logger.warning(f"Received parameter {entry}:{sub_entry}, which is not a valid entry.")
+                        errors[f"{entry}:{sub_entry}"] = "Invalid sub-parameter"
+                        continue
+                    sub_param = param[sub_entry]
+                    if not isinstance(sub_param, DataLink):
+                        logger.warning(f"Cannot set parameter {entry}:{sub_entry}: unsupported parameter structure.")
+                        errors[f"{entry}:{sub_entry}"] = "Invalid parameter structure"
+                        continue
+                    try:
+                        if not sub_param.set(sub_value):
+                            logger.warning(f"Failed to set parameter {entry}:{sub_entry} to value {sub_value}.")
+                            errors[f"{entry}:{sub_entry}"] = f"Failed to set parameter {sub_entry}"
+                        else:
+                            logger.debug(f"Set parameter {entry}:{sub_entry} to value {sub_value}.")
+                    except Exception as e:
+                        errors[f"{entry}:{sub_entry}"] = str(e)
+                        logger.error(f"Exception setting parameter {entry}:{sub_entry}: {e}")
+            else:
+                logger.warning(f"Parameter {entry} has unsupported structure.")
+                errors[entry] = "Unsupported parameter structure"
 
-        # for entry, value in message.data.items():
-        #
-        #     # Check if the entry is also in the parameters dict
-        #     if entry not in self.data:
-        #         logger.warning(f"Received parameter {entry}, which is not a valid entry.")
-        #         continue
-        #
-        #     # Check if the entry is a parameter or a dict (group of parameters).
-        #     # TODO: We only allow one level of grouping for now
-        #
-        #     # The entry is a parameter
-        #     if isinstance(self.data[entry], DataLink):
-        #         self.data[entry].set(value)
-        #         logger.debug(f"Set parameter {entry} to value {value}.")
-        #
-        #     # The entry is a group of parameters
-        #     elif isinstance(self.data[entry], dict) and isinstance(value, dict):
-        #         for sub_entry, sub_value in value.items():
-        #             if not sub_entry in self.data[entry]:
-        #                 logger.warning(f"Received parameter {entry}:{sub_entry}, which is not a valid entry.")
-        #                 continue
-        #             if not (isinstance(self.data[entry][sub_entry], DataLink)):
-        #                 logger.warning(f"Cannot set parameter {sub_entry}: Grouping level exceeds allowed level of: 1")
-        #             self.data[entry][sub_entry].set(sub_value)
-        #             logger.debug(f"Set parameter {entry}:{sub_entry} to value {sub_value}.")
-        #     else:
-        #         print("OH NOOO")
+        if message.request_response:
+            response_msg = TCP_JSON_Message()
+            response_msg.source = self.id
+            response_msg.address = ''
+            response_msg.type = 'response'
+            response_msg.request_id = message.id
+            response_msg.data = {"success": len(errors) == 0, "errors": errors}
+            self._wifi_send(response_msg)
+        elif errors:
+            # If no response is explicitly requested, still send an event for the errors.
+            self.sendEventMessage("write_error", {"errors": errors}, request_id=message.id)
 
     # ------------------------------------------------------------------------------------------------------------------
-    def _handler_readMessage(self, data):
-        logger.warning("Read messages are not implemented yet")
+    def _handler_readMessage(self, message: TCP_JSON_Message):
+        """
+        Processes read messages. If no specific parameters are provided, it returns all.
+        If a parameter (or group) is not found or an error occurs during retrieval,
+        an error is returned.
+        """
+        response = {}
+        errors = {}
+
+        # If no specific parameter is requested, read all parameters.
+        if not message.data:
+            for key, param in self.data.items():
+                if isinstance(param, DataLink):
+                    try:
+                        response[key] = param.get()
+                    except Exception as e:
+                        errors[key] = str(e)
+                        logger.error(f"Error reading parameter {key}: {e}")
+                elif isinstance(param, dict):
+                    response[key] = {}
+                    for subkey, sub_param in param.items():
+                        if isinstance(sub_param, DataLink):
+                            try:
+                                response[key][subkey] = sub_param.get()
+                            except Exception as e:
+                                errors[f"{key}:{subkey}"] = str(e)
+                                logger.error(f"Error reading parameter {key}:{subkey}: {e}")
+                        else:
+                            errors[f"{key}:{subkey}"] = "Invalid parameter structure"
+                else:
+                    errors[key] = "Unsupported parameter structure"
+        else:
+            # Determine the keys to read based on the type of message.data
+            if isinstance(message.data, dict):
+                keys_to_read = message.data.keys()
+            elif isinstance(message.data, list):
+                keys_to_read = message.data
+            else:
+                keys_to_read = [message.data]
+
+            for key in keys_to_read:
+                if key not in self.data:
+                    errors[key] = "Invalid parameter"
+                    logger.warning(f"Received read request for invalid parameter {key}.")
+                    continue
+                param = self.data[key]
+                if isinstance(param, DataLink):
+                    try:
+                        response[key] = param.get()
+                    except Exception as e:
+                        errors[key] = str(e)
+                        logger.error(f"Error reading parameter {key}: {e}")
+                elif isinstance(param, dict):
+                    response[key] = {}
+                    # If message.data is dict and provides a list of subkeys, use it; otherwise read all subkeys.
+                    subkeys = None
+                    if isinstance(message.data, dict) and isinstance(message.data.get(key, None), list):
+                        subkeys = message.data[key]
+                    if subkeys is None:
+                        for subkey, sub_param in param.items():
+                            if isinstance(sub_param, DataLink):
+                                try:
+                                    response[key][subkey] = sub_param.get()
+                                except Exception as e:
+                                    errors[f"{key}:{subkey}"] = str(e)
+                                    logger.error(f"Error reading parameter {key}:{subkey}: {e}")
+                            else:
+                                errors[f"{key}:{subkey}"] = "Invalid parameter structure"
+                    else:
+                        for subkey in subkeys:
+                            if subkey not in param:
+                                errors[f"{key}:{subkey}"] = "Invalid sub-parameter"
+                                logger.warning(f"Received read request for invalid sub-parameter {key}:{subkey}.")
+                                continue
+                            sub_param = param[subkey]
+                            if isinstance(sub_param, DataLink):
+                                try:
+                                    response[key][subkey] = sub_param.get()
+                                except Exception as e:
+                                    errors[f"{key}:{subkey}"] = str(e)
+                                    logger.error(f"Error reading parameter {key}:{subkey}: {e}")
+                            else:
+                                errors[f"{key}:{subkey}"] = "Invalid parameter structure"
+                else:
+                    errors[key] = "Unsupported parameter structure"
+                    logger.warning(f"Parameter {key} has unsupported structure.")
+
+        response_msg = TCP_JSON_Message()
+        response_msg.source = self.id
+        response_msg.address = ''
+        response_msg.type = 'response'
+        response_msg.request_id = message.id
+        response_msg.data = {"output": response, "errors": errors, "success": len(errors) == 0}
+        self._wifi_send(response_msg)
 
     # ------------------------------------------------------------------------------------------------------------------
     def _handler_functionMessage(self, message: TCP_JSON_Message):
         # Check for the function name
-
-        if not 'function' in message.data:
+        if 'function' not in message.data:
             logger.warning("Received function message without function name")
             return
 
         function_name = message.data['function']
 
         # Check if the function is in the commands
-        if not function_name in self.commands:
+        if function_name not in self.commands:
             logger.warning(f"Received function {function_name}, which is not a valid entry.")
+            self.sendEventMessage("function_error", {"error": f"Function {function_name} not found"}, request_id=message.id)
+            return
 
         # Check if 'input' is in the data
-        if not 'input' in message.data:
+        if 'input' not in message.data:
             logger.warning(f"Received function {function_name} without input")
+            self.sendEventMessage("function_error", {"error": f"Missing input for function {function_name}"}, request_id=message.id)
             return
 
         value = message.data['input']
@@ -238,7 +368,7 @@ class WIFI_Interface:
             error = str(e)
 
         if message.request_response is not None:
-            # This is more important than request ack and leads to a response message. The sender is requesting a response
+            # Send a response message since a response was requested.
             response_message = TCP_JSON_Message()
             response_message.address = ''
             response_message.source = ''
@@ -250,17 +380,12 @@ class WIFI_Interface:
 
             self._wifi_send(response_message)
 
-        else:
-            response_message = None
-
-
     # ------------------------------------------------------------------------------------------------------------------
     def _handlerEventMessage(self, message):
         if message.data['event'] == 'sync':
             for callback in self.callbacks.sync:
                 callback(message.data)
-
-        # TODO Add response if wanted
+        # TODO: Add response if needed
 
     # ------------------------------------------------------------------------------------------------------------------
     def _sendDeviceIdentification(self):

@@ -50,6 +50,7 @@ class CallbackContainer:
             self.callbacks.remove(cb)
 
     def call(self, *args, **kwargs):
+
         for callback in self.callbacks:
             callback(*args, **kwargs)
 

@@ -45,7 +45,7 @@ class FRODO_Application:
     _thread: threading.Thread
 
     # === CONSTRUCTOR ==================================================================================================
-    def __init__(self, enable_tracking: bool = True, plot_2d=True):
+    def __init__(self, enable_tracking: bool = True, start_webapp=True):
         self.manager = FrodoManager()
         self.manager.callbacks.new_robot.register(self._new_robot_callback)
         self.manager.callbacks.robot_disconnected.register(self._robot_disconnected_callback)
@@ -71,7 +71,7 @@ class FRODO_Application:
         self.soundsystem = SoundSystem(primary_engine='etts')
         self.soundsystem.start()
 
-        if plot_2d:
+        if start_webapp:
             self.plotter = FRODO_Web_Interface()
         else:
             self.plotter = None
@@ -245,11 +245,11 @@ class FRODO_Application:
 
 # ======================================================================================================================
 def start_frodo_application():
-    app = FRODO_Application(enable_tracking=True, plot_2d=True)
+    app = FRODO_Application(enable_tracking=True, start_webapp=True)
     app.init()
     app.start()
     while True:
-        time.sleep(100)
+        time.sleep(20)
 
 
 # ======================================================================================================================

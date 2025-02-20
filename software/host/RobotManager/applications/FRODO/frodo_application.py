@@ -244,6 +244,7 @@ class FRODO_Application:
         group_element = self.plotter.add_group(id='aruco_objects')
         aruco_objects = {}
         while not self._exit:
+            aruco_objects_copy = aruco_objects.copy()
             for agent in self.agents:
                 agent = self.agents[agent]
                 agent_element = self.plotter.get_element_by_id(f'/optitrack/{agent.id}')
@@ -257,17 +258,26 @@ class FRODO_Application:
                         d_psi = datum['psi']
                         global_tvec = rotate_vector(d_tvec, psi)
                         global_pos = [float(pos[0] + global_tvec[0]), float(pos[1] + global_tvec[1])]
+                        alt_id = "agent_" + id
                         if not id in aruco_objects:
                             aruco_objects[id] = {'element': None}
-                            aruco_objects["agent_" + id]['element'] = group_element.add_agent(id=id, position=global_pos, psi = d_psi, color=[1,0,0])
+                            
+                            aruco_objects[alt_id] = {'element': None}
+                            aruco_objects[alt_id]['element'] = group_element.add_agent(id=id, position=global_pos, psi = d_psi, color=[1,0,0])
                             aruco_objects[id]['element'] = group_element.add_point(id=id, x=global_pos[0], y=global_pos[1], color=[1,0,0])
                             group_element.add_line(agent.id + "to" + id, start=f"/optitrack/{agent.id}", end=aruco_objects[id]['element'])
-
                         else:
-                            aruco_objects["agent_" + id]['element'].position = global_pos
-                            aruco_objects["agent_" + id]['element'].psi = d_psi + psi - math.pi
+                            aruco_objects[alt_id]['element'].alpha = 1
+                            aruco_objects[alt_id]['element'].position = global_pos
+                            aruco_objects[alt_id]['element'].psi = d_psi + psi - math.pi
+                            aruco_objects[id]['element'].alpha = 1
                             aruco_objects[id]['element'].x = global_pos[0]
                             aruco_objects[id]['element'].y = global_pos[1]
+                            aruco_objects_copy.pop(id)
+            for not_visible in aruco_objects_copy:
+                aruco_objects_copy[not_visible]['element'].alpha = 0
+
+
 
             time.sleep(0.1)
 

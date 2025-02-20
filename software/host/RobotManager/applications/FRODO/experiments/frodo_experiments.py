@@ -146,6 +146,7 @@ class FRODO_ExperimentHandler:
                 logger.warning(f"Agent {agent} not known to Frodo Manager, skipping {agent} in experiment.")
                 continue
 
+            movements_since_last_repeat = []
             if self.config['movement'][agent]['mode'] == 'managed':
                 self.manager.robots[agent].setControlMode(3)
                 for idx in range(len(self.config['movement'][agent]['movements'])):
@@ -153,9 +154,15 @@ class FRODO_ExperimentHandler:
                     movement = self.config['movement'][agent]['movements'][str(idx)]
                     try:
                         if movement['description'] == 'wait':
+                            movements_since_last_repeat.append([0,0,movement['time_s']])
                             self.manager.robots[agent].addMovement(dphi=0, radius=0, time=movement['time_s'])
                         elif movement['description'] == 'move':
+                            movements_since_last_repeat.append([movement['psi'],movement['radius_mm'],movement['time_s']])
                             self.manager.robots[agent].addMovement(dphi=movement['psi'], radius=movement['radius_mm'],  time=movement['time_s'])
+                        elif movement['description'] == 'repeat':
+                            for i in range(movement['count']):
+                                for move in movements_since_last_repeat:
+                                    self.manager.robots[agent].addMovement(dphi=move[0], radius=move[1], time=move[2])
                         else:
                             logger.info(f"Unknown movement description, skipping {movement['description']} of {agent}")
                     except Exception as e:

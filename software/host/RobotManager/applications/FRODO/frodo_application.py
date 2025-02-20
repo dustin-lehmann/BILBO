@@ -21,6 +21,7 @@ from utils.logging_utils import Logger, setLoggerLevel
 import robots.frodo.frodo_definitions as frodo_definitions
 # import utils.orientation.plot_2d.dynamic.dynamic_2d_plotter as plotter
 import utils.orientation.plot_2d.dynamic.FRODO_Web_Interface as plotter
+from utils.orientation.orientation_2d import rotate_vector
 from utils.teleplot import sendValue
 from utils.time import PrecisionTimer
 
@@ -76,7 +77,7 @@ class FRODO_Application:
         else:
             self.plotter = None
 
-        # self._thread = threading.Thread(target=self._task, daemon=True)
+        self._thread = threading.Thread(target=self._update_plot, daemon=True)
 
         # self.timer = PrecisionTimer(timeout=0.1, repeat=True, callback=self.update)
 
@@ -95,6 +96,7 @@ class FRODO_Application:
     def start(self):
         self.manager.start()
         self.cli_gui.start()
+        self._thread.start()
 
         if self.plotter:
             self.plotter.start()
@@ -236,9 +238,38 @@ class FRODO_Application:
         self.plotter.add_video("FRODO 3", "frodo3", 5000, placeholder=False)
         self.plotter.add_video("FRODO 4", "frodo4", 5000, placeholder=False)
 
+
     # ------------------------------------------------------------------------------------------------------------------
     def _update_plot(self):
-        ...
+        group_element = self.plotter.add_group(id='aruco_objects')
+        aruco_objects = {}
+        while not self._exit:
+            for agent in self.agents:
+                agent = self.agents[agent]
+                agent_element = self.plotter.get_element_by_id(f'/optitrack/{agent.id}')
+                pos = agent_element.position
+                psi = agent_element.psi    
+                data = agent.robot.getData()
+                if data is not None:
+                    for datum in data['sensors']['aruco_measurements']:
+                        id = "marker" + str(datum['id']) 
+                        d_tvec = datum['translation_vec']
+                        d_psi = datum['psi']
+                        global_tvec = rotate_vector(d_tvec, psi)
+                        global_pos = [float(pos[0] + global_tvec[0]), float(pos[1] + global_tvec[1])]
+                        if not id in aruco_objects:
+                            aruco_objects[id] = {'element': None}
+                            aruco_objects["agent_" + id]['element'] = group_element.add_agent(id=id, position=global_pos, psi = d_psi, color=[1,0,0])
+                            aruco_objects[id]['element'] = group_element.add_point(id=id, x=global_pos[0], y=global_pos[1], color=[1,0,0])
+                            group_element.add_line(agent.id + "to" + id, start=f"/optitrack/{agent.id}", end=aruco_objects[id]['element'])
+
+                        else:
+                            aruco_objects["agent_" + id]['element'].position = global_pos
+                            aruco_objects["agent_" + id]['element'].psi = d_psi + psi - math.pi
+                            aruco_objects[id]['element'].x = global_pos[0]
+                            aruco_objects[id]['element'].y = global_pos[1]
+
+            time.sleep(0.1)
 
     # ------------------------------------------------------------------------------------------------------------------
 

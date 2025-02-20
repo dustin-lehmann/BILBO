@@ -77,6 +77,8 @@ class TrackedVisionRobot(TrackedAsset):
 
         self.psi = psi
 
+        self.tracking_valid = True
+
 
 # ======================================================================================================================
 @dataclasses.dataclass
@@ -115,6 +117,8 @@ class TrackedOrigin(TrackedAsset):
 
         _, y_axis = fix_coordinate_axes(self.x_axis, y_axis_raw, 'x')
         self.y_axis = y_axis
+
+        self.tracking_valid = True
 
         pass
 

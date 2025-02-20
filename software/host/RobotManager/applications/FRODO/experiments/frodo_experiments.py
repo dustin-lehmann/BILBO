@@ -1,6 +1,9 @@
+import datetime
 import json
-import time
+import os
 import qmt
+import time
+
 
 from applications.FRODO.tracker.assets import TrackedAsset, TrackedVisionRobot, vision_robot_application_assets, \
     TrackedOrigin
@@ -9,7 +12,9 @@ from extensions.cli.src.cli import Command, CommandSet, CommandArgument
 from robots.frodo.frodo_manager import FrodoManager
 from utils.logging_utils import Logger
 
-FILE_PATH = "./applications/FRODO/experiments/input/"
+INPUT_FILE_PATH = "./applications/FRODO/experiments/input/"
+OUTPUT_FILE_PATH = "./applications/FRODO/experiments/output/"
+
 POSITION_TOLERANCE = 0.10   #[m]
 PSI_TOLERANCE = 0.17    #[rad]; ~10°
 
@@ -19,17 +24,22 @@ logger.setLevel('INFO')
 
 
 class FRODO_ExperimentHandler:
-    manager : FrodoManager
-    tracker : Tracker
+    manager                 : FrodoManager
+    tracker                 : Tracker
 
-    config : json
-    agents : list
-    movements: list
+    config                  : json
+    agents                  : list
+    movements               : list
+
+    experiment_name         : str
+    output_directory_path   : str
 
     def __init__(self, manager : FrodoManager, tracker : Tracker):
         self.manager = manager
         self.tracker = tracker
         self.agents = []
+        self.output_directory_path = None
+        self.experiment_name = None
 
     def checkConsistency(self):
         check_passed = True
@@ -90,9 +100,17 @@ class FRODO_ExperimentHandler:
                     asset_type = "statics"
 
                 if asset_str not in self.tracker.assets:
-                    logger.info(f"Required asset {asset_str} not found in Tracker!")
-                    return False
+                    logger.warning(f"Required asset {asset_str} not part of OptiTrack Data!")
+                    check_passed = False
+                    continue
+                
                 asset = self.tracker.assets[asset_str]
+
+                if not asset.tracking_valid:
+                    logger.warning(f"Required asset {asset_str} not visible to OptiTrack!")
+                    check_passed = False
+                    continue
+
                 asset_pos = asset.position.tolist()
 
                 required_pos = self.config['requirements'][asset_type][asset_str]['position']
@@ -149,19 +167,63 @@ class FRODO_ExperimentHandler:
             else:
                 self.manager.robots[agent].setControlMode(1)
 
+    def createOutputFolder(self):
+        '''Create output folder for experiment.\n
+        If already exists: add -index'''
+        if not os.path.exists(OUTPUT_FILE_PATH):
+            logger.warning(f"Experiment output folder does not exist. \n \
+                            Please check if {OUTPUT_FILE_PATH} is at the right location!")
+        experiment_name = self.config['id']
+        if not os.path.exists(OUTPUT_FILE_PATH + experiment_name):
+            self.experiment_name = experiment_name
+            self.output_directory_path = OUTPUT_FILE_PATH + experiment_name
+            os.mkdir(self.output_directory_path)
+            logger.info(f"Created output directory: {OUTPUT_FILE_PATH + experiment_name}")
+        else:
+            i = 1
+            while True:
+                if not os.path.exists(OUTPUT_FILE_PATH + experiment_name + "-" + str(i)):
+                    break
+                i += 1
+            self.experiment_name = experiment_name + "-" + str(i)
+            self.output_directory_path = OUTPUT_FILE_PATH + self.experiment_name
+            os.mkdir(self.output_directory_path)
+            logger.info(f"Repition of Experiment {experiment_name}\n \
+                        Created output directory: {OUTPUT_FILE_PATH + self.experiment_name}")
+        with open(self.output_directory_path + "/" + self.experiment_name + ".json", "w") as file:
+            self.config['date'] = datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
+            json.dump(self.config, file, indent=4)
+
     def startMovements(self):
         for agent in self.agents:
             if agent in self.manager.robots:
                 self.manager.robots[agent].startNavigationMovement()
 
+    def pauseMovements(self):
+        for agent in self.agents:
+            if agent in self.manager.robots:
+                self.manager.robots[agent].pauseNavigationMovement()
+
+    def continueMovements(self):
+        for agent in self.agents:
+            if agent in self.manager.robots:
+                self.manager.robots[agent].continueNavigationMovement()
+
+    def stopExperiment(self):
+        for agent in self.agents:
+            if agent in self.manager.robots:
+                self.manager.robots[agent].stopNavigationMovement()
+                self.manager.robots[agent].clearNavigationMovementQueue()
+
 
     def startExperiment(self, file_name : str):
-        with open(FILE_PATH + file_name, 'r') as file:
+        self.agents = []
+        with open(INPUT_FILE_PATH + file_name, 'r') as file:
             self.config = json.load(file)
         if self.checkConsistency() and self.checkRequiredPositions():
             self.loadMovements()
+            self.createOutputFolder()
             self.startMovements()
-        self.agents = []
         logger.info("Finished Experiment Setup, starting!")
 
 
@@ -170,15 +232,44 @@ class FRODO_Experiments_CLI(CommandSet):
     def __init__(self, experiment_handler: FRODO_ExperimentHandler):
         self.experiment_handler = experiment_handler
         start_experiment_command = Command(name='start', description='Start a new experiment',
-                                           callback=self.start_experiment,
+                                           callback=self.startExperiment,
                                            arguments=[CommandArgument(name='file',
                                                                       short_name='f',
                                                                       type=str)],
                                                                       allow_positionals=True)
 
-        super().__init__(name='experiments', commands=[start_experiment_command])
+        pause_experiment_command = Command(name='pause', description='Pause the running experiment',
+                                           callback=self.pauseExperiment,
+                                           arguments=[]
+                                           )
 
-    def start_experiment(self, file):
+        continue_experiment_command = Command(name='continue', description='Continue the paused experiment',
+                                           callback=self.continueExperiment,
+                                           arguments=[]
+                                           )
+
+
+        stop_experiment_command = Command(name='stop', description='Stop the running experiment',
+                                           callback=self.stopExperiment,
+                                           arguments=[]
+                                           )
+
+
+        super().__init__(name='experiments', commands=[start_experiment_command,
+                                                       pause_experiment_command,
+                                                       continue_experiment_command,
+                                                       stop_experiment_command])
+
+    def startExperiment(self, file):
         self.experiment_handler.startExperiment(file)
-
         return f"Start Experiment {file}"
+
+    def pauseExperiment(self):
+        self.experiment_handler.pauseMovements()
+
+    def continueExperiment(self):
+        self.experiment_handler.continueMovements()
+
+    def stopExperiment(self):
+        self.experiment_handler.stopExperiment()
+

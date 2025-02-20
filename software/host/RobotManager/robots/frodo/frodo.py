@@ -63,6 +63,18 @@ class Frodo:
         self.device.function(function='stopNavigationMovement', data={})
 
     # ------------------------------------------------------------------------------------------------------------------
+    def pauseNavigationMovement(self):
+        self.device.function(function='pauseNavigationMovement', data={})
+
+    # ------------------------------------------------------------------------------------------------------------------
+    def continueNavigationMovement(self):
+        self.device.function(function='continueNavigationMovement', data={})
+
+    # ------------------------------------------------------------------------------------------------------------------
+    def clearNavigationMovementQueue(self):
+        self.device.function(function='clearNavigationMovementQueue', data={})
+
+    # ------------------------------------------------------------------------------------------------------------------
     def setControlMode(self, mode):
         self.device.function(function='setControlMode', data={'mode': mode})
 

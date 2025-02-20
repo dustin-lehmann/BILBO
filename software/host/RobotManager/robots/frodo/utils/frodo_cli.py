@@ -70,6 +70,15 @@ class FRODO_CommandSet(CommandSet):
         stop_nav_movement = Command(name='stopNavMov',
                                         callback=self.frodo.stopNavigationMovement)
         
+        pause_nav_movement = Command(name='pauseNavMov',
+                                        callback=self.frodo.pauseNavigationMovement)
+
+        continue_nav_movement = Command(name='continueNavMov',
+                                        callback=self.frodo.continueNavigationMovement)
+
+        clear_nav_movement_q = Command(name='clearMovQ',
+                                        callback=self.frodo.clearNavigationMovementQueue)
+        
         set_control_mode = Command(name='setMod',
                                 callback=self.frodo.setControlMode,
                                 arguments=[
@@ -87,7 +96,10 @@ class FRODO_CommandSet(CommandSet):
                                                          read_data_command,
                                                          add_nav_movement,
                                                          start_nav_movement,
+                                                         pause_nav_movement,
+                                                         continue_nav_movement,
                                                          stop_nav_movement,
+                                                         clear_nav_movement_q,
                                                          set_control_mode])
 
     # ------------------------------------------------------------------------------------------------------------------

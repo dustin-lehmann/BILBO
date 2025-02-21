@@ -26,31 +26,29 @@
  * ```
  */
 declare module '$env/static/private' {
-	export const HOMEBREW_PREFIX: string;
+	export const OMF_CONFIG: string;
 	export const COMMAND_MODE: string;
-	export const INFOPATH: string;
+	export const LC_CTYPE: string;
 	export const SHELL: string;
 	export const __CFBundleIdentifier: string;
 	export const TMPDIR: string;
+	export const LC_ALL: string;
+	export const OMF_PATH: string;
 	export const DEBUG_COLORS: string;
 	export const COLORTERM: string;
+	export const npm_config_color: string;
 	export const HOME: string;
 	export const FORCE_COLOR: string;
-	export const HOMEBREW_REPOSITORY: string;
+	export const SSH_AUTH_SOCK: string;
 	export const PATH: string;
-	export const STM32_PRG_PATH: string;
+	export const XPC_SERVICE_NAME: string;
 	export const LOGNAME: string;
+	export const USER: string;
 	export const XPC_FLAGS: string;
 	export const __CF_USER_TEXT_ENCODING: string;
 	export const MOCHA_COLORS: string;
-	export const LC_CTYPE: string;
-	export const npm_config_color: string;
-	export const SSH_AUTH_SOCK: string;
-	export const OLDPWD: string;
-	export const XPC_SERVICE_NAME: string;
-	export const USER: string;
-	export const HOMEBREW_CELLAR: string;
 	export const PWD: string;
+	export const LANG: string;
 	export const NODE_ENV: string;
 }
 
@@ -83,31 +81,29 @@ declare module '$env/static/public' {
  */
 declare module '$env/dynamic/private' {
 	export const env: {
-		HOMEBREW_PREFIX: string;
+		OMF_CONFIG: string;
 		COMMAND_MODE: string;
-		INFOPATH: string;
+		LC_CTYPE: string;
 		SHELL: string;
 		__CFBundleIdentifier: string;
 		TMPDIR: string;
+		LC_ALL: string;
+		OMF_PATH: string;
 		DEBUG_COLORS: string;
 		COLORTERM: string;
+		npm_config_color: string;
 		HOME: string;
 		FORCE_COLOR: string;
-		HOMEBREW_REPOSITORY: string;
+		SSH_AUTH_SOCK: string;
 		PATH: string;
-		STM32_PRG_PATH: string;
+		XPC_SERVICE_NAME: string;
 		LOGNAME: string;
+		USER: string;
 		XPC_FLAGS: string;
 		__CF_USER_TEXT_ENCODING: string;
 		MOCHA_COLORS: string;
-		LC_CTYPE: string;
-		npm_config_color: string;
-		SSH_AUTH_SOCK: string;
-		OLDPWD: string;
-		XPC_SERVICE_NAME: string;
-		USER: string;
-		HOMEBREW_CELLAR: string;
 		PWD: string;
+		LANG: string;
 		NODE_ENV: string;
 		[key: `PUBLIC_${string}`]: undefined;
 		[key: `${string}`]: string | undefined;

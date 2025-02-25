@@ -88,12 +88,13 @@
       position: relative;
       flex-shrink: 0;
     }
-    /* Responsive table font size and nowrap for teleplot container */
+    /* Responsive table font size, reduced padding, and allow text wrapping for teleplot container */
     #teleplotContainer table,
     #teleplotContainer th,
     #teleplotContainer td {
-        font-size: var(--table-font-size, 14px);
-        white-space: nowrap;
+        font-size: var(--table-font-size, 16px);
+        white-space: normal;
+        padding: 2px 4px;
     }
     /* Objects list on right: takes the remaining space and is not resizable */
     #objectsList {
@@ -334,11 +335,15 @@
     <h2 v-if="metaTitle">{{ metaTitle }}</h2>
     <!-- Main container: Map, Teleplot and objects list -->
     <div id="main-container">
-      <div id="mapContainer" ref="mapContainer" :style="{ width: canvasWidth + 'px', height: canvasHeight + 'px' }">
+      <div id="mapContainer" ref="mapContainer" :style="mapContainerStyle">
         <!-- The canvas for drawing -->
         <canvas ref="canvas"></canvas>
         <!-- Settings toggle button -->
         <button id="settings-toggle" @click="showSettings = !showSettings">Settings</button>
+        <!-- New Enlarge/Revert Button -->
+        <button id="enlarge-map" @click="toggleMapSize" style="position: absolute; top: 10px; right: 10px; z-index: 100; padding: 5px 10px; font-size: 14px; cursor: pointer;">
+          {{ mapEnlarged ? "Revert" : "Enlarge" }}
+        </button>
       </div>
       <!-- Removed the inline width binding below so manual resizing is not overridden -->
       <div id="teleplotContainer" ref="teleplotContainer"
@@ -617,10 +622,7 @@
                   </thead>
                   <tbody>
                     <tr v-for="(agent, id) in groupData.agents" :key="id" :class="{ selected: isSelected('agent', id) }">
-                      <td @click.stop="$emit('select-element', 'agent', id, fullPath)">
-                        <span :style="{ background: agent.color ? formatColor(agent.color) : 'black', display: 'inline-block', width: '10px', height: '10px', borderRadius: '50%', marginRight: '4px' }"></span>
-                        {{ id }}
-                      </td>
+                      <td @click.stop="$emit('select-element', 'agent', id, fullPath)"><span :style="{ background: agent.color ? formatColor(agent.color) : 'black', display: 'inline-block', width: '10px', height: '10px', borderRadius: '50%', marginRight: '4px' }"></span>{{ id }}</td>
                       <td>{{ formatNumber(agent.position[0]) }}</td>
                       <td>{{ formatNumber(agent.position[1]) }}</td>
                       <td>{{ formatNumber(agent.psi) }}</td>
@@ -660,10 +662,7 @@
                   </thead>
                   <tbody>
                     <tr v-for="(agent, id) in groupData.visionagents" :key="id" :class="{ selected: isSelected('visionagent', id) }">
-                      <td @click.stop="$emit('select-element', 'visionagent', id, fullPath)">
-                        <span :style="{ background: agent.color ? formatColor(agent.color) : 'black', display: 'inline-block', width: '10px', height: '10px', borderRadius: '50%', marginRight: '4px' }"></span>
-                        {{ id }}
-                      </td>
+                      <td @click.stop="$emit('select-element', 'visionagent', id, fullPath)"><span :style="{ background: agent.color ? formatColor(agent.color) : 'black', display: 'inline-block', width: '10px', height: '10px', borderRadius: '50%', marginRight: '4px' }"></span>{{ id }}</td>
                       <td>{{ formatNumber(agent.position[0]) }}</td>
                       <td>{{ formatNumber(agent.position[1]) }}</td>
                       <td>{{ formatNumber(agent.psi) }}</td>
@@ -702,10 +701,7 @@
                   </thead>
                   <tbody>
                     <tr v-for="(pt, id) in groupData.points" :key="id" :class="{ selected: isSelected('point', id) }">
-                      <td @click.stop="$emit('select-element', 'point', id, fullPath)">
-                        <span :style="{ background: pt.color ? formatColor(pt.color) : 'black', display: 'inline-block', width: '10px', height: '10px', borderRadius: '50%', marginRight: '4px' }"></span>
-                        {{ id }}
-                      </td>
+                      <td @click.stop="$emit('select-element', 'point', id, fullPath)"><span :style="{ background: pt.color ? formatColor(pt.color) : 'black', display: 'inline-block', width: '10px', height: '10px', borderRadius: '50%', marginRight: '4px' }"></span>{{ id }}</td>
                       <td>{{ formatNumber(pt.x) }}</td>
                       <td>{{ formatNumber(pt.y) }}</td>
                       <td><input type="checkbox" v-model="pt.visible" @change.stop="persistCheckboxState('points', id, 'visible', pt.visible)"></td>
@@ -1400,6 +1396,7 @@
         }
         function updateCanvasSize() {
           if (!mapContainer.value) return;
+          if (mapEnlarged.value) return; // Do not update if map is enlarged
           canvasWidth.value = mapContainer.value.clientWidth;
           canvasHeight.value = mapContainer.value.clientHeight;
           localStorage.setItem('canvasWidth', canvasWidth.value);
@@ -1413,6 +1410,90 @@
           canvas.value.width = canvasWidth.value;
           canvas.value.height = canvasHeight.value;
         }
+
+
+        // New computed property for map container style based on enlargement state
+        // const mapContainerStyle = computed(() => {
+        //   if (mapEnlarged.value) {
+        //     return { width: window.innerWidth + "px", height: window.innerHeight + "px" };
+        //   } else {
+        //     return { width: canvasWidth.value + "px", height: canvasHeight.value + "px" };
+        //   }
+        // });
+        // New reactive variable for enlarged state and storage for original size
+        const mapEnlarged = ref(false);
+        const originalMapWidth = ref(null);
+        const originalMapHeight = ref(null);
+        const originalScale = ref(null);
+
+       function toggleMapSize() {
+  // Force manual offset mode
+  useManualOffset.value = true;
+
+  if (!mapEnlarged.value) {
+    // Calculate the current canvas center in canvas coordinates
+    const centerCanvas = { x: canvasWidth.value / 2, y: canvasHeight.value / 2 };
+    // Compute the current world coordinate at the canvas center.
+    // Inverse of:
+    //   canvasX = ((x + offsetX) + worldWidth/2) * scale
+    //   canvasY = (worldHeight/2 - (y + offsetY)) * scale
+    const currentCenterWorld = {
+      x: centerCanvas.x / scale.value - worldWidth.value / 2 - manualOffsetX.value,
+      y: worldHeight.value / 2 - centerCanvas.y / scale.value - manualOffsetY.value
+    };
+
+    // Store original dimensions and scale
+    originalMapWidth.value = canvasWidth.value;
+    originalMapHeight.value = canvasHeight.value;
+    originalScale.value = scale.value;
+
+    // Enlarge the canvas dimensions to fill the window
+    canvasWidth.value = window.innerWidth;
+    canvasHeight.value = window.innerHeight * 0.8;
+    canvas.value.width = canvasWidth.value;
+    canvas.value.height = canvasHeight.value;
+
+    // Recompute the scale so that the world width stays consistent.
+    // currentWorldWidth is derived from the original canvas size and scale.
+    const currentWorldWidth = originalMapWidth.value / originalScale.value;
+    scale.value = canvasWidth.value / currentWorldWidth;
+
+    // Now calculate the new offset so that the new canvas center maps to the same world coordinate.
+    const newCenterCanvas = { x: canvasWidth.value / 2, y: canvasHeight.value / 2 };
+    manualOffsetX.value =
+      newCenterCanvas.x / scale.value - worldWidth.value / 2 - currentCenterWorld.x;
+    manualOffsetY.value =
+      worldHeight.value / 2 - newCenterCanvas.y / scale.value - currentCenterWorld.y;
+
+    mapEnlarged.value = true;
+    redraw();
+  } else {
+    // Revert to original dimensions, scale, and offsets.
+    canvasWidth.value = originalMapWidth.value;
+    canvasHeight.value = originalMapHeight.value;
+    canvas.value.width = canvasWidth.value;
+    canvas.value.height = canvasHeight.value;
+    scale.value = originalScale.value;
+    mapEnlarged.value = false;
+    redraw();
+  }
+}
+
+
+const mapContainerStyle = computed(() => {
+          if (mapEnlarged.value) {
+            return {
+              width: window.innerWidth + "px",
+              height: (window.innerHeight * 0.8) + "px" // 80% of window height
+            };
+          } else {
+            return {
+              width: canvasWidth.value + "px",
+              height: canvasHeight.value + "px"
+            };
+          }
+        });
+
         function findInGroup(objName, grp) {
           if (!grp) return null;
           if (grp.points && grp.points[objName] && grp.points[objName].visible !== false) {
@@ -2129,7 +2210,7 @@
                 teleplotWidth.value = entry.contentRect.width;
                 localStorage.setItem('teleplotWidth', teleplotWidth.value);
                 // Adjust table font size responsively (min 8px, max 12px)
-                const newFontSize = Math.max(8, Math.min(12, entry.contentRect.width / 80));
+                const newFontSize = Math.max(8, Math.min(12, entry.contentRect.width / 80))*1.5;
                 teleplotContainer.value.style.setProperty('--table-font-size', newFontSize + "px");
               }
             });
@@ -2433,7 +2514,7 @@
           globalTextSize,
           globalTrailSize,
           globalDefaultSize,
-          globalLineThickness,
+           globalLineThickness,
           manualOffsetX,
           manualOffsetY,
           manualOffsetXRounded,
@@ -2476,10 +2557,17 @@
           teleplotUrl,
           teleplotContainer,
           teleplotWidth,
-          showTeleplotIframe
+          showTeleplotIframe,
+          toggleMapSize,
+          mapContainerStyle,
+          mapEnlarged
         };
       }
     }).mount('#app');
   </script>
 </body>
 </html>
+
+
+
+

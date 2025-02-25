@@ -1,8 +1,5 @@
 import time
 
-from applications.ric_demo.simulation.scioi_pysim.scioi_py_core.visualization.babylon_new.babylon import \
-    BabylonVisualization
-
 
 def main():
     babylon = BabylonVisualization(show='chromium')

@@ -79,21 +79,18 @@ def getInterfaceIP(interface_name):
 def getLocalAndUsbIPs():
     """
     Retrieves all local IPs starting with '192.' and USB IPs starting with '169.'.
-
     :return: A dictionary with two keys: 'local_ips' and 'usb_ips',
              each containing a list of corresponding IP addresses.
     """
     local_ips = []
     usb_ips = []
     try:
-        if os.name == 'nt':
-            hostname = socket.gethostname()
-            ip_addresses = socket.gethostbyname_ex(f"{hostname}.local")[2]
-        elif os.name == 'posix':
-            hostname = socket.gethostname()
-        else:
-            raise NotImplementedError(f"Unsupported operating system: {os.name}")
-        ip_addresses = socket.gethostbyname_ex(f"{hostname}.local")[2]
+        hostname = socket.gethostname()
+        # Only append '.local' if there's no dot in the hostname (i.e., no domain suffix)
+        if '.' not in hostname:
+            hostname = f"{hostname}.local"
+
+        ip_addresses = socket.gethostbyname_ex(hostname)[2]
         local_ips = [ip for ip in ip_addresses if ip.startswith("192.")]
         usb_ips = [ip for ip in ip_addresses if ip.startswith("169.")]
     except Exception as e:

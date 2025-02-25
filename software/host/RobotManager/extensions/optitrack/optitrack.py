@@ -181,13 +181,21 @@ class OptiTrack:
             marker_error = rbd['marker_error']
 
             # Extract the raw marker positions
-            msd = data['marker_sets'][rigid_body_description.name]
+            if rigid_body_name in data['marker_sets']:
+                msd = data['marker_sets'][rigid_body_description.name]
+            else:
+                msd = None
 
             markers = {}
             markers_raw = {}
             for marker_id, marker_description in rigid_body_description.markers.items():
                 marker_index = marker_id
-                marker_position_raw = numpy.asarray(list(msd[marker_index]))
+
+                if msd:
+                    marker_position_raw = numpy.asarray(list(msd[marker_index]))
+                else:
+                    marker_position_raw = None
+
                 marker_position_solved = self._calculate_rigid_body_marker(rigid_body_position=position,
                                                                            rigid_body_orientation=orientation,
                                                                            marker_offset=marker_description.offset)

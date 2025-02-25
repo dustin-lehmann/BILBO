@@ -206,7 +206,7 @@ class FRODO_Application:
 
     # ------------------------------------------------------------------------------------------------------------------
     def _tracker_description_received(self, assets):
-
+        self.logger.info(f'Tracker Description Received')
         if self.plotter is not None:
             optitrack_group: Group = self.plotter.get_element_by_id('optitrack')
             for id, asset in assets.items():
@@ -238,7 +238,6 @@ class FRODO_Application:
         self.plotter.add_video("FRODO 3", "frodo3", 5000, placeholder=False)
         self.plotter.add_video("FRODO 4", "frodo4", 5000, placeholder=False)
 
-
     # ------------------------------------------------------------------------------------------------------------------
     def _update_plot(self):
         group_element = self.plotter.add_group(id='aruco_objects')
@@ -249,11 +248,11 @@ class FRODO_Application:
                 agent = self.agents[agent]
                 agent_element = self.plotter.get_element_by_id(f'/optitrack/{agent.id}')
                 pos = agent_element.position
-                psi = agent_element.psi    
+                psi = agent_element.psi
                 data = agent.robot.getData()
                 if data is not None:
                     for datum in data['sensors']['aruco_measurements']:
-                        id = "marker" + str(datum['id']) 
+                        id = "marker" + str(datum['id'])
                         d_tvec = datum['translation_vec']
                         d_psi = datum['psi']
                         global_tvec = rotate_vector(d_tvec, psi)
@@ -261,11 +260,14 @@ class FRODO_Application:
                         alt_id = "agent_" + id
                         if not id in aruco_objects:
                             aruco_objects[id] = {'element': None}
-                            
+
                             aruco_objects[alt_id] = {'element': None}
-                            aruco_objects[alt_id]['element'] = group_element.add_agent(id=id, position=global_pos, psi = d_psi, color=[1,0,0])
-                            aruco_objects[id]['element'] = group_element.add_point(id=id, x=global_pos[0], y=global_pos[1], color=[1,0,0])
-                            group_element.add_line(agent.id + "to" + id, start=f"/optitrack/{agent.id}", end=aruco_objects[id]['element'])
+                            aruco_objects[alt_id]['element'] = group_element.add_agent(id=id, position=global_pos,
+                                                                                       psi=d_psi, color=[1, 0, 0])
+                            aruco_objects[id]['element'] = group_element.add_point(id=id, x=global_pos[0],
+                                                                                   y=global_pos[1], color=[1, 0, 0])
+                            group_element.add_line(agent.id + "to" + id, start=agent_element,
+                                                   end=aruco_objects[id]['element'])
                         else:
                             aruco_objects[alt_id]['element'].alpha = 1
                             aruco_objects[alt_id]['element'].position = global_pos
@@ -276,8 +278,6 @@ class FRODO_Application:
                             aruco_objects_copy.pop(id)
             for not_visible in aruco_objects_copy:
                 aruco_objects_copy[not_visible]['element'].alpha = 0
-
-
 
             time.sleep(0.1)
 

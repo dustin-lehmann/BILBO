@@ -1,9 +1,0 @@
-/Users/lehmann/work_dir/work_dir/projects/testbed/robots/BILBO/software/robot/firmware/libraries/stm32_core_cpp_lib/sensors/AMT22/amt22.cpp:12:8:double wrapToPi(double)	16	static
-/Users/lehmann/work_dir/work_dir/projects/testbed/robots/BILBO/software/robot/firmware/libraries/stm32_core_cpp_lib/sensors/AMT22/amt22.cpp:19:1:AMT22::AMT22()	16	static
-/Users/lehmann/work_dir/work_dir/projects/testbed/robots/BILBO/software/robot/firmware/libraries/stm32_core_cpp_lib/sensors/AMT22/amt22.cpp:23:6:void AMT22::init(AMT22_config_t)	24	static
-/Users/lehmann/work_dir/work_dir/projects/testbed/robots/BILBO/software/robot/firmware/libraries/stm32_core_cpp_lib/sensors/AMT22/amt22.cpp:30:6:void AMT22::start()	16	static
-/Users/lehmann/work_dir/work_dir/projects/testbed/robots/BILBO/software/robot/firmware/libraries/stm32_core_cpp_lib/sensors/AMT22/amt22.cpp:34:6:void AMT22::reset()	24	static
-/Users/lehmann/work_dir/work_dir/projects/testbed/robots/BILBO/software/robot/firmware/libraries/stm32_core_cpp_lib/sensors/AMT22/amt22.cpp:41:6:void AMT22::update()	16	static
-/Users/lehmann/work_dir/work_dir/projects/testbed/robots/BILBO/software/robot/firmware/libraries/stm32_core_cpp_lib/sensors/AMT22/amt22.cpp:45:6:void AMT22::readPosition()	24	static
-/Users/lehmann/work_dir/work_dir/projects/testbed/robots/BILBO/software/robot/firmware/libraries/stm32_core_cpp_lib/sensors/AMT22/amt22.cpp:56:6:void AMT22::setZeroPoint()	24	static
-/Users/lehmann/work_dir/work_dir/projects/testbed/robots/BILBO/software/robot/firmware/libraries/stm32_core_cpp_lib/sensors/AMT22/amt22.cpp:63:7:float AMT22::getPosition()	16	static

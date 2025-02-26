@@ -1,2 +1,0 @@
-/Users/lehmann/work_dir/work_dir/projects/testbed/robots/BILBO/software/robot/firmware/libraries/stm32_core_cpp_lib/hardware/BUTTON/core_hardware_button.cpp:12:1:core_hardware_Button::core_hardware_Button(GPIO_TypeDef*, uint16_t)	1
-/Users/lehmann/work_dir/work_dir/projects/testbed/robots/BILBO/software/robot/firmware/libraries/stm32_core_cpp_lib/hardware/BUTTON/core_hardware_button.cpp:18:9:uint8_t core_hardware_Button::check()	1

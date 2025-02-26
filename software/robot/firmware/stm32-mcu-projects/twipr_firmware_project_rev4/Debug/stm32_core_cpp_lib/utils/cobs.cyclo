@@ -1,3 +1,0 @@
-/Users/lehmann/work_dir/work_dir/projects/testbed/robots/BILBO/software/robot/firmware/libraries/stm32_core_cpp_lib/utils/cobs.cpp:20:9:uint8_t cobsEncode(uint8_t*, uint8_t, uint8_t*)	7
-/Users/lehmann/work_dir/work_dir/projects/testbed/robots/BILBO/software/robot/firmware/libraries/stm32_core_cpp_lib/utils/cobs.cpp:51:9:uint8_t cobsDecode(uint8_t*, uint8_t, uint8_t*)	5
-/Users/lehmann/work_dir/work_dir/projects/testbed/robots/BILBO/software/robot/firmware/libraries/stm32_core_cpp_lib/utils/cobs.cpp:76:9:uint8_t cobsDecodeInPlace(uint8_t*, uint8_t)	2

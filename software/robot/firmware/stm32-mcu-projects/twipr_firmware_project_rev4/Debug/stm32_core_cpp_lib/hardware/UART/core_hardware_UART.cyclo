@@ -1,3 +1,0 @@
-/Users/lehmann/work_dir/work_dir/projects/testbed/robots/BILBO/software/robot/firmware/libraries/stm32_core_cpp_lib/hardware/UART/../../utils/core_utils.h:24:13:void nop()	1
-/Users/lehmann/work_dir/work_dir/projects/testbed/robots/BILBO/software/robot/firmware/libraries/stm32_core_cpp_lib/hardware/UART/core_hardware_UART.cpp:22:6:void uartRxCmpltDMA_callback(UART_HandleTypeDef*, uint16_t)	5
-/Users/lehmann/work_dir/work_dir/projects/testbed/robots/BILBO/software/robot/firmware/libraries/stm32_core_cpp_lib/hardware/UART/core_hardware_UART.cpp:33:6:void UART_Reset(UART_HandleTypeDef*)	11

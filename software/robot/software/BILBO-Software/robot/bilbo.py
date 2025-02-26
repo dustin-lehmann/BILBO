@@ -229,7 +229,6 @@ class BILBO:
     def _sendFirstSampleMessage(self):
         self.logger.info(f"BILBO is running")
         self.logger.info(f"Battery Voltage: {self.logging.sample.sensors.power.bat_voltage:.2f} V")
-
         self._first_sample_user_message_sent = True
 
     # ------------------------------------------------------------------------------------------------------------------

@@ -55,7 +55,7 @@ class BILBO_Serial_Communication:
         return self.interface.read(address, module, type)
 
     # ------------------------------------------------------------------------------------------------------------------
-    def executeFunction(self, address, module: int = 0, data=None, input_type:CType=None, output_type=None, timeout=1):
+    def executeFunction(self, address, module: int = 0, data=None, input_type:CType=None, output_type=None, timeout=0.01):
         return self.interface.function(address, module, data, input_type, output_type, timeout)
 
     # ------------------------------------------------------------------------------------------------------------------

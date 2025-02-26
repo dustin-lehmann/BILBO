@@ -14,11 +14,12 @@ class FRODO_Sample:
 
 @dataclasses.dataclass
 class FRODO_State:
-    x: float
-    y: float
-    psi: float
-    v: float
-    psi_dot: float
+    x: float = 0
+    y: float = 0
+    psi: float = 0
+    v: float = 0
+    psi_dot: float = 0
+
 
 @dataclasses.dataclass
 class FRODO_Aruco_Measurements:

@@ -1,3 +1,0 @@
-/Users/lehmann/work_dir/work_dir/projects/testbed/robots/BILBO/software/robot/firmware/libraries/stm32_core_cpp_lib/memory/eeprom/core_memory_eeprom.cpp:10:1:core_memory_EEPROM::core_memory_EEPROM(I2C_HandleTypeDef*, uint8_t)	1
-/Users/lehmann/work_dir/work_dir/projects/testbed/robots/BILBO/software/robot/firmware/libraries/stm32_core_cpp_lib/memory/eeprom/core_memory_eeprom.cpp:16:6:void core_memory_EEPROM::write(uint16_t, uint8_t*, uint16_t)	1
-/Users/lehmann/work_dir/work_dir/projects/testbed/robots/BILBO/software/robot/firmware/libraries/stm32_core_cpp_lib/memory/eeprom/core_memory_eeprom.cpp:24:6:void core_memory_EEPROM::read(uint16_t, uint8_t*, uint16_t)	1

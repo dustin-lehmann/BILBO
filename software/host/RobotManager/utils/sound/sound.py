@@ -460,7 +460,7 @@ if __name__ == "__main__":
         playSound('warning')
         speak("BILBO 1 disconnected")
         # speak("Experiment with ID f-e-x-1-2-3-4 finished")
-        # playSound('startup')
+        # playSound('startup')¥
         time.sleep(10)
     finally:
         sound_system.close()

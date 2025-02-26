@@ -254,10 +254,13 @@ class Device:
             'data': data
         }
 
-        # --- FIX: Add request before sending ---
+        request = None
+
         if request_response:
             request = self._addRequest(message_id=msg.id)
+
         self.send(msg)
+
         if request_response:
             if request.event.wait(timeout=timeout):
                 self._readRequests.pop(request.id)
@@ -319,8 +322,7 @@ class Device:
             read_request = self._readRequests[message.request_id]
             read_request.event.set(resource=message.data)
         else:
-            logger.warning(f"Got a response for an unknown request: {message.request_id}")
-            return
+            logger.debug(f"Got a response for an unknown request: {message.request_id}")
 
     # ------------------------------------------------------------------------------------------------------------------
     def _handleIdentificationEvent(self, data):
@@ -352,7 +354,7 @@ class Device:
             callback(self)
 
     # ------------------------------------------------------------------------------------------------------------------
-    def _addRequest(self, message_id):
+    def _addRequest(self, message_id) ->Request:
         read_request = Request()
         read_request.id = message_id
         self._readRequests[read_request.id] = read_request

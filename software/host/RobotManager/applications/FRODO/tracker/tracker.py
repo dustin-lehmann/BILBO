@@ -45,7 +45,7 @@ class Tracker:
 
         self.assets = assets
 
-        self.optitrack = OptiTrack(server_address="bree")
+        self.optitrack = OptiTrack(server_address="bree.lan")
 
         self.event_listener_sample = EventListener(self.optitrack.events.sample, callback=self._optitrack_new_sample_callback)
 

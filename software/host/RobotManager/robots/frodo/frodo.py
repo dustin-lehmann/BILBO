@@ -38,7 +38,7 @@ class Frodo:
         self.device.function(function='beep', data={'frequency': 250, 'time_ms': 250, 'repeats': 1})
 
     # ------------------------------------------------------------------------------------------------------------------
-    def getData(self, timeout=0.5):
+    def getData(self, timeout=0.05):
         try:
             data = self.device.function(function='getData',
                                         data=None,

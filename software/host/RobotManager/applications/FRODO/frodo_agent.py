@@ -9,12 +9,26 @@ from utils.time import PrecisionTimer
 
 
 @dataclasses.dataclass
+class FRODO_Sample:
+    ...
+
+@dataclasses.dataclass
 class FRODO_State:
     x: float
     y: float
     psi: float
     v: float
     psi_dot: float
+
+@dataclasses.dataclass
+class FRODO_Aruco_Measurements:
+    ...
+
+@dataclasses.dataclass
+class FRODO_Measurement_Data:
+    ...
+    aruco_measurements: list[FRODO_Aruco_Measurements]
+
 
 
 # ======================================================================================================================
@@ -23,6 +37,7 @@ class FRODO_Agent:
 
     state_estimated: FRODO_State
     state_true: FRODO_State
+    measurements: FRODO_Measurement_Data
 
     robot: Frodo
 
@@ -35,6 +50,7 @@ class FRODO_Agent:
         self.robot = robot
         self.state_estimated = FRODO_State(0, 0, 0, 0, 0)
         self.state_true = FRODO_State(0, 0, 0, 0, 0)
+        self.measurements = FRODO_Measurement_Data(aruco_measurements=[])
         self._last_update_time = 0
 
         # self.read_timer = PrecisionTimer(timeout=1, repeat=True, callback=self.readRobotData)

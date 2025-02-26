@@ -12,3 +12,19 @@ frodo_colors = {
 }
 
 
+markers = {
+    'frodo1': {
+        'type': 'robot',
+        'front': 10,
+        'back': 11
+    },
+    'static1': {
+        'type': 'static',
+        'front': 0,
+        'back': 1
+    }
+}
+
+
+def get_frodo_from_marker(marker_id) -> (str, float):
+    ...

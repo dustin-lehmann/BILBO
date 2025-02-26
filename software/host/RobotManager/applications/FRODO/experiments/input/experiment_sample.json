@@ -8,12 +8,12 @@
         "tracked_assets": ["frodo1", "frodo2", "static1"],
         "agents": {
             "frodo1": {
-                "position": [0.5, 0],
+                "position": [0, 0.6],
                 "psi": 3.141
             }, 
             "frodo2": {
-                "position": [-0.5, 0],
-                "psi": 0
+                "position": [0.6, 0],
+                "psi": 1.575
             }
         },
         "statics": {
@@ -84,64 +84,8 @@
                     "time_s" : -1
                 },
                 "4": {
-                    "description": "wait",
-                    "time_s": 1.03
-                },
-                "5": {
-                    "description": "move",
-                    "radius_mm": 202,
-                    "psi": 1.572,
-                    "time_s": -1
-                },
-                "6": {
-                    "description": "wait",
-                    "time_s": 1.04
-                },
-                "7": {
-                    "description": "move",
-                    "radius_mm": 502,
-                    "psi": 0.0,
-                    "time_s" : -1
-                },
-                "8": {
-                    "description": "wait",
-                    "time_s": 1.05
-                },
-                "9": {
-                    "description": "move",
-                    "radius_mm": 203,
-                    "psi": 1.572,
-                    "time_s": -1
-                },
-                "10": {
-                    "description": "wait",
-                    "time_s": 1.06
-                },
-                "11": {
-                    "description": "move",
-                    "radius_mm": 503,
-                    "psi": 0.0,
-                    "time_s" : -1
-                },
-                "12": {
-                    "description": "wait",
-                    "time_s": 1.07
-                },
-                "13": {
-                    "description": "move",
-                    "radius_mm": 204,
-                    "psi": 1.572,
-                    "time_s": -1
-                },
-                "14": {
-                    "description": "wait",
-                    "time_s": 1.08
-                },
-                "15": {
-                    "description": "move",
-                    "radius_mm": 504,
-                    "psi": 0.0,
-                    "time_s" : -1
+                    "description": "repeat",
+                    "count": 4
                 }
             }
         },
@@ -169,64 +113,8 @@
                     "time_s" : -1
                 },
                 "4": {
-                    "description": "wait",
-                    "time_s": 1.03
-                },
-                "5": {
-                    "description": "move",
-                    "radius_mm": 202,
-                    "psi": 1.572,
-                    "time_s": -1
-                },
-                "6": {
-                    "description": "wait",
-                    "time_s": 1.04
-                },
-                "7": {
-                    "description": "move",
-                    "radius_mm": 502,
-                    "psi": 0.0,
-                    "time_s" : -1
-                },
-                "8": {
-                    "description": "wait",
-                    "time_s": 1.05
-                },
-                "9": {
-                    "description": "move",
-                    "radius_mm": 203,
-                    "psi": 1.572,
-                    "time_s": -1
-                },
-                "10": {
-                    "description": "wait",
-                    "time_s": 1.06
-                },
-                "11": {
-                    "description": "move",
-                    "radius_mm": 503,
-                    "psi": 0.0,
-                    "time_s" : -1
-                },
-                "12": {
-                    "description": "wait",
-                    "time_s": 1.07
-                },
-                "13": {
-                    "description": "move",
-                    "radius_mm": 204,
-                    "psi": 1.572,
-                    "time_s": -1
-                },
-                "14": {
-                    "description": "wait",
-                    "time_s": 1.08
-                },
-                "15": {
-                    "description": "move",
-                    "radius_mm": 504,
-                    "psi": 0.0,
-                    "time_s" : -1
+                    "description": "repeat",
+                    "count": 4
                 }
             }
         }

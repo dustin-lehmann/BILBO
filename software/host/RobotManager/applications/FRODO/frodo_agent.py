@@ -7,7 +7,7 @@ from robots.frodo.frodo import Frodo
 from utils.teleplot import sendValue
 from utils.time import PrecisionTimer
 
-
+''''''
 @dataclasses.dataclass
 class FRODO_Sample:
     ...
@@ -22,12 +22,23 @@ class FRODO_State:
 
 @dataclasses.dataclass
 class FRODO_Aruco_Measurements:
-    ...
+    marker_id: int = -1
+    translation_vec: list[float] = dataclasses.field(default_factory=list)
+    tvec_uncertainty: float = 0.0
+    psi: float = 0.0
+    psi_uncertainty: float = 0.0
 
 @dataclasses.dataclass
 class FRODO_Measurement_Data:
-    ...
-    aruco_measurements: list[FRODO_Aruco_Measurements]
+    id: str = "none"
+    time: float = 0.0
+
+    speed_l: float = 0.0
+    speed_r: float = 0.0
+    rpm_l: float = 0.0
+    rpm_r: float = 0.0
+
+    aruco_measurements: list[FRODO_Aruco_Measurements] = dataclasses.field(default_factory=list)
 
 
 
@@ -50,7 +61,7 @@ class FRODO_Agent:
         self.robot = robot
         self.state_estimated = FRODO_State(0, 0, 0, 0, 0)
         self.state_true = FRODO_State(0, 0, 0, 0, 0)
-        self.measurements = FRODO_Measurement_Data(aruco_measurements=[])
+        self.measurements = FRODO_Measurement_Data()
         self._last_update_time = 0
 
         # self.read_timer = PrecisionTimer(timeout=1, repeat=True, callback=self.readRobotData)
@@ -64,7 +75,21 @@ class FRODO_Agent:
     def readRobotData(self):
         data = self.robot.getData()
         if data is not None:
-            ...
+            self.measurements.id = data['general']['id']
+            self.measurements.time = data['general']['time']
+
+            self.measurements.speed_l = data['sensors']['speed_left']
+            self.measurements.speed_r = data['sensors']['speed_right']
+            self.measurements.rpm_l = data['sensors']['rpm_left']
+            self.measurements.rpm_r = data['sensors']['rpm_right']
+
+            self.measurements.aruco_measurements = []
+            for measurement in data['sensors']['aruco_measurements']:
+                tmp = FRODO_Aruco_Measurements(marker_id=measurement['id'], 
+                                               translation_vec=measurement['translation_vec'], tvec_uncertainty=measurement['tvec_uncertainty'], 
+                                               psi=measurement['psi'], psi_uncertainty=measurement['psi_uncertainty']
+                                               )
+                self.measurements.aruco_measurements.append(tmp)
         else:
             print(f"Robot {self.id} data: None")
 

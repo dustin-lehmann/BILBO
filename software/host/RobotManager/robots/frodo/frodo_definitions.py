@@ -1,4 +1,5 @@
 import enum
+import math
 
 frodo_ids = ['frodo1', 'frodo2', 'frodo3', 'frodo4']
 FRODO_USER_NAME = 'admin'
@@ -15,8 +16,13 @@ frodo_colors = {
 markers = {
     'frodo1': {
         'type': 'robot',
-        'front': 10,
-        'back': 11
+        'front': 12,
+        'back': 13
+    },
+    'frodo2': {
+        'type': 'robot',
+        'front': 14,
+        'back': 15
     },
     'static1': {
         'type': 'static',
@@ -26,5 +32,11 @@ markers = {
 }
 
 
-def get_frodo_from_marker(marker_id) -> (str, float):
-    ...
+def get_title_from_marker(marker_id) -> (str, float):
+    for key, marker in markers.items():
+        if marker['front'] == marker_id:
+            return key, 0.0
+        elif marker['back'] == marker_id:
+            return key, math.pi
+        
+    return None, 0.0

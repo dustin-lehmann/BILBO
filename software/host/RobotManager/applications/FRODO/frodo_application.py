@@ -1,22 +1,27 @@
 import math
+import qmt
 import random
 import threading
 import time
 
+
 from applications.FRODO.experiments.frodo_experiments import FRODO_ExperimentHandler, FRODO_Experiments_CLI
-from applications.FRODO.frodo_agent import FRODO_Agent
+from applications.FRODO.frodo_agent import FRODO_Agent, FRODO_Measurement_Data, FRODO_Aruco_Measurements
 from applications.FRODO.tracker.assets import TrackedVisionRobot, TrackedAsset
 from applications.FRODO.tracker.tracker import Tracker
 from extensions.cli.cli_gui import CLI_GUI_Server
 from extensions.cli.src.cli import Command, CommandSet, CommandArgument
 from robots.frodo.frodo import Frodo
+from robots.frodo.frodo_definitions import get_title_from_marker
 from robots.frodo.frodo_manager import FrodoManager
 from robots.frodo.utils.frodo_cli import FRODO_CommandSet
 from robots.frodo.utils.frodo_manager_cli import FrodoManager_Commands
+from utils.callbacks import Callback
 from utils.exit import ExitHandler
 from utils.orientation.plot_2d.dynamic.FRODO_Web_Interface import FRODO_Web_Interface, Group
 from utils.sound.sound import playSound, SoundSystem
 from utils.sound.sound import speak
+from utils.thread_worker import ThreadWorker, WorkerPool
 from utils.logging_utils import Logger, setLoggerLevel
 import robots.frodo.frodo_definitions as frodo_definitions
 # import utils.orientation.plot_2d.dynamic.dynamic_2d_plotter as plotter
@@ -37,6 +42,8 @@ class FRODO_Application:
     tracker: (Tracker, None)
     cli_gui: CLI_GUI_Server
 
+    read_worker_pool: WorkerPool
+
     experiment_handler: FRODO_ExperimentHandler
 
     plotter: (FRODO_Web_Interface, None)
@@ -52,6 +59,7 @@ class FRODO_Application:
         self.manager.callbacks.robot_disconnected.register(self._robot_disconnected_callback)
 
         self.agents = {}
+        self.read_worker_pool = None
 
         if enable_tracking:
             self.tracker = Tracker()
@@ -238,56 +246,81 @@ class FRODO_Application:
         self.plotter.add_video("FRODO 3", "frodo3", 5000, placeholder=False)
         self.plotter.add_video("FRODO 4", "frodo4", 5000, placeholder=False)
 
+    def _plot_aruco_measurement(self, agent_key, agent_pos_global, agent_psi_global, measurement: FRODO_Aruco_Measurements, 
+                                group_element, agent_element, aruco_objects_dict):
+        
+        marker_agent_name, additional_psi = get_title_from_marker(measurement.marker_id)
+        if marker_agent_name is None:
+            return None, None, None
+
+        id = marker_agent_name + "BY" + agent_key
+        agent_id = "a" + id
+        line_id = "l" + id
+        circle_id = "c" + id
+
+
+        global_marker_tvec = rotate_vector(measurement.translation_vec, agent_psi_global)
+        global_marker_pos = [float(agent_pos_global[0] + global_marker_tvec[0]), float(agent_pos_global[1] + global_marker_tvec[1])]
+
+        global_marker_psi = qmt.wrapToPi(agent_psi_global + measurement.psi + additional_psi +  math.pi)
+
+        '''check if marker was seen earlier'''
+        if not agent_id in aruco_objects_dict:
+
+            '''Add aruco_marker to known markers'''
+            aruco_objects_dict[agent_id] = {'element': None}
+            aruco_objects_dict[agent_id]['element'] = group_element.add_agent(id=agent_id, position=global_marker_pos,
+                                                                        psi=global_marker_psi, color=[1, 0, 0])
+            
+            aruco_objects_dict[line_id] = {'element': None}
+            aruco_objects_dict[line_id]['element'] = group_element.add_line(line_id, start=agent_element,
+                                    end=aruco_objects_dict[agent_id]['element'])
+            
+            aruco_objects_dict[circle_id] = {'element': None}
+            aruco_objects_dict[circle_id]['element'] = group_element.add_circle(id=circle_id, mid=global_marker_pos, diameter=measurement.tvec_uncertainty)
+            return None, None, None
+
+        else:
+            '''marker was seen earlier, update position'''
+            aruco_objects_dict[agent_id]['element'].position = global_marker_pos
+            aruco_objects_dict[agent_id]['element'].psi = global_marker_psi
+
+            aruco_objects_dict[circle_id]['element'].mid = global_marker_pos
+            aruco_objects_dict[circle_id]['element'].diameter = measurement.tvec_uncertainty
+
+
+            return agent_id, circle_id, line_id
+
+            
+
     def _aruco_marker_plotting(self, group_element, aruco_objects_dict):
         aruco_objects_copy = aruco_objects_dict.copy()
         '''copy of aruco_objects_dict to check if a marker is still visible'''
 
         '''loop through all connected agents'''
-        for agent in self.agents:
-            agent = self.agents[agent]
+        for key, agent in self.agents.items():
             agent_element = self.plotter.get_element_by_id(f'/optitrack/{agent.id}')
             pos = agent_element.position
             psi = agent_element.psi
-            data = agent.robot.getData()
+            measurements = agent.measurements.aruco_measurements
             
-            '''get measurement data'''
-            if data is not None:
-                for datum in data['sensors']['aruco_measurements']:
-                    id = "marker" + str(datum['id'])
-                    d_tvec = datum['translation_vec']
-                    d_psi = datum['psi']
-                    global_tvec = rotate_vector(d_tvec, psi)
-                    global_pos = [float(pos[0] + global_tvec[0]), float(pos[1] + global_tvec[1])]
-                    alt_id = "agent_" + id
-
-                    '''check if marker was seen earlier'''
-                    if not id in aruco_objects_dict:
-                        '''Add aruco_marker to known markers'''
-                        aruco_objects_dict[id] = {'element': None}
-
-                        aruco_objects_dict[alt_id] = {'element': None}
-                        aruco_objects_dict[alt_id]['element'] = group_element.add_agent(id=id, position=global_pos,
-                                                                                    psi=d_psi, color=[1, 0, 0])
-                        aruco_objects_dict[id]['element'] = group_element.add_point(id=id, x=global_pos[0],
-                                                                                y=global_pos[1], color=[1, 0, 0])
-                        group_element.add_line(agent.id + "to" + id, start=agent_element,
-                                                end=aruco_objects_dict[id]['element'])
-                    
-                    else:
-                        '''marker was seen earlier, set alpha to 1 to make it visible and update position'''
-                        aruco_objects_dict[alt_id]['element'].alpha = 1
-                        aruco_objects_dict[alt_id]['element'].position = global_pos
-                        aruco_objects_dict[alt_id]['element'].psi = d_psi + psi - math.pi
-                        aruco_objects_dict[id]['element'].alpha = 1
-                        aruco_objects_dict[id]['element'].x = global_pos[0]
-                        aruco_objects_dict[id]['element'].y = global_pos[1]
-                        '''pop marker from dict copy to make clear that it has been seen'''
+            '''loop through all aruco measurements'''
+            for measurement in measurements:
+                ids = self._plot_aruco_measurement(agent_key=key, 
+                                                        agent_pos_global=pos,
+                                                        agent_psi_global=psi,
+                                                        measurement=measurement,
+                                                        group_element=group_element,
+                                                        agent_element=agent_element,
+                                                        aruco_objects_dict=aruco_objects_dict)
+                for id in ids:
+                    if id is not None:
                         aruco_objects_copy.pop(id)
 
         for not_visible in aruco_objects_copy:
-            '''set alpha to 0 for all markers, that were not actively seen in this iteration'''
-            aruco_objects_copy[not_visible]['element'].alpha = 0
-
+            '''remove all agents and points not seen this iteration'''
+            aruco_objects_dict.pop(not_visible)
+            group_element.remove_element_by_id(f'/{not_visible}')
 
     # ------------------------------------------------------------------------------------------------------------------
     def _update_plot(self):
@@ -297,10 +330,34 @@ class FRODO_Application:
         '''Dictionary containing all sensed Markers'''
 
         while not self._exit:
+            self._read_agents(0.1)
             self._aruco_marker_plotting(group_element=group_element, aruco_objects_dict=aruco_objects)
-            time.sleep(0.1)
+            time.sleep(0.2)
+    
+    
+    # ------------------------------------------------------------------------------------------------------------------
+    def _read_agents(self, timeout):
+        
+        if self.read_worker_pool == None or len(self.read_worker_pool.workers) != len(self.agents):
+            self._set_agent_read_pool()    
+        else:
+            self.read_worker_pool.reset()
+        
+        self.read_worker_pool.start()
+        results = self.read_worker_pool.wait(timeout=timeout)
+
+        if not all(results):
+            self.logger.warning(f"Read Agents: Not all workers finished successfully: {results}")
+            self.logger.warning(f"Errors: {self.read_worker_pool.errors}")
+
 
     # ------------------------------------------------------------------------------------------------------------------
+    def _set_agent_read_pool(self):
+        workers = []
+        for key, agent in self.agents.items():
+            workers.append(ThreadWorker(start=False, function=Callback(function=agent.readRobotData)))
+        pool = WorkerPool(workers)
+        self.read_worker_pool = pool
 
 
 # ======================================================================================================================

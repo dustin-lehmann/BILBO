@@ -44,10 +44,16 @@ class CallbackContainer:
 
     def remove(self, callback):
         if isinstance(callback, Callback):
-            self.callbacks.remove(callback)
+            try:
+                self.callbacks.remove(callback)
+            except ValueError:
+                ...
         elif callable(callback):
-            cb = next(cb for cb in self.callbacks if cb.function == callback)
-            self.callbacks.remove(cb)
+            try:
+                cb = next(cb for cb in self.callbacks if cb.function == callback)
+                self.callbacks.remove(cb)
+            except Exception:
+                ...
 
     def call(self, *args, **kwargs):
 

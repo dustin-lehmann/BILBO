@@ -30,11 +30,12 @@ class ThreadWorker:
         self.event = ConditionEvent()
         self.success = False
         self.running = False
-        self._thread = threading.Thread(target=self._execute, daemon=True)
+        self._thread = None
         if start:
-            self._thread.start()
+            self.start()
 
     def start(self):
+        self._thread = threading.Thread(target=self._execute, daemon=True)
         self._thread.start()
 
     def wait(self, timeout=None):
@@ -99,6 +100,17 @@ class WorkerPool:
 
         self.running = True
         self.event.set()
+
+    def reset(self):
+        self.worker_finished = []
+        self.data = []
+        self.errors = []
+
+        for i, worker in enumerate(self.workers):
+            worker.completion_function.remove(self._worker_callback)
+            worker.error_function.remove(self._worker_error_callback)
+
+        # self.event.release()
 
     def wait(self, timeout=1):
         if self.event.wait_for(lambda: all(self.worker_finished), timeout=timeout):

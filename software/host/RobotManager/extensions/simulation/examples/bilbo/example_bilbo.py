@@ -27,7 +27,7 @@ class TestAgent(BILBO_DynamicAgent):
     def input_function(self):
         ...
         forward = -2 * (self.keys.keys['UP'] - self.keys.keys['DOWN'])
-        turn = -2 * (self.keys.keys['LEFT'] - self.keys.keys['RIGHT'])
+        turn = -1 * (self.keys.keys['LEFT'] - self.keys.keys['RIGHT'])
         self.input = [forward + turn, forward - turn]
 
     def output_function(self):

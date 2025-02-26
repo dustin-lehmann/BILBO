@@ -129,7 +129,6 @@ class WorkerPool:
     def _worker_callback(self, id, output, *args, **kwargs):
         with self.event:
             self.worker_finished[id] = True
-            print(f"Worker {id} finished with data {self.workers[id].get_data()}")
             self.data[id] = self.workers[id].get_data()
             if all(self.worker_finished):
                 self.run_time = time.time() - self._start_time

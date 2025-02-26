@@ -238,47 +238,66 @@ class FRODO_Application:
         self.plotter.add_video("FRODO 3", "frodo3", 5000, placeholder=False)
         self.plotter.add_video("FRODO 4", "frodo4", 5000, placeholder=False)
 
+    def _aruco_marker_plotting(self, group_element, aruco_objects_dict):
+        aruco_objects_copy = aruco_objects_dict.copy()
+        '''copy of aruco_objects_dict to check if a marker is still visible'''
+
+        '''loop through all connected agents'''
+        for agent in self.agents:
+            agent = self.agents[agent]
+            agent_element = self.plotter.get_element_by_id(f'/optitrack/{agent.id}')
+            pos = agent_element.position
+            psi = agent_element.psi
+            data = agent.robot.getData()
+            
+            '''get measurement data'''
+            if data is not None:
+                for datum in data['sensors']['aruco_measurements']:
+                    id = "marker" + str(datum['id'])
+                    d_tvec = datum['translation_vec']
+                    d_psi = datum['psi']
+                    global_tvec = rotate_vector(d_tvec, psi)
+                    global_pos = [float(pos[0] + global_tvec[0]), float(pos[1] + global_tvec[1])]
+                    alt_id = "agent_" + id
+
+                    '''check if marker was seen earlier'''
+                    if not id in aruco_objects_dict:
+                        '''Add aruco_marker to known markers'''
+                        aruco_objects_dict[id] = {'element': None}
+
+                        aruco_objects_dict[alt_id] = {'element': None}
+                        aruco_objects_dict[alt_id]['element'] = group_element.add_agent(id=id, position=global_pos,
+                                                                                    psi=d_psi, color=[1, 0, 0])
+                        aruco_objects_dict[id]['element'] = group_element.add_point(id=id, x=global_pos[0],
+                                                                                y=global_pos[1], color=[1, 0, 0])
+                        group_element.add_line(agent.id + "to" + id, start=agent_element,
+                                                end=aruco_objects_dict[id]['element'])
+                    
+                    else:
+                        '''marker was seen earlier, set alpha to 1 to make it visible and update position'''
+                        aruco_objects_dict[alt_id]['element'].alpha = 1
+                        aruco_objects_dict[alt_id]['element'].position = global_pos
+                        aruco_objects_dict[alt_id]['element'].psi = d_psi + psi - math.pi
+                        aruco_objects_dict[id]['element'].alpha = 1
+                        aruco_objects_dict[id]['element'].x = global_pos[0]
+                        aruco_objects_dict[id]['element'].y = global_pos[1]
+                        '''pop marker from dict copy to make clear that it has been seen'''
+                        aruco_objects_copy.pop(id)
+
+        for not_visible in aruco_objects_copy:
+            '''set alpha to 0 for all markers, that were not actively seen in this iteration'''
+            aruco_objects_copy[not_visible]['element'].alpha = 0
+
+
     # ------------------------------------------------------------------------------------------------------------------
     def _update_plot(self):
         group_element = self.plotter.add_group(id='aruco_objects')
+        '''Aruco Object Group Element'''
         aruco_objects = {}
+        '''Dictionary containing all sensed Markers'''
+
         while not self._exit:
-            aruco_objects_copy = aruco_objects.copy()
-            for agent in self.agents:
-                agent = self.agents[agent]
-                agent_element = self.plotter.get_element_by_id(f'/optitrack/{agent.id}')
-                pos = agent_element.position
-                psi = agent_element.psi
-                data = agent.robot.getData()
-                if data is not None:
-                    for datum in data['sensors']['aruco_measurements']:
-                        id = "marker" + str(datum['id'])
-                        d_tvec = datum['translation_vec']
-                        d_psi = datum['psi']
-                        global_tvec = rotate_vector(d_tvec, psi)
-                        global_pos = [float(pos[0] + global_tvec[0]), float(pos[1] + global_tvec[1])]
-                        alt_id = "agent_" + id
-                        if not id in aruco_objects:
-                            aruco_objects[id] = {'element': None}
-
-                            aruco_objects[alt_id] = {'element': None}
-                            aruco_objects[alt_id]['element'] = group_element.add_agent(id=id, position=global_pos,
-                                                                                       psi=d_psi, color=[1, 0, 0])
-                            aruco_objects[id]['element'] = group_element.add_point(id=id, x=global_pos[0],
-                                                                                   y=global_pos[1], color=[1, 0, 0])
-                            group_element.add_line(agent.id + "to" + id, start=agent_element,
-                                                   end=aruco_objects[id]['element'])
-                        else:
-                            aruco_objects[alt_id]['element'].alpha = 1
-                            aruco_objects[alt_id]['element'].position = global_pos
-                            aruco_objects[alt_id]['element'].psi = d_psi + psi - math.pi
-                            aruco_objects[id]['element'].alpha = 1
-                            aruco_objects[id]['element'].x = global_pos[0]
-                            aruco_objects[id]['element'].y = global_pos[1]
-                            aruco_objects_copy.pop(id)
-            for not_visible in aruco_objects_copy:
-                aruco_objects_copy[not_visible]['element'].alpha = 0
-
+            self._aruco_marker_plotting(group_element=group_element, aruco_objects_dict=aruco_objects)
             time.sleep(0.1)
 
     # ------------------------------------------------------------------------------------------------------------------

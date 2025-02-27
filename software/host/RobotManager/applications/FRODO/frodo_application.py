@@ -70,7 +70,7 @@ class FRODO_Application:
             self.tracker.callbacks.new_sample.register(self._tracker_new_sample)
             self.tracker.callbacks.description_received.register(self._tracker_description_received)
 
-        self.experiment_handler = FRODO_ExperimentHandler(self.manager, self.tracker)
+        self.experiment_handler = FRODO_ExperimentHandler(self.manager, self.tracker, self.agents)
 
         self.cli_gui = CLI_GUI_Server(address='localhost', port=8090)
 

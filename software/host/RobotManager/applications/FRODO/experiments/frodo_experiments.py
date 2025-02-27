@@ -2,14 +2,16 @@ import datetime
 import json
 import os
 import qmt
+import re
 import time
 
-
+from applications.FRODO.frodo_agent import FRODO_Agent, FRODO_Measurement_Data, FRODO_Aruco_Measurements
 from applications.FRODO.tracker.assets import TrackedAsset, TrackedVisionRobot, vision_robot_application_assets, \
     TrackedOrigin
 from applications.FRODO.tracker.tracker import Tracker
 from extensions.cli.src.cli import Command, CommandSet, CommandArgument
 from robots.frodo.frodo_manager import FrodoManager
+from robots.frodo.frodo_definitions import get_title_from_marker
 from utils.logging_utils import Logger
 
 INPUT_FILE_PATH = "./applications/FRODO/experiments/input/"
@@ -22,24 +24,125 @@ PSI_TOLERANCE = 0.17    #[rad]; ~10°
 logger = Logger('EXPERIMENT_HANDLER')
 logger.setLevel('INFO')
 
+ALL_VISIBLES = ['frodo1', 'frodo2', 'frodo3', 'frodo4', 'static1']
+STD_VAL = -42.0
+
+def create_experiment_data_dict():
+    '''create a dictionary with empty values for the experiment progress logging
+    \nsee sample_step_data.py for structure example'''
+
+    data_dict = {}
+    for asset in ALL_VISIBLES:
+        
+        data_dict[asset] = {}
+        
+        data_dict[asset]['optitrack'] = {}
+        data_dict[asset]['optitrack']['valid'] = False
+        data_dict[asset]['optitrack']['position'] = [STD_VAL, STD_VAL]
+        data_dict[asset]['optitrack']['psi'] = STD_VAL
+
+        if "static" not in asset:
+            data_dict[asset]['agent'] = {}
+            data_dict[asset]['agent']['valid'] = False
+            data_dict[asset]['agent']['position'] = [STD_VAL, STD_VAL]
+            data_dict[asset]['agent']['psi'] = STD_VAL
+            data_dict[asset]['agent']['uncertainty'] = STD_VAL
+
+            data_dict[asset]['measurement'] = {}
+
+            for measured_asset in ALL_VISIBLES:
+
+                data_dict[asset]['measurement'][measured_asset] = {}
+                data_dict[asset]['measurement'][measured_asset]['visible'] = False
+                data_dict[asset]['measurement'][measured_asset]['tvec'] = [STD_VAL, STD_VAL]
+                data_dict[asset]['measurement'][measured_asset]['psi'] = STD_VAL
+                data_dict[asset]['measurement'][measured_asset]['tvec_uncertainty'] = STD_VAL
+                data_dict[asset]['measurement'][measured_asset]['psi_uncertainty'] = STD_VAL
+
+    return data_dict
+        
+        
+
 
 class FRODO_ExperimentHandler:
     manager                 : FrodoManager
     tracker                 : Tracker
+    agents                  : dict[str, FRODO_Agent]
+
+
+    experiment_log_data     : dict
 
     config                  : json
-    agents                  : list
+    experiment_agents       : list
     movements               : list
 
     experiment_name         : str
     output_directory_path   : str
 
-    def __init__(self, manager : FrodoManager, tracker : Tracker):
+    def __init__(self, manager : FrodoManager, tracker : Tracker, agents : dict[str, FRODO_Agent]):
         self.manager = manager
         self.tracker = tracker
-        self.agents = []
+        self.agents = agents
+        self.experiment_agents = []
         self.output_directory_path = None
         self.experiment_name = None
+        self.experiment_log_data = create_experiment_data_dict()
+
+    def getStepData(self):
+        '''update experiment_log_data to contain current experiment state'''
+
+
+        '''update optitrack data'''
+        for key, asset in self.tracker.assets.items():
+            self.experiment_log_data[key]['optitrack']['valid'] = asset.tracking_valid
+            self.experiment_log_data[key]['optitrack']['position'][0] = float(asset.position[0])
+            self.experiment_log_data[key]['optitrack']['position'][1] = float(asset.position[1])
+            if isinstance(asset, TrackedVisionRobot):
+                self.experiment_log_data[key]['optitrack']['psi'] = asset.psi
+
+
+        '''keep track of unconnected agents'''
+        unconnected_agents = ALL_VISIBLES.copy()
+        '''filter static agents'''
+        regex = re.compile('[{}]'.format("static"))
+        unconnected_agents = list(filter(lambda x: not regex.search(x), unconnected_agents))
+        '''update robot data'''
+        for key, agent in self.agents.items():
+
+            self.experiment_log_data[key]['agent']['valid'] = True
+            self.experiment_log_data[key]['agent']['position'][0] = agent.state_true.x
+            self.experiment_log_data[key]['agent']['position'][1] = agent.state_true.y
+            self.experiment_log_data[key]['agent']['psi'] = agent.state_true.psi
+
+            if key in unconnected_agents:
+                unconnected_agents.remove(key)
+
+            '''keep track of unseen agents'''
+            unseen_aruco_measurement_agents = ALL_VISIBLES.copy()
+
+            for measurement in agent.measurements.aruco_measurements:
+                measured_key, additional_psi = get_title_from_marker(measurement.marker_id)
+                self.experiment_log_data[key]['measurement'][measured_key]['visible'] = True
+                self.experiment_log_data[key]['measurement'][measured_key]['tvec'][0] = measurement.translation_vec[0]
+                self.experiment_log_data[key]['measurement'][measured_key]['tvec'][1] = measurement.translation_vec[1]
+                self.experiment_log_data[key]['measurement'][measured_key]['psi'] = qmt.wrapToPi(measurement.psi + additional_psi)
+                self.experiment_log_data[key]['measurement'][measured_key]['tvec_uncertainty'] = measurement.tvec_uncertainty
+                self.experiment_log_data[key]['measurement'][measured_key]['psi'] = measurement.psi_uncertainty
+                
+                if measured_key in unseen_aruco_measurement_agents:
+                    unseen_aruco_measurement_agents.remove(measured_key)
+            
+            '''set visible for all unseen agents'''
+            for unseen_aruco_measurement_agent in unseen_aruco_measurement_agents:
+                self.experiment_log_data[key]['measurement'][unseen_aruco_measurement_agent]['visible'] = False
+                
+        '''set valid for all unconnected agents'''
+        for unconnected_agent in unconnected_agents:
+            self.experiment_log_data[unconnected_agent]['agent']['valid'] = False
+
+
+        
+            
 
     def checkConsistency(self):
         check_passed = True
@@ -67,7 +170,7 @@ class FRODO_ExperimentHandler:
                 check_passed = False
                     
             if check_passed:
-                self.agents.append(agent)
+                self.experiment_agents.append(agent)
         
         for static in required_statics:
             '''Check if required agents appear in all config parts'''
@@ -141,7 +244,7 @@ class FRODO_ExperimentHandler:
 
     def loadMovements(self):
         '''Write movement lists to robots'''
-        for agent in self.agents:
+        for agent in self.experiment_agents:
             if agent not in self.manager.robots:
                 logger.warning(f"Agent {agent} not known to Frodo Manager, skipping {agent} in experiment.")
                 continue
@@ -202,29 +305,29 @@ class FRODO_ExperimentHandler:
             json.dump(self.config, file, indent=4)
 
     def startMovements(self):
-        for agent in self.agents:
+        for agent in self.experiment_agents:
             if agent in self.manager.robots:
                 self.manager.robots[agent].startNavigationMovement()
 
     def pauseMovements(self):
-        for agent in self.agents:
+        for agent in self.experiment_agents:
             if agent in self.manager.robots:
                 self.manager.robots[agent].pauseNavigationMovement()
 
     def continueMovements(self):
-        for agent in self.agents:
+        for agent in self.experiment_agents:
             if agent in self.manager.robots:
                 self.manager.robots[agent].continueNavigationMovement()
 
     def stopExperiment(self):
-        for agent in self.agents:
+        for agent in self.experiment_agents:
             if agent in self.manager.robots:
                 self.manager.robots[agent].stopNavigationMovement()
                 self.manager.robots[agent].clearNavigationMovementQueue()
 
 
     def startExperiment(self, file_name : str):
-        self.agents = []
+        self.experiment_agents = []
         with open(INPUT_FILE_PATH + file_name, 'r') as file:
             self.config = json.load(file)
         if self.checkConsistency() and self.checkRequiredPositions():

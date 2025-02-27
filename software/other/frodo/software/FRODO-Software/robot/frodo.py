@@ -68,54 +68,53 @@ class FRODO:
 
         # Add Movement Command to Navigation
         self.communication.wifi.addCommand(identifier='addNavigationMovement',
-                                            callback=self.control.navigation.addMovement,
-                                            arguments=['dphi', 'radius', 'vtime'],
-                                            description='Add Movement to Navigator Queue')
-        
+                                           callback=self.control.navigation.addMovement,
+                                           arguments=['dphi', 'radius', 'vtime'],
+                                           description='Add Movement to Navigator Queue')
+
         # Start Navigation Movement
         self.communication.wifi.addCommand(identifier='startNavigationMovement',
-                                            callback=self.control.navigation.startMovement,
-                                            arguments=[],
-                                            description='Start moving controlled by navigation movement queue.')
-        
+                                           callback=self.control.navigation.startMovement,
+                                           arguments=[],
+                                           description='Start moving controlled by navigation movement queue.')
+
         # Stop Navigation Movement
         self.communication.wifi.addCommand(identifier='stopNavigationMovement',
-                                            callback=self.control.navigation.stopMovement,
-                                            arguments=[],
-                                            description='Stop moving controlled by navigation movement queue and drop current movement.')
-        
+                                           callback=self.control.navigation.stopMovement,
+                                           arguments=[],
+                                           description='Stop moving controlled by navigation movement queue and drop current movement.')
+
         # Pause Navigation Movement
         self.communication.wifi.addCommand(identifier='pauseNavigationMovement',
-                                            callback=self.control.navigation.pauseMovement,
-                                            arguments=[],
-                                            description='Pause moving controlled by navigation and keep current movement.')
-        
+                                           callback=self.control.navigation.pauseMovement,
+                                           arguments=[],
+                                           description='Pause moving controlled by navigation and keep current movement.')
+
         # Continue Navigation Movement
         self.communication.wifi.addCommand(identifier='continueNavigationMovement',
-                                            callback=self.control.navigation.continueMovement,
-                                            arguments=[],
-                                            description='Continue previously paused movement.')
+                                           callback=self.control.navigation.continueMovement,
+                                           arguments=[],
+                                           description='Continue previously paused movement.')
 
         # Clear Navigation Movement Queue
         self.communication.wifi.addCommand(identifier='clearNavigationMovementQueue',
-                                            callback=self.control.navigation.clearMovementQueue,
-                                            arguments=[],
-                                            description='Clear navigation movement queue.')
+                                           callback=self.control.navigation.clearMovementQueue,
+                                           arguments=[],
+                                           description='Clear navigation movement queue.')
 
         # Switch FRODO Control Mode
         self.communication.wifi.addCommand(identifier='setControlMode',
-                                            callback=self.control.setMode,
-                                            arguments=['mode'],
-                                            description='Switch Control Mode')
+                                           callback=self.control.setMode,
+                                           arguments=['mode'],
+                                           description='Switch Control Mode')
 
         # Test Command
         self.communication.wifi.addCommand(identifier='test',
-                                            callback=self.test,
-                                            arguments=['input'],
-                                            description='Test the communication')
+                                           callback=self.test,
+                                           arguments=['input'],
+                                           description='Test the communication')
 
         # Set LEDs
-
 
         self.exit = ExitHandler(self.close)
 

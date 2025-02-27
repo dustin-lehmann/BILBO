@@ -2,6 +2,7 @@ import time
 
 from core.device import Device
 from utils.callbacks import callback_handler, CallbackContainer
+from utils.logging_utils import Logger
 
 
 # ======================================================================================================================
@@ -19,6 +20,8 @@ class Frodo:
         self.device = device
         self.device.callbacks.stream.register(self._onStream_callback)
         self.callbacks = Frodo_Callbacks()
+
+        self.logger = Logger(f"{self.id}")
 
     # ------------------------------------------------------------------------------------------------------------------
     @property
@@ -42,6 +45,18 @@ class Frodo:
         try:
             data = self.device.function(function='getData',
                                         data=None,
+                                        return_type=dict,
+                                        request_response=True,
+                                        timeout=timeout)
+        except TimeoutError:
+            data = None
+        return data
+
+    # ------------------------------------------------------------------------------------------------------------------
+    def test(self, input, timeout=1):
+        try:
+            data = self.device.function(function='test',
+                                        data={'input': input},
                                         return_type=dict,
                                         request_response=True,
                                         timeout=timeout)

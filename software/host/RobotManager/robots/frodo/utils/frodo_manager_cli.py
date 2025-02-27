@@ -20,7 +20,7 @@ class FrodoManager_Commands(CommandSet):
                                arguments=[],
                                description="List all agents")
 
-        super().__init__(name='robots', commands=[stop_command, list_command])
+        super().__init__(name='robots', commands=[stop_command, list_command], child_sets=[])
 
     def stop_all(self):
         for id, robot in self.manager.robots.items():

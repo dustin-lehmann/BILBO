@@ -1,6 +1,7 @@
 # ======================================================================================================================
 from extensions.cli.src.cli import Command, CommandSet, CommandArgument
 from robots.frodo.frodo import Frodo
+from robots.frodo.utils.frodo_utils import test_response_time
 from utils.callbacks import Callback
 
 
@@ -88,7 +89,22 @@ class FRODO_CommandSet(CommandSet):
                                 allow_positionals=True
                                 )
 
+        test_communication = Command(name='testComm',
+                                     callback=self.test_communication,
+                                     description='Tests the communication with the robot',
+                                     arguments=[
+                                         CommandArgument(name='iterations',
+                                                         short_name='i',
+                                                         type=int,
+                                                         optional=True,
+                                                         default=10,
+                                                         description='Number of iterations to test')
+                                     ])
+
+        utils_command_set = CommandSet(name='utils', commands=[test_communication])
+
         super(FRODO_CommandSet, self).__init__(name=frodo.id,
+                                               child_sets=[utils_command_set],
                                                commands=[beep_command,
                                                          stop_command,
                                                          speed_command,
@@ -114,3 +130,7 @@ class FRODO_CommandSet(CommandSet):
         data = self.frodo.getData()
         if data is not None:
             return f"{data}"
+
+    # ------------------------------------------------------------------------------------------------------------------
+    def test_communication(self, iterations=10):
+        test_response_time(self.frodo, iterations=iterations, print_response_time=True)

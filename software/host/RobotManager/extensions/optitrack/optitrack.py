@@ -95,10 +95,14 @@ class OptiTrack:
 
     # ------------------------------------------------------------------------------------------------------------------
     def start(self):
-        self.natnetclient.run()
-        time.sleep(0.01)
+        try:
+            self.natnetclient.run()
+        except Exception as e:
+            logger.error(f"Error while starting NatNetClient. Please make sure that Motive is running")
+            return False
         logger.info("Start Optitrack")
 
+        return True
     # === PRIVATE METHODS ==============================================================================================
     def _natnet_description_callback(self, data):
         # Rigid Bodies

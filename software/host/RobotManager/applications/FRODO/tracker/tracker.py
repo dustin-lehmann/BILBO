@@ -10,93 +10,108 @@ from utils.logging_utils import Logger
 from utils.websockets.websockets import SyncWebsocketServer
 from utils.time import IntervalTimer, Timer
 
-# ======================================================================================================================
+# =====================================================================================================================
 logger = Logger('Tracker')
 logger.setLevel('INFO')
 
 
 @callback_handler
 class Tracker_Callbacks:
-    new_sample: CallbackContainer
-    description_received: CallbackContainer
+    """
+    Container for tracker callback events.
+    """
+    new_sample: CallbackContainer  # Called when a new sample is received
+    description_received: CallbackContainer  # Called when a description is received from OptiTrack
 
 
 @event_handler
 class Tracker_Events:
-    new_sample: ConditionEvent
-    description_received: ConditionEvent
+    """
+    Container for tracker event handling.
+    """
+    new_sample: ConditionEvent  # Event triggered on new sample reception
+    description_received: ConditionEvent  # Event triggered on receiving asset descriptions
 
 
-# ======================================================================================================================
+# =====================================================================================================================
 class Tracker:
-    assets: dict[str, TrackedAsset]
-    optitrack: OptiTrack
+    """
+    Main Tracker class responsible for handling assets tracking using OptiTrack.
+    """
+    assets: dict[str, TrackedAsset]  # Dictionary of tracked assets
+    optitrack: OptiTrack  # OptiTrack instance for motion tracking
 
-    callbacks: Tracker_Callbacks
-    events: Tracker_Events
-    _websocket_update_time = 0.05
-    _websocket_timer: Timer
-
-    _exit: bool = False
-    _thread: threading.Thread
+    callbacks: Tracker_Callbacks  # Callback handler
+    events: Tracker_Events  # Event handler
 
     # === INIT =========================================================================================================
-    def __init__(self, assets: dict[str, TrackedAsset] = vision_robot_application_assets, debug_stream: bool = False):
-
+    def __init__(self, assets: dict[str, TrackedAsset] = vision_robot_application_assets):
+        """
+        Initializes the Tracker instance.
+        :param assets: Dictionary of assets to be tracked, default is vision_robot_application_assets.
+        """
         self.assets = assets
+        self.optitrack = OptiTrack(server_address="bree.lan")  # Initialize OptiTrack with server address
 
-        self.optitrack = OptiTrack(server_address="bree.lan")
+        # Set up event listener for new samples
+        self.event_listener_sample = EventListener(self.optitrack.events.sample,
+                                                   callback=self._optitrack_new_sample_callback)
 
-        self.event_listener_sample = EventListener(self.optitrack.events.sample, callback=self._optitrack_new_sample_callback)
-
-        # self.optitrack.callbacks.sample.register(self._optitrack_new_sample_callback)
+        # Register callback for description reception
         self.optitrack.callbacks.description_received.register(self._optitrack_description_callback)
 
         self.callbacks = Tracker_Callbacks()
         self.events = Tracker_Events()
-        # self._thread = threading.Thread(target=self.task, daemon=True)
 
     # ------------------------------------------------------------------------------------------------------------------
     def init(self):
+        """
+        Initializes the OptiTrack system.
+        """
         self.optitrack.init()
-        ...
 
     # ------------------------------------------------------------------------------------------------------------------
     def start(self):
-        self.optitrack.start()
+        """
+        Starts the tracking system. Returns False if OptiTrack fails to start.
+        """
+        success = self.optitrack.start()
+
+        if not success:
+            logger.error("Could not start OptiTrack. Tracking disabled")
+            return False
+
         logger.info("Starting Tracker")
-        self.event_listener_sample.start()
-        # self._thread.start()
-
-    # ------------------------------------------------------------------------------------------------------------------
-    def close(self, *args, **kwargs):
-        self._exit = True
-
-    # ------------------------------------------------------------------------------------------------------------------
-    def task(self):
-
-        while not self._exit:
-            time.sleep(self._websocket_update_time)
+        self.event_listener_sample.start()  # Start the event listener for new samples
+        # self._thread.start()  # Uncomment if background thread processing is needed
 
     # === PRIVATE METHODS ==============================================================================================
     def _optitrack_new_sample_callback(self, sample: dict[str, RigidBodySample], *args, **kwargs):
+        """
+        Callback function triggered when a new sample is received from OptiTrack.
+        :param sample: Dictionary containing rigid body samples.
+        """
         for name, asset in self.assets.items():
 
-            # Extract the asset data
+            # Ensure asset data exists in the sample
             if name not in sample:
                 logger.error(f"Asset {name} not found in sample")
                 continue
 
-            asset_data = sample[name]
-            asset.update(asset_data)
+            asset_data = sample[name]  # Retrieve asset data
+            asset.update(asset_data)  # Update asset state
 
-        self.callbacks.new_sample.call(self.assets)
-        self.events.new_sample.set(self.assets)
+        self.callbacks.new_sample.call(self.assets)  # Trigger callback
+        self.events.new_sample.set(self.assets)  # Set event
 
     # ------------------------------------------------------------------------------------------------------------------
     def _optitrack_description_callback(self, rigid_bodies):
-
+        """
+        Callback function triggered when OptiTrack sends a description update.
+        :param rigid_bodies: Dictionary containing OptiTrack rigid body descriptions.
+        """
         all_assets_tracked = True
+
         # Check if all assets are currently tracked
         for name, asset in self.assets.items():
             if name not in rigid_bodies:
@@ -106,18 +121,18 @@ class Tracker:
         if all_assets_tracked:
             logger.info("All assets tracked")
 
-        self.callbacks.description_received.call(self.assets)
-        self.events.description_received.set(self.assets)
-
-    # ------------------------------------------------------------------------------------------------------------------
-    def _websocket_debug_stream(self):
-        ...
+        self.callbacks.description_received.call(self.assets)  # Trigger callback
+        self.events.description_received.set(self.assets)  # Set event
 
 
+# =====================================================================================================================
 if __name__ == '__main__':
-    tracker = Tracker(debug_stream=True)
+    """
+    Main execution block for running the Tracker.
+    """
+    tracker = Tracker()
     tracker.init()
     tracker.start()
 
     while True:
-        time.sleep(1)
+        time.sleep(1)  # Keep the script running

@@ -616,6 +616,7 @@ class NatNetClient:
         commandThread = Thread(target=self.__dataThreadFunction, args=(self.commandSocket,))
         commandThread.start()
 
+
         self.sendCommand(self.NAT_PING, "", self.commandSocket, (self.serverIPAddress, self.commandPort))
         self.sendCommand(self.NAT_REQUEST_MODELDEF, "", self.commandSocket, (self.serverIPAddress, self.commandPort))
 

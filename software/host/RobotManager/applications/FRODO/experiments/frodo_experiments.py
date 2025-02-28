@@ -16,6 +16,7 @@ from robots.frodo.frodo_manager import FrodoManager
 from robots.frodo.frodo_definitions import get_title_from_marker
 from utils.logging_utils import Logger
 from utils.csv_utils import CSVLogger
+from utils.sound.sound import speak, playSound
 
 INPUT_FILE_PATH = "./applications/FRODO/experiments/input/"
 OUTPUT_FILE_PATH = "./applications/FRODO/experiments/output/"
@@ -30,12 +31,19 @@ logger.setLevel('INFO')
 ALL_VISIBLES = ['frodo1', 'frodo2', 'frodo3', 'frodo4', 'static1']
 STD_VAL = None
 
+def humanReadableDate():
+    return datetime.datetime.now().strftime("%#d of %B %Y, %-I:%M %p and %S seconds")
+
+def humanReadableTime():
+    return datetime.datetime.now().strftime("%-I:%M %p and %S seconds")
+
 def create_experiment_data_dict():
     '''create a dictionary with empty values for the experiment progress logging
     \nsee sample_step_data.py for structure example'''
 
     data_dict = {}
     data_dict['time'] = 0.0
+    data_dict['marker'] = {'num': None, 'description': None}
 
     for asset in ALL_VISIBLES:
         
@@ -86,28 +94,35 @@ def create_experiment_data_dict():
 
 
 class FRODO_ExperimentHandler:
-    manager                 : FrodoManager
-    tracker                 : Tracker
-    agents                  : dict[str, FRODO_Agent]
+    manager                     : FrodoManager
+    tracker                     : Tracker
+    agents                      : dict[str, FRODO_Agent]
 
-    csv_logger              : CSVLogger
-    experiment_log_data     : dict
+    logging_marker              : int
+    logging_marker_count        : int
+    logging_marker_description  : str
+    csv_logger                  : CSVLogger
+    experiment_log_data         : dict
 
-    config                  : json
-    experiment_agents       : list
-    movements               : list
+    config                      : json
+    experiment_agents           : list
+    movements                   : list
 
-    experiment_name         : str
-    output_directory_path   : str
+    start_time                  : float
+    experiment_name             : str
+    output_directory_path       : str
 
-    logging_thread          : threading.Thread
-    _stopped                : bool
+    logging_thread              : threading.Thread
+    _stopped                    : bool
 
     def __init__(self, manager : FrodoManager, tracker : Tracker, agents : dict[str, FRODO_Agent]):
         self.manager = manager
         self.tracker = tracker
         self.agents = agents
 
+        self.logging_marker_description = None
+        self.logging_marker = 0
+        self.logging_marker_count = 0
         self.csv_logger = None
         self.experiment_log_data = create_experiment_data_dict()
 
@@ -134,16 +149,28 @@ class FRODO_ExperimentHandler:
 
     def stopCsvLogging(self):
         self._stopped = True
+        self.logging_marker_description = None
+        self.logging_marker = None
+        self.logging_marker_count = 0
         if self.logging_thread is not None:
             self.logging_thread.join()
         self.csv_logger.close()
 
-
+    def markLogger(self, description):
+        self.logging_marker_count += 1
+        self.logging_marker = self.logging_marker_count
+        self.logging_marker_description = description
+        
+        speak(f"Set marker {self.logging_marker_count} at {humanReadableTime()}, Description: {self.logging_marker_description}")
+        
     def getStepData(self):
         '''update experiment_log_data to contain current experiment state'''
 
         '''update time'''
-        self.experiment_log_data['time'] = time.time()
+        self.experiment_log_data['time'] = time.time() - self.start_time
+        self.experiment_log_data['marker'] = {'num': self.logging_marker, 'description': self.logging_marker_description}
+        self.logging_marker = None
+        self.logging_marker_description = None
 
         '''update optitrack data'''
         for key, asset in self.tracker.assets.items():
@@ -431,6 +458,9 @@ class FRODO_ExperimentHandler:
         if self.checkConsistency() and self.checkRequiredPositions():
             self.loadMovements()
             self.createOutputFolder()
+            self.start_time = time.time()
+            speak(f'Starting Experiment {self.experiment_name}, Time: {humanReadableDate()}')
+            self.start_time = time.time()
             self.startCsvLogging()
             self.startMovements()
         logger.info("Finished Experiment Setup, starting!")
@@ -467,12 +497,23 @@ class FRODO_Experiments_CLI(CommandSet):
                                         callback=self.stopLogger,
                                         arguments=[])
         
+        logging_marker_command = Command(name='m', description='Audible and visual marker for recognition',
+                                         callback=self.markLogger,
+                                         arguments=[CommandArgument(name='description',
+                                                         short_name='d',
+                                                         type=str,
+                                                         optional=True,
+                                                         default='none',
+                                                         description='Marker Description')
+                                                    ]
+                                        )
 
         super().__init__(name='experiments', commands=[start_experiment_command,
                                                        pause_experiment_command,
                                                        continue_experiment_command,
                                                        stop_experiment_command,
-                                                       stop_logging_command])
+                                                       stop_logging_command,
+                                                       logging_marker_command])
 
     def startExperiment(self, file):
         self.experiment_handler.startExperiment(file)
@@ -489,4 +530,8 @@ class FRODO_Experiments_CLI(CommandSet):
     
     def stopLogger(self):
         self.experiment_handler.stopCsvLogging()
+
+    def markLogger(self, description = None):
+        playSound('warning')
+        self.experiment_handler.markLogger(description)
 

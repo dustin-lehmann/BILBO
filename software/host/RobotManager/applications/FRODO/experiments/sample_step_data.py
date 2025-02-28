@@ -1,71 +1,114 @@
 EMPTY_DATA = {
-    'frodo1' : {
-        'optitrack': {
-            'valid': True,
-            'position': [0.0, 1.0],
-            'psi': 2.0
-        },
-        'agent': {
-            'valid': True,
-            'position': [3.0, 4.0],
-            'psi': 5.0,
-            'uncertainty': 6.0
-        },
-        'measurement': {
-            'frodo1': {
-                'visible': False,
-                'tvec': [7.0, 8.0],
-                'psi': 9.0,
-                'tvec_uncertainty': 10.0,
-                'psi_uncertainty': 11.0
-            },
-            'frodo2': {
-                'visible': False,
-                'tvec': [12.0, 13.0],
-                'psi': 14.0,
-                'tvec_uncertainty': 15.0,
-                'psi_uncertainty': 16.0
-            },
-            'frodo3': {
-                'visible': True,
-                'tvec': [17.0, 18.0],
-                'psi': 19.0,
-                'tvec_uncertainty': 20.0,
-                'psi_uncertainty': 21.0
-            },
-            'frodo4': {
-                'visible': False,
-                'tvec': [22.0, 23.0],
-                'psi': 24.0,
-                'tvec_uncertainty': 25.0,
-                'psi_uncertainty': 26.0
-            },
-            'static1': {
-                'visible': True,
-                'tvec': [27.0, 28.0],
-                'psi': 29.0,
-                'tvec_uncertainty': 30.0,
-                'psi_uncertainty': 31.0
-            },
-        }
-    },
-    'frodo2': {
-        'optitrack': {
-            ...
+    'frodo1': 
+    {
+        'time': 0.0, 
+        'optitrack': 
+        {
+            'valid': False, 
+            'position': {
+                'x': None, 
+                'y': None
+            }, 
+            'psi': None
         }, 
-        ...
-    },
-    'frodo3': {
-        ...
-    },
-    'frodo4': {
-        ...
-    },
-    'static1': {
+        'agent': {
+            'valid': False, 
+            'state_true': {
+                'position': {
+                    'x': None, 
+                    'y': None
+                }, 
+                'psi': None, 
+                'v': None, 
+                'psi_dot': None
+            }, 
+            'state_estimated': {
+                'position': {
+                    'x': None, 
+                    'y': None
+                }, 
+                'psi': None, 
+                'v': None, 
+                'psi_dot': None, 
+                'uncertainty': None
+            }
+        }, 
+        'measurement': {
+            'time': None, 
+            'speed_left': None, 
+            'speed_right': None, 
+            'rpm_left': None, 
+            'rpm_right': None, 
+            'frodo1': {
+                'visible': False, 
+                'tvec': {
+                    'x': None, 
+                    'y': None
+                }, 
+                'psi': None, 
+                'tvec_uncertainty': None, 
+                'psi_uncertainty': None
+            }, 
+            'frodo2': {
+                'visible': False, 
+                'tvec': {
+                    'x': None, 
+                    'y': None
+                }, 
+                'psi': None, 
+                'tvec_uncertainty': None, 
+                'psi_uncertainty': None
+            }, 
+            'frodo3': {
+                'visible': False, 
+                'tvec': {
+                    'x': None, 
+                    'y': None
+                }, 
+                'psi': None, 
+                'tvec_uncertainty': None, 
+                'psi_uncertainty': None
+            }, 
+            'frodo4': {
+                'visible': False, 
+                'tvec': {
+                    'x': None, 
+                    'y': None
+                }, 
+                'psi': None, 
+                'tvec_uncertainty': None, 
+                'psi_uncertainty': None
+            }, 
+            'static1': {
+                'visible': False, 
+                'tvec': {
+                    'x': None, 
+                    'y': None
+                    }, 
+                    'psi': None, 
+                    'tvec_uncertainty': None, 
+                    'psi_uncertainty': None
+            }
+        }
+    }, 
+    'frodo2': {
+        'time': 0.0, 
         'optitrack': {
-            'valid': True,
-            'position': [0.0, 1.0],
-            'psi': 2.0
+            'valid': False, 
+            'position': {
+                'x': None, 
+                'y': None
+            }, 
+            'psi': None
+        }, 
+        'agent': {
+            'valid': False, 
+            'state_true': {
+                'position': {
+                    'x': None, 
+                    'y': None},
+                    ...
+            }
         }
     }
-}
+} 
